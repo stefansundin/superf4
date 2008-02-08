@@ -1,0 +1,14 @@
+#summary How to build SuperF4
+#labels Featured,Phase-Implementation
+
+= Introduction =
+
+You need [http://www.mingw.org/ MinGW] to build SuperF4.
+You can optionally use [http://upx.sourceforge.net/ upx] to compress the executable afterwards.
+
+When you've installed MinGW you need to add it to PATH.
+If you want to use upx, add it to PATH as well.
+
+Now it should hopefully work if you run _build.bat_ in the trunk.
+
+Add a comment if you have any issues.
