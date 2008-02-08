@@ -1,0 +1,14 @@
+SuperF4
+recover89@gmail.com
+http://superf4.googlecode.com/
+
+When enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.
+The effect is the same as when you kill the process from the task manager.
+
+Changelog
+---------
+0.2:
+Tray icon is now readded when explorer crashes.
+
+0.1:
+Initial release.

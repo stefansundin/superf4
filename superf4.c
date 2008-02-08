@@ -1,6 +1,6 @@
 /*
 	SuperF4 - Force kill programs with Ctrl+Alt+F4
-	Copyright (C) 2008  Stefan Sundin
+	Copyright (C) 2008  Stefan Sundin (recover89@gmail.com)
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -38,7 +38,9 @@ static HHOOK hhookSysMsg;
 //Global info
 static HICON icon[2];
 static NOTIFYICONDATA traydata;
+static UINT WM_TASKBARCREATED;
 static BOOL hook_installed=FALSE;
+static BOOL tray_added=FALSE;
 
 static char msg[100];
 
@@ -57,9 +59,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	wnd.lpszClassName=szClassName;
 	
 	//Register class
-	if (!RegisterClass(&wnd)) {
-		sprintf(msg,"RegisterClass() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+	if (RegisterClass(&wnd) == 0) {
+		sprintf(msg,"RegisterClass() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 		return 1;
 	}
 	
@@ -69,15 +71,21 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	//ShowWindow(hWnd, iCmdShow); //Show
 	//UpdateWindow(hWnd); //Update
 	
-	//Load icons
+	//Register TaskbarCreated so we can readd the tray icon if explorer.exe crashes
+	if ((WM_TASKBARCREATED=RegisterWindowMessage("TaskbarCreated")) == 0) {
+		sprintf(msg,"RegisterWindowMessage() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+	}
+	
+	//Load tray icons
 	if ((icon[0] = LoadIcon(hInst, "tray-disabled")) == NULL) {
-		sprintf(msg,"LoadIcon() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+		sprintf(msg,"LoadIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 		return 1;
 	}
 	if ((icon[1] = LoadIcon(hInst, "tray-enabled")) == NULL) {
-		sprintf(msg,"LoadIcon() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+		sprintf(msg,"LoadIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 		return 1;
 	}
 	
@@ -89,11 +97,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	traydata.uCallbackMessage=WM_ICONTRAY;
 	strncpy(traydata.szTip,"SuperF4 (disabled)",sizeof(traydata.szTip));
 	traydata.hIcon=icon[0];
-	if (Shell_NotifyIcon(NIM_ADD,&traydata) == FALSE) {
-		sprintf(msg,"Shell_NotifyIcon() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
-		return 1;
-	}
+	
+	//Add tray icon
+	AddTray();
 	
 	//Install hook
 	InstallHook();
@@ -124,25 +130,62 @@ void ShowContextMenu(HWND hWnd) {
 	}
 }
 
+int AddTray() {
+	if (tray_added) {
+		//Tray already added
+		return 1;
+	}
+	
+	if (Shell_NotifyIcon(NIM_ADD,&traydata) == FALSE) {
+		sprintf(msg,"Shell_NotifyIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+		return 1;
+	}
+	
+	//Success
+	tray_added=TRUE;
+}
+
+int RemoveTray() {
+	if (!tray_added) {
+		//Tray not added
+		return 1;
+	}
+	
+	if (Shell_NotifyIcon(NIM_DELETE,&traydata) == FALSE) {
+		sprintf(msg,"Shell_NotifyIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+		return 1;
+	}
+	
+	//Success
+	tray_added=FALSE;
+}
+
 int InstallHook() {
+	if (hook_installed) {
+		//Hook already installed
+		return 1;
+	}
+	
 	//Load dll
 	if ((hinstDLL=LoadLibrary((LPCTSTR)"keyhook.dll")) == NULL) {
-		sprintf(msg,"LoadLibrary() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+		sprintf(msg,"LoadLibrary() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
 	}
 	
 	//Get address to keyboard hook (beware name mangling)
 	if ((hkprcSysMsg=(HOOKPROC)GetProcAddress(hinstDLL,"KeyboardProc@12")) == NULL) {
-		sprintf(msg,"GetProcAddress() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+		sprintf(msg,"GetProcAddress() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
 	}
 	
 	//Set up the hook
 	if ((hhookSysMsg=SetWindowsHookEx(WH_KEYBOARD_LL,hkprcSysMsg,hinstDLL,0)) == NULL) {
-		sprintf(msg,"SetWindowsHookEx() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+		sprintf(msg,"SetWindowsHookEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
 	}
 	
@@ -150,26 +193,33 @@ int InstallHook() {
 	hook_installed=TRUE;
 	traydata.hIcon=icon[1];
 	strncpy(traydata.szTip,"SuperF4 (enabled)",sizeof(traydata.szTip));
-	if (Shell_NotifyIcon(NIM_MODIFY,&traydata) == FALSE) {
-		sprintf(msg,"Shell_NotifyIcon() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
-		return 1;
+	if (tray_added) {
+		if (Shell_NotifyIcon(NIM_MODIFY,&traydata) == FALSE) {
+			sprintf(msg,"Shell_NotifyIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+			MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+			return 1;
+		}
 	}
 	return 0;
 }
 
 int RemoveHook() {
+	if (!hook_installed) {
+		//Hook not installed
+		return 1;
+	}
+	
 	//Remove hook
 	if (UnhookWindowsHookEx(hhookSysMsg) == 0) {
-		sprintf(msg,"UnhookWindowsHookEx() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+		sprintf(msg,"UnhookWindowsHookEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
 	}
 	
 	//Unload dll
 	if (FreeLibrary(hinstDLL) == 0) {
-		sprintf(msg,"FreeLibrary() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+		sprintf(msg,"FreeLibrary() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
 	}
 	
@@ -177,10 +227,12 @@ int RemoveHook() {
 	hook_installed=FALSE;
 	traydata.hIcon=icon[0];
 	strncpy(traydata.szTip,"SuperF4 (disabled)",sizeof(traydata.szTip));
-	if (Shell_NotifyIcon(NIM_MODIFY,&traydata) == FALSE) {
-		sprintf(msg,"Shell_NotifyIcon() failed in file %s, line %d.",__FILE__,__LINE__);
-		MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
-		return 1;
+	if (tray_added) {
+		if (Shell_NotifyIcon(NIM_MODIFY,&traydata) == FALSE) {
+			sprintf(msg,"Shell_NotifyIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+			MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+			return 1;
+		}
 	}
 	return 0;
 }
@@ -201,7 +253,7 @@ LRESULT CALLBACK MyWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			ToggleHook();
 		}
 		else if (wmId == SWM_ABOUT) {
-			MessageBox(NULL, "SuperF4 (BETA) - Made by recover89@gmail.com\n\nWhen enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\nThe effect is the same as when you kill the process from the task manager.\n\nSend feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK);
+			MessageBox(NULL, "SuperF4 - 0.2\nrecover89@gmail.com\nhttp://superf4.googlecode.com/\n\nWhen enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\nThe effect is the same as when you kill the process from the task manager.\n\nSend feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK);
 		}
 		else if (wmId == SWM_EXIT) {
 			DestroyWindow(hWnd);
@@ -215,13 +267,18 @@ LRESULT CALLBACK MyWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			ShowContextMenu(hWnd);
 		}
 	}
+	else if (msg == WM_TASKBARCREATED) {
+		tray_added=FALSE;
+		AddTray();
+	}
 	else if (msg == WM_DESTROY) {
-		traydata.uFlags=0;
-		Shell_NotifyIcon(NIM_DELETE,&traydata);
-		PostQuitMessage(0);
 		if (hook_installed) {
 			RemoveHook();
 		}
+		if (tray_added) {
+			RemoveTray();
+		}
+		PostQuitMessage(0);
 		return 0;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);

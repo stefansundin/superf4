@@ -1,6 +1,6 @@
 /*
 	SuperF4 - Force kill programs with Ctrl+Alt+F4
-	Copyright (C) 2008  Stefan Sundin
+	Copyright (C) 2008  Stefan Sundin (recover89@gmail.com)
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			FILE *output;
 			if ((output=fopen("log-keyhook.txt","ab")) == NULL) {
 				sprintf(msg,"fopen() failed in file %s, line %d.",__FILE__,__LINE__);
-				MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+				MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 				return 1;
 			}
 			fprintf(output,"Ctrl+Alt+F4 pressed!\n");
@@ -68,7 +68,7 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 				sprintf(msg,"GetForegroundWindow() failed in file %s, line %d.",__FILE__,__LINE__);
 				fprintf(output,"%s\n",msg);
 				fclose(output);
-				MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+				MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 				return 1;
 			}
 			
@@ -84,15 +84,15 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			fprintf(output,"Killing process... ");
 			
 			HANDLE process;
-			if ((process=OpenProcess(SYNCHRONIZE|PROCESS_TERMINATE,FALSE,pid)) == NULL) {
+			if ((process=OpenProcess(/*SYNCHRONIZE|*/PROCESS_TERMINATE,FALSE,pid)) == NULL) {
 				fprintf(output,"failed!\n");
 				sprintf(msg,"OpenProcess() failed (error: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
 				fprintf(output,"%s\n",msg);
 				fclose(output);
-				MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+				MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 				return 1;
 			}
-			TerminateProcess(process,5);
+			TerminateProcess(process,1);
 			
 			fprintf(output,"done!\n");
 			
@@ -101,7 +101,7 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 				sprintf(msg,"fclose() failed in file %s, line %d.",__FILE__,__LINE__);
 				fprintf(output,"%s\n",msg);
 				fclose(output);
-				MessageBox(NULL, msg, "Error", MB_ICONERROR|MB_OK);
+				MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 				return 1;
 			}
 		}
