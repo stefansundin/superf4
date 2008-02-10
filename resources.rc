@@ -1,3 +1,7 @@
 icon ICON icon.ico
 tray-disabled ICON tray-disabled.ico
 tray-enabled ICON tray-enabled.ico
+
+#define CREATEPROCESS_MANIFEST_RESOURCE_ID 1
+#define RT_MANIFEST 24
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "SuperF4.exe.manifest"
