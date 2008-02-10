@@ -52,8 +52,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	wnd.cbClsExtra=0;
 	wnd.cbWndExtra=0;
 	wnd.hInstance=hInst;
-	wnd.hIcon=LoadIcon(NULL, IDI_APPLICATION);
-	wnd.hCursor=LoadCursor(NULL, IDC_ARROW);
+	wnd.hIcon=LoadImage(NULL, IDI_APPLICATION, IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
+	wnd.hCursor=LoadImage(NULL, IDC_ARROW, IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
 	wnd.hbrBackground=(HBRUSH)(COLOR_BACKGROUND+1);
 	wnd.lpszMenuName=NULL;
 	wnd.lpszClassName=szClassName;
@@ -78,13 +78,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	}
 	
 	//Load tray icons
-	if ((icon[0] = LoadIcon(hInst, "tray-disabled")) == NULL) {
-		sprintf(msg,"LoadIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+	if ((icon[0] = LoadImage(hInst, "tray-disabled", IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR)) == NULL) {
+		sprintf(msg,"LoadImage() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
 		MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 		return 1;
 	}
-	if ((icon[1] = LoadIcon(hInst, "tray-enabled")) == NULL) {
-		sprintf(msg,"LoadIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+	if ((icon[1] = LoadImage(hInst, "tray-enabled", IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR)) == NULL) {
+		sprintf(msg,"LoadImage() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
 		MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 		return 1;
 	}
