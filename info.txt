@@ -5,8 +5,13 @@ http://superf4.googlecode.com/
 When enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.
 The effect is the same as when you kill the process from the task manager.
 
+You can use -hide as a parameter to hide the tray icon.
+
 Changelog
 ---------
+0.3:
+The tray icon can be hidden with -hide as a parameter.
+
 0.2:
 Tray icon is now readded when explorer crashes.
 
