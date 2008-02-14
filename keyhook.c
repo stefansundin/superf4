@@ -73,14 +73,14 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			}
 			
 			//Get hwnd title (for log)
-			LPSTR title[50];
-			GetWindowText(hwnd,title,50);
+			LPSTR title[100];
+			GetWindowText(hwnd,title,100);
 			fprintf(output,"Window title: %s\n",title);
 			
 			//Get process id of hwnd
 			DWORD pid;
 			GetWindowThreadProcessId(hwnd,&pid);
-			fprintf(output,"Process id: %d!\n",pid);
+			fprintf(output,"Process id: %d\n",pid);
 			fprintf(output,"Killing process... ");
 			
 			HANDLE process;
