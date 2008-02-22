@@ -23,8 +23,13 @@
 //Tray messages
 #define WM_ICONTRAY WM_USER+1
 #define SWM_TOGGLE WM_APP+1
-#define SWM_ABOUT WM_APP+2
-#define SWM_EXIT WM_APP+3
+#define SWM_AUTOSTART_ON WM_APP+2
+#define SWM_AUTOSTART_OFF WM_APP+3
+#define SWM_AUTOSTART_HIDE_ON WM_APP+4
+#define SWM_AUTOSTART_HIDE_OFF WM_APP+5
+#define SWM_HIDE WM_APP+6
+#define SWM_ABOUT WM_APP+7
+#define SWM_EXIT WM_APP+8
 
 //Stuff
 LPSTR szClassName="SuperF4";
@@ -128,18 +133,79 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 void ShowContextMenu(HWND hWnd) {
 	POINT pt;
 	GetCursorPos(&pt);
-	HMENU hMenu = CreatePopupMenu();
-	if (hMenu) {
-		InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_TOGGLE, (hook_installed?"Disable":"Enable"));
-		InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_ABOUT, "About");
-		InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_EXIT, "Exit");
-
-		//Must set window to the foreground, or else the menu won't disappear when clicking outside it
-		SetForegroundWindow(hWnd);
-
-		TrackPopupMenu(hMenu, TPM_BOTTOMALIGN, pt.x, pt.y, 0, hWnd, NULL );
-		DestroyMenu(hMenu);
+	HMENU hMenu, hAutostartMenu;
+	if ((hMenu = CreatePopupMenu()) == NULL) {
+		sprintf(msg,"CreatePopupMenu() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 	}
+	
+	//Toggle
+	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_TOGGLE, (hook_installed?"Disable":"Enable"));
+	//InsertMenu(hMenu, -1, MF_BYPOSITION|MF_SEPARATOR, SWM_ABOUT, "");
+	
+	//Hide
+	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_HIDE, "Hide tray");
+	
+	//Autostart
+	//Check registry
+	int autostart_enabled=0, autostart_hide=0;
+	//Open key
+	HKEY key;
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,KEY_QUERY_VALUE,&key) != ERROR_SUCCESS) {
+		sprintf(msg,"RegOpenKeyEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+	}
+	//Read value
+	char autostart_value[MAX_PATH+10];
+	DWORD len=sizeof(autostart_value);
+	DWORD res=RegQueryValueEx(key,"SuperF4",NULL,NULL,(LPBYTE)autostart_value,&len);
+	if (res != ERROR_FILE_NOT_FOUND && res != ERROR_SUCCESS) {
+		sprintf(msg,"RegQueryValueEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+	}
+	//Close key
+	if (RegCloseKey(key) != ERROR_SUCCESS) {
+		sprintf(msg,"RegCloseKey() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+	}
+	//Get path
+	char path[MAX_PATH];
+	if (GetModuleFileName(NULL,path,sizeof(path)) == 0) {
+		sprintf(msg,"GetModuleFileName() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+	}
+	//Compare
+	char pathcmp[MAX_PATH+10];
+	sprintf(pathcmp,"\"%s\"",path);
+	if (!strcmp(pathcmp,autostart_value)) {
+		autostart_enabled=1;
+	}
+	sprintf(pathcmp,"\"%s\" -hide",path);
+	if (!strcmp(pathcmp,autostart_value)) {
+		autostart_enabled=1;
+		autostart_hide=1;
+	}
+	
+	if ((hAutostartMenu = CreatePopupMenu()) == NULL) {
+		sprintf(msg,"CreatePopupMenu() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+	}
+	InsertMenu(hAutostartMenu, -1, MF_BYPOSITION|(autostart_enabled?MF_CHECKED:0), (autostart_enabled?SWM_AUTOSTART_OFF:SWM_AUTOSTART_ON), "Autostart");
+	InsertMenu(hAutostartMenu, -1, MF_BYPOSITION|(autostart_hide?MF_CHECKED:0), (autostart_hide?SWM_AUTOSTART_HIDE_OFF:SWM_AUTOSTART_HIDE_ON), "Hide tray");
+	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_POPUP, (UINT)hAutostartMenu, "Autostart");
+	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_SEPARATOR, SWM_ABOUT, "");
+	
+	//About
+	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_ABOUT, "About");
+	
+	//Exit
+	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_EXIT, "Exit");
+
+	//Must set window to the foreground, or else the menu won't disappear when clicking outside it
+	SetForegroundWindow(hWnd);
+
+	TrackPopupMenu(hMenu, TPM_BOTTOMALIGN, pt.x, pt.y, 0, hWnd, NULL );
+	DestroyMenu(hMenu);
 }
 
 int AddTray() {
@@ -258,14 +324,79 @@ void ToggleHook() {
 	}
 }
 
+void SetAutostart(int on, int hide) {
+	//Open key
+	HKEY key;
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,KEY_SET_VALUE,&key) != ERROR_SUCCESS) {
+		sprintf(msg,"RegOpenKeyEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+		return;
+	}
+	if (on) {
+		//Get path
+		char path[MAX_PATH];
+		if (GetModuleFileName(NULL,path,sizeof(path)) == 0) {
+			sprintf(msg,"GetModuleFileName() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+			MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+			return;
+		}
+		//Compare
+		char value[MAX_PATH+10];
+		if (hide) {
+			sprintf(value,"\"%s\" -hide",path);
+			if (RegSetValueEx(key,"SuperF4",0,REG_SZ,value,strlen(value)+1) != ERROR_SUCCESS) {
+				sprintf(msg,"RegSetValueEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+				MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+				return;
+			}
+		}
+		else {
+			sprintf(value,"\"%s\"",path);
+			if (RegSetValueEx(key,"SuperF4",0,REG_SZ,value,strlen(value)+1) != ERROR_SUCCESS) {
+				sprintf(msg,"RegSetValueEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+				MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+				return;
+			}
+		}
+	}
+	else {
+		if (RegDeleteValue(key,"SuperF4") != ERROR_SUCCESS) {
+			sprintf(msg,"RegDeleteValue() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+			MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+			return;
+		}
+	}
+	//Close key
+	if (RegCloseKey(key) != ERROR_SUCCESS) {
+		sprintf(msg,"RegCloseKey() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+		return;
+	}
+}
+
 LRESULT CALLBACK MyWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	if (msg == WM_COMMAND) {
 		int wmId=LOWORD(wParam), wmEvent=HIWORD(wParam);
 		if (wmId == SWM_TOGGLE) {
 			ToggleHook();
 		}
+		else if (wmId == SWM_AUTOSTART_ON) {
+			SetAutostart(1,0);
+		}
+		else if (wmId == SWM_AUTOSTART_OFF) {
+			SetAutostart(0,0);
+		}
+		else if (wmId == SWM_AUTOSTART_HIDE_ON) {
+			SetAutostart(1,1);
+		}
+		else if (wmId == SWM_AUTOSTART_HIDE_OFF) {
+			SetAutostart(1,0);
+		}
 		else if (wmId == SWM_ABOUT) {
-			MessageBox(NULL, "SuperF4 - 0.3\nrecover89@gmail.com\nhttp://superf4.googlecode.com/\n\nWhen enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\nThe effect is the same as when you kill the process from the task manager.\n\nYou can use -hide as a parameter to hide the tray icon.\n\nSend feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK);
+			MessageBox(NULL, "SuperF4 - 0.4\nhttp://superf4.googlecode.com/\nrecover89@gmail.com\n\nWhen enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\nThe effect is the same as when you kill the process from the task manager.\n\nYou can use -hide as a parameter to hide the tray icon.\n\nSend feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK);
+		}
+		else if (wmId == SWM_HIDE) {
+			RemoveTray();
 		}
 		else if (wmId == SWM_EXIT) {
 			DestroyWindow(hWnd);
@@ -281,7 +412,9 @@ LRESULT CALLBACK MyWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	}
 	else if (msg == WM_TASKBARCREATED) {
 		tray_added=0;
-		AddTray();
+		if (!hide) {
+			AddTray();
+		}
 	}
 	else if (msg == WM_DESTROY) {
 		if (hook_installed) {

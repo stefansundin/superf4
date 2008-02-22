@@ -1,6 +1,6 @@
 SuperF4
-recover89@gmail.com
 http://superf4.googlecode.com/
+recover89@gmail.com
 
 When enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.
 The effect is the same as when you kill the process from the task manager.
@@ -9,6 +9,9 @@ You can use -hide as a parameter to hide the tray icon.
 
 Changelog
 ---------
+0.4:
+Option to autostart SuperF4. Can hide tray icon in current session.
+
 0.3:
 The tray icon can be hidden with -hide as a parameter.
 
