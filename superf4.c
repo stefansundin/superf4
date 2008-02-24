@@ -44,9 +44,9 @@ static HHOOK hhookSysMsg;
 static HICON icon[2];
 static NOTIFYICONDATA traydata;
 static UINT WM_TASKBARCREATED;
-static BOOL hook_installed=0;
-static BOOL tray_added=0;
-static BOOL hide=0;
+static int hook_installed=0;
+static int tray_added=0;
+static int hide=0;
 
 static char msg[100];
 
@@ -396,6 +396,7 @@ LRESULT CALLBACK MyWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			MessageBox(NULL, "SuperF4 - 0.4\nhttp://superf4.googlecode.com/\nrecover89@gmail.com\n\nWhen enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\nThe effect is the same as when you kill the process from the task manager.\n\nYou can use -hide as a parameter to hide the tray icon.\n\nSend feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK);
 		}
 		else if (wmId == SWM_HIDE) {
+			hide=1;
 			RemoveTray();
 		}
 		else if (wmId == SWM_EXIT) {
