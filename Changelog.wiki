@@ -1,0 +1,19 @@
+#summary Directly from info.txt
+#labels Featured
+
+Check info.txt if there seems to be something missing.
+
+*0.5:*
+Fixed a rare case where SuperF4 would kill a program when the user pressed Alt+F4.
+
+*0.4:*
+Option to autostart SuperF4. Can hide tray icon in current session.
+
+*0.3:*
+The tray icon can be hidden with -hide as a parameter.
+
+*0.2:*
+Tray icon is now readded when explorer crashes.
+
+*0.1:*
+Initial release.
