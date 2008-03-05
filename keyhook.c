@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <windows.h>
 
 static int ctrl=0;
@@ -29,6 +30,7 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 	if (nCode == HC_ACTION) {
 		int vkey=((PKBDLLHOOKSTRUCT)lParam)->vkCode;
 		
+		//Check if Ctrl/Alt/F4 is being pressed or released
 		if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
 			if (vkey == VK_CONTROL || vkey == VK_LCONTROL || vkey == VK_RCONTROL) {
 				ctrl=1;
@@ -52,6 +54,21 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			}
 		}
 		
+		//Double check that Ctrl and Alt are pressed
+		//This prevents a faulty kill if keyhook haven't received the KEYUP for these keys
+		if (ctrl && alt && f4) {
+			if (!(GetAsyncKeyState(VK_CONTROL)&0x8000)) {
+				ctrl=0;
+			}
+			else if (!(GetAsyncKeyState(VK_MENU)&0x8000)) {
+				alt=0;
+			}
+			/*else if (!(GetAsyncKeyState(VK_F4)&0x8000)) {
+				f4=0;
+			}*/
+		}
+		
+		//This will happen if Ctrl+Alt+F4 is being pressed
 		if (ctrl && alt && f4) {
 			//Open log
 			FILE *output;
@@ -60,6 +77,15 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 				MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 				return 1;
 			}
+			
+			//Print timestamp
+			time_t rawtime;
+			struct tm *timeinfo;
+			time(&rawtime);
+			timeinfo=localtime(&rawtime);
+			strftime(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]",timeinfo);
+			fprintf(output,"\n%s\n",msg);
+			
 			fprintf(output,"Ctrl+Alt+F4 pressed!\n");
 			
 			//Get hwnd of foreground window

@@ -9,6 +9,9 @@ You can use -hide as a parameter to hide the tray icon.
 
 Changelog
 ---------
+0.5:
+Fixed a rare case where SuperF4 would kill a program when the user pressed Alt+F4.
+
 0.4:
 Option to autostart SuperF4. Can hide tray icon in current session.
 
