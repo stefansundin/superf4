@@ -9,6 +9,9 @@ You can use -hide as a parameter to hide the tray icon.
 
 Changelog
 ---------
+0.6:
+Small fix to prevent the key pressed from being propagated to another window after terminating the process.
+
 0.5:
 Fixed a rare case where SuperF4 would kill a program when the user pressed Alt+F4.
 

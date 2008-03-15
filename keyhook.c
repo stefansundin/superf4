@@ -130,6 +130,9 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 				MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
 				return 1;
 			}
+			
+			//Prevent this keypress from being propagated to the window selected after the kill
+			return 0;
 		}
 	}
 	
