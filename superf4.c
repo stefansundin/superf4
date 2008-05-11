@@ -55,7 +55,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	if (!strcmp(szCmdLine,"-hide")) {
 		hide=1;
 	}
-
+	
 	//Create window class
 	WNDCLASS wnd;
 	wnd.style=CS_HREDRAW | CS_VREDRAW;
@@ -393,7 +393,7 @@ LRESULT CALLBACK MyWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			SetAutostart(1,0);
 		}
 		else if (wmId == SWM_ABOUT) {
-			MessageBox(NULL, "SuperF4 - 0.6\nhttp://superf4.googlecode.com/\nrecover89@gmail.com\n\nWhen enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\nThe effect is the same as when you kill the process from the task manager.\n\nYou can use -hide as a parameter to hide the tray icon.\n\nSend feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK);
+			MessageBox(NULL, "SuperF4 - 0.7\nhttp://superf4.googlecode.com/\nrecover89@gmail.com\n\nWhen enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\nThe effect is the same as when you kill the process from the task manager.\n\nYou can use -hide as a parameter to hide the tray icon.\n\nSend feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK);
 		}
 		else if (wmId == SWM_HIDE) {
 			hide=1;

@@ -9,6 +9,9 @@ You can use -hide as a parameter to hide the tray icon.
 
 Changelog
 ---------
+0.7:
+keyhook now tries to get the SeDebugPrivilege privilege if OpenProcess fails, should be able to kill more programs.
+
 0.6:
 Small fix to prevent the key pressed from being propagated to another window after terminating the process.
 
