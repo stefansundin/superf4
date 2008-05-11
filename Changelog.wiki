@@ -3,6 +3,9 @@
 
 Check [http://code.google.com/p/superf4/source/browse/trunk/info.txt info.txt] if there seems to be something missing.
 
+*0.7:*
+keyhook now tries to get the SeDebugPrivilege privilege if OpenProcess fails, should be able to kill more programs.
+
 *0.6:*
 Small fix to prevent the key pressed from being propagated to another window after terminating the process.
 
