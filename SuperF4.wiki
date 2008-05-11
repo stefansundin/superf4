@@ -13,10 +13,11 @@ Now I can just press Ctrl+Alt+F4 and get back to the desktop within a few second
 = More =
 !SuperF4 should be able to kill all kinds of processes, whether they are hung or not.
 Beware though, !SuperF4 effectively kills the program and doesn't give it a chance to save unsaved work etc...
-I've only encountered a one game (Warcraft III) where this program doesn't work, but I'm sure there are others.
+Since 0.7, !SuperF4 should be able to kill all programs.
+Let me know if you've encountered a program !SuperF4 couldn't kill.
 
 !SuperF4 creates a log which keep track of things you've killed, and if it succeeded or not.
-You can safely delete this log, but it would be nice if you could post info on programs that can't be killed with !SuperF4, I might be able to get it working for those programs in the future.
+You can safely delete this log, but it would be nice if you could post info on programs that can't be killed, I might be able to get it working for those programs in the future.
 
 There are two files, !SuperF4.exe and keyhook.dll.
 !SuperF4.exe hooks keyhook.dll to the keyboard, which makes keyhook.dll receive all the keypresses, this makes it possible to detect when you press Ctrl+Alt+F4. When you press it, keyhook.dll kills the process of the currently selected window.
