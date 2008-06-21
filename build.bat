@@ -1,4 +1,6 @@
 
+taskkill /IM SuperF4.exe
+
 gcc -c keyhook.c
 gcc -shared -o keyhook.dll keyhook.o
 
