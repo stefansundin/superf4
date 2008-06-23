@@ -197,7 +197,7 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 				
 				//Enable SeDebugPrivilege
 				if (SetPrivilege(hToken, SE_DEBUG_NAME, TRUE) == FALSE) {
-					sprintf(msg,"OpenThreadToken() failed (error: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+					sprintf(msg,"SetPrivilege() failed (error: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
 					if (output != NULL) {
 						fprintf(output,"failed!\n%s\n",msg);
 						fclose(output);

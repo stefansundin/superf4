@@ -104,7 +104,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		//Create icondata
 		traydata.cbSize=sizeof(NOTIFYICONDATA);
 		traydata.uID=0;
-		traydata.uFlags=NIF_MESSAGE+NIF_ICON+NIF_TIP;
+		traydata.uFlags=NIF_MESSAGE|NIF_ICON|NIF_TIP;
 		traydata.hWnd=hWnd;
 		traydata.uCallbackMessage=WM_ICONTRAY;
 		strncpy(traydata.szTip,"SuperF4 (disabled)",sizeof(traydata.szTip));
