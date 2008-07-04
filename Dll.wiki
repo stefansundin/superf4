@@ -1,0 +1,8 @@
+#summary Why is keyhook.dll necessary
+#labels Phase-Implementation
+
+= Introduction =
+
+[http://msdn.microsoft.com/en-us/library/ms644959(VS.85).aspx Microsoft's documentation] says that global hooks can only be made with the help of a dll file.
+
+When dynamically linking to a dll file you must know the address to the function you want to call. You look up the address with the function name. This name might not be what you put in your source file, since the compiler mangles the name. I use a freeware utility called [http://www.nirsoft.net/utils/dll_export_viewer.html DLL Export Viewer] to look up the correct name.
