@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <shlwapi.h>
 
 //Tray messages
 #define WM_ICONTRAY            WM_USER+1
@@ -51,6 +52,18 @@ static int hide=0;
 static char msg[100];
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, int iCmdShow) {
+	//Change current directory
+	char path[MAX_PATH];
+	if (GetModuleFileName(NULL, path, sizeof(path)) == 0) {
+		sprintf(msg,"GetModuleFileName() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+	}
+	PathRemoveFileSpec(path);
+	if (SetCurrentDirectory(path) == 0) {
+		sprintf(msg,"SetCurrentDirectory() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+	}
+	
 	//Check command line
 	if (!strcmp(szCmdLine,"-hide")) {
 		hide=1;
