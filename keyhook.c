@@ -253,7 +253,7 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			}
 
 			//Prevent this keypress from being propagated to the window selected after the kill
-			return 0;
+			return 1;
 		}
 	}
 	
