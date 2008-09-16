@@ -3,18 +3,30 @@
 	<id>urn:uuid:41aca343-a995-42b8-9213-dc4b84fe45c7</id>
 	<title>SuperF4</title>
 	<link href="http://code.google.com/p/superf4/" />
-	<updated>2008-09-16T18:15:00Z</updated>
+	<updated>2008-09-16T21:15:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
 
 	<entry>
+		<id>urn:uuid:4321ee7b-6761-4e2f-b3eb-f0891489ea6d</id>
+		<title>SuperF4 - 0.8b</title>
+		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.8b.7z" />
+		<updated>2008-09-16T21:15:00Z</updated>
+		<content type="text">
+Changelog:
+* Fixed a typo.
+		</content>
+	</entry>
+
+	<entry>
 		<id>urn:uuid:38f79a9c-3494-4d91-b623-94e19467b2dd</id>
 		<title>SuperF4 - 0.8</title>
 		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.8.7z" />
 		<updated>2008-09-16T18:15:00Z</updated>
-		<content type="text">Changelog:
+		<content type="text">
+Changelog:
 * Made the detection of Ctrl+Alt+F4 more secure, preventing faulty kills which could happen when SuperF4 didn't receive the keyup of the F4 key.
 * Only one instance of SuperF4 can now be run. Starting SuperF4 again will make the first instance add its tray icon if hidden.
 		</content>
