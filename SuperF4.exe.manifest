@@ -3,9 +3,8 @@
 <assemblyIdentity
 	version="1.0.0.0"
 	processorArchitecture="X86"
-	name="SuperF4"
+	name="XP style"
 	type="win32" />
-<description>SuperF4</description>
 <dependency>
 	<dependentAssembly>
 		<assemblyIdentity

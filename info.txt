@@ -9,8 +9,12 @@ You can use -hide as a parameter to hide the tray icon.
 
 Changelog
 ---------
+0.8:
+Made the detection of Ctrl+Alt+F4 more secure, preventing faulty kills which could happen when SuperF4 didn't receive the keyup of the F4 key.
+Only one instance of SuperF4 can now be run. Starting SuperF4 again will make the first instance add its tray icon if hidden.
+
 0.7:
-keyhook now tries to get the SeDebugPrivilege privilege if OpenProcess fails, should be able to kill more programs.
+keyhook now tries to get the SeDebugPrivilege privilege, allowing more programs to be killed.
 
 0.6:
 Small fix to prevent the key pressed from being propagated to another window after terminating the process.

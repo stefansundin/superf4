@@ -21,8 +21,9 @@
 #include <windows.h>
 #include <shlwapi.h>
 
-//Tray messages
+//Messages
 #define WM_ICONTRAY            WM_USER+1
+#define WM_ADDTRAY             WM_USER+2
 #define SWM_TOGGLE             WM_APP+1
 #define SWM_HIDE               WM_APP+2
 #define SWM_AUTOSTART_ON       WM_APP+3
@@ -33,26 +34,29 @@
 #define SWM_EXIT               WM_APP+8
 
 //Stuff
-LPSTR szClassName="SuperF4";
 LRESULT CALLBACK MyWndProc(HWND, UINT, WPARAM, LPARAM);
 
-//Hook data
-static HINSTANCE hinstDLL;
-static HOOKPROC hkprcSysMsg;
-static HHOOK hhookSysMsg;
-
-//Global info
 static HICON icon[2];
 static NOTIFYICONDATA traydata;
 static UINT WM_TASKBARCREATED;
 static int tray_added=0;
-static int hook_installed=0;
 static int hide=0;
+
+static HINSTANCE hinstDLL;
+static HHOOK keyhook;
+static int hook_installed=0;
 
 static char msg[100];
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, int iCmdShow) {
-	//Change current directory
+	//Look for previous instance
+	HWND previnst;
+	if ((previnst=FindWindow("SuperF4",NULL)) != NULL) {
+		SendMessage(previnst,WM_ADDTRAY,0,0);
+		return 0;
+	}
+	
+	//Change working directory
 	char path[MAX_PATH];
 	if (GetModuleFileName(NULL, path, sizeof(path)) == 0) {
 		sprintf(msg,"GetModuleFileName() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
@@ -80,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	wnd.hCursor=LoadImage(NULL, IDC_ARROW, IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
 	wnd.hbrBackground=(HBRUSH)(COLOR_BACKGROUND+1);
 	wnd.lpszMenuName=NULL;
-	wnd.lpszClassName=szClassName;
+	wnd.lpszClassName="SuperF4";
 	
 	//Register class
 	if (RegisterClass(&wnd) == 0) {
@@ -90,41 +94,36 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	}
 	
 	//Create window
-	HWND hWnd;
-	hWnd=CreateWindow(szClassName, "SuperF4", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInst, NULL);
-	//ShowWindow(hWnd, iCmdShow); //Show
-	//UpdateWindow(hWnd); //Update
+	HWND hwnd=CreateWindow(wnd.lpszClassName, wnd.lpszClassName, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInst, NULL);
+
+	//Register TaskbarCreated so we can readd the tray icon if explorer.exe crashes
+	if ((WM_TASKBARCREATED=RegisterWindowMessage("TaskbarCreated")) == 0) {
+		sprintf(msg,"RegisterWindowMessage() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+	}
 	
+	//Load tray icons
+	if ((icon[0] = LoadImage(hInst, "tray-disabled", IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR)) == NULL) {
+		sprintf(msg,"LoadImage() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
+		PostQuitMessage(1);
+	}
+	if ((icon[1] = LoadImage(hInst, "tray-enabled", IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR)) == NULL) {
+		sprintf(msg,"LoadImage() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+		MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
+		PostQuitMessage(1);
+	}
+	
+	//Create icondata
+	traydata.cbSize=sizeof(NOTIFYICONDATA);
+	traydata.uID=0;
+	traydata.uFlags=NIF_MESSAGE|NIF_ICON|NIF_TIP;
+	traydata.hWnd=hwnd;
+	traydata.uCallbackMessage=WM_ICONTRAY;
+	
+	//Add tray icon
 	if (!hide) {
-		//Register TaskbarCreated so we can readd the tray icon if explorer.exe crashes
-		if ((WM_TASKBARCREATED=RegisterWindowMessage("TaskbarCreated")) == 0) {
-			sprintf(msg,"RegisterWindowMessage() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-			MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
-		}
-		
-		//Load tray icons
-		if ((icon[0] = LoadImage(hInst, "tray-disabled", IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR)) == NULL) {
-			sprintf(msg,"LoadImage() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-			MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-			PostQuitMessage(1);
-		}
-		if ((icon[1] = LoadImage(hInst, "tray-enabled", IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR)) == NULL) {
-			sprintf(msg,"LoadImage() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-			MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-			PostQuitMessage(1);
-		}
-		
-		//Create icondata
-		traydata.cbSize=sizeof(NOTIFYICONDATA);
-		traydata.uID=0;
-		traydata.uFlags=NIF_MESSAGE|NIF_ICON|NIF_TIP;
-		traydata.hWnd=hWnd;
-		traydata.uCallbackMessage=WM_ICONTRAY;
-		strncpy(traydata.szTip,"SuperF4 (disabled)",sizeof(traydata.szTip));
-		traydata.hIcon=icon[0];
-		
-		//Add tray icon
-		AddTray();
+		UpdateTray();
 	}
 	
 	//Install hook
@@ -221,13 +220,11 @@ void ShowContextMenu(HWND hWnd) {
 	DestroyMenu(hMenu);
 }
 
-int AddTray() {
-	if (tray_added) {
-		//Tray already added
-		return 1;
-	}
+int UpdateTray() {
+	strncpy(traydata.szTip,(hook_installed?"AltDrag (enabled)":"AltDrag (disabled)"),sizeof(traydata.szTip));
+	traydata.hIcon=icon[hook_installed];
 	
-	if (Shell_NotifyIcon(NIM_ADD,&traydata) == FALSE) {
+	if (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&traydata) == FALSE) {
 		sprintf(msg,"Shell_NotifyIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
 		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
@@ -267,14 +264,15 @@ int InstallHook() {
 	}
 	
 	//Get address to keyboard hook (beware name mangling)
-	if ((hkprcSysMsg=(HOOKPROC)GetProcAddress(hinstDLL,"KeyboardProc@12")) == NULL) {
+	HOOKPROC procaddr;
+	if ((procaddr=(HOOKPROC)GetProcAddress(hinstDLL,"KeyboardProc@12")) == NULL) {
 		sprintf(msg,"GetProcAddress() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
 		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
 	}
 	
 	//Set up the hook
-	if ((hhookSysMsg=SetWindowsHookEx(WH_KEYBOARD_LL,hkprcSysMsg,hinstDLL,0)) == NULL) {
+	if ((keyhook=SetWindowsHookEx(WH_KEYBOARD_LL,procaddr,hinstDLL,0)) == NULL) {
 		sprintf(msg,"SetWindowsHookEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
 		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
@@ -282,15 +280,7 @@ int InstallHook() {
 	
 	//Success
 	hook_installed=1;
-	traydata.hIcon=icon[1];
-	strncpy(traydata.szTip,"SuperF4 (enabled)",sizeof(traydata.szTip));
-	if (tray_added) {
-		if (Shell_NotifyIcon(NIM_MODIFY,&traydata) == FALSE) {
-			sprintf(msg,"Shell_NotifyIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-			MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
-			return 1;
-		}
-	}
+	UpdateTray();
 	return 0;
 }
 
@@ -301,7 +291,7 @@ int RemoveHook() {
 	}
 	
 	//Remove hook
-	if (UnhookWindowsHookEx(hhookSysMsg) == 0) {
+	if (UnhookWindowsHookEx(keyhook) == 0) {
 		sprintf(msg,"UnhookWindowsHookEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
 		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
@@ -316,15 +306,7 @@ int RemoveHook() {
 	
 	//Success
 	hook_installed=0;
-	traydata.hIcon=icon[0];
-	strncpy(traydata.szTip,"SuperF4 (disabled)",sizeof(traydata.szTip));
-	if (tray_added) {
-		if (Shell_NotifyIcon(NIM_MODIFY,&traydata) == FALSE) {
-			sprintf(msg,"Shell_NotifyIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-			MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
-			return 1;
-		}
-	}
+	UpdateTray();
 	return 0;
 }
 
@@ -355,21 +337,11 @@ void SetAutostart(int on, int hide) {
 		}
 		//Add
 		char value[MAX_PATH+10];
-		if (hide) {
-			sprintf(value,"\"%s\" -hide",path);
-			if (RegSetValueEx(key,"SuperF4",0,REG_SZ,value,strlen(value)+1) != ERROR_SUCCESS) {
-				sprintf(msg,"RegSetValueEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-				MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
-				return;
-			}
-		}
-		else {
-			sprintf(value,"\"%s\"",path);
-			if (RegSetValueEx(key,"SuperF4",0,REG_SZ,value,strlen(value)+1) != ERROR_SUCCESS) {
-				sprintf(msg,"RegSetValueEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-				MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
-				return;
-			}
+		sprintf(value,(hide?"\"%s\" -hide":"\"%s\""),path);
+		if (RegSetValueEx(key,"SuperF4",0,REG_SZ,value,strlen(value)+1) != ERROR_SUCCESS) {
+			sprintf(msg,"RegSetValueEx() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+			MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+			return;
 		}
 	}
 	else {
@@ -411,7 +383,7 @@ LRESULT CALLBACK MyWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			SetAutostart(1,0);
 		}
 		else if (wmId == SWM_ABOUT) {
-			MessageBox(NULL, "SuperF4 - 0.7\nhttp://superf4.googlecode.com/\nrecover89@gmail.com\n\nWhen enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\nThe effect is the same as when you kill the process from the task manager.\n\nYou can use -hide as a parameter to hide the tray icon.\n\nSend feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK);
+			MessageBox(NULL, "SuperF4 - 0.8\nhttp://superf4.googlecode.com/\nrecover89@gmail.com\n\nWhen enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\nThe effect is the same as when you kill the process from the task manager.\n\nYou can use -hide as a parameter to hide the tray icon.\n\nSend feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK);
 		}
 		else if (wmId == SWM_EXIT) {
 			DestroyWindow(hWnd);
@@ -428,7 +400,7 @@ LRESULT CALLBACK MyWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	else if (msg == WM_TASKBARCREATED) {
 		tray_added=0;
 		if (!hide) {
-			AddTray();
+			UpdateTray();
 		}
 	}
 	else if (msg == WM_DESTROY) {
@@ -440,6 +412,10 @@ LRESULT CALLBACK MyWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		}
 		PostQuitMessage(0);
 		return 0;
+	}
+	else if (msg == WM_ADDTRAY) {
+		hide=0;
+		UpdateTray();
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }

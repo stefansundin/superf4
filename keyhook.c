@@ -23,8 +23,8 @@
 
 static int ctrl=0;
 static int alt=0;
-static int f4=0;
 static char msg[100];
+static FILE *output;
 
 BOOL SetPrivilege(HANDLE hToken, LPCTSTR priv, BOOL bEnablePrivilege) {
 	TOKEN_PRIVILEGES tp;
@@ -63,6 +63,15 @@ BOOL SetPrivilege(HANDLE hToken, LPCTSTR priv, BOOL bEnablePrivilege) {
 	return TRUE;
 }
 
+char* GetTimestamp(char *buf, size_t maxsize, char *format) {
+	time_t rawtime;
+	struct tm *timeinfo;
+	time(&rawtime);
+	timeinfo=localtime(&rawtime);
+	strftime(buf,maxsize,format,timeinfo);
+	return buf;
+}
+
 _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
 	if (nCode == HC_ACTION) {
 		int vkey=((PKBDLLHOOKSTRUCT)lParam)->vkCode;
@@ -75,8 +84,60 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			if (vkey == VK_MENU || vkey == VK_LMENU || vkey == VK_RMENU) {
 				alt=1;
 			}
-			if (vkey == VK_F4) {
-				f4=1;
+			if (ctrl && alt && vkey == VK_F4) {
+				//Double check that Ctrl and Alt are pressed
+				//This prevents a faulty kill if keyhook haven't received the keyup for these keys
+				if (!(GetAsyncKeyState(VK_CONTROL)&0x8000)) {
+					ctrl=0;
+				}
+				else if (!(GetAsyncKeyState(VK_MENU)&0x8000)) {
+					alt=0;
+				}
+				else {
+					//Kill program
+					fprintf(output,"%s ",GetTimestamp(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]"));
+					
+					//Get hwnd of foreground window
+					HWND hwnd;
+					if ((hwnd=GetForegroundWindow()) == NULL) {
+						fprintf(output,"Error: GetForegroundWindow() failed in file %s, line %d.",__FILE__,__LINE__);
+						fflush(output);
+						return 0;
+					}
+					
+					//Get hwnd title (for log)
+					char title[100];
+					GetWindowText(hwnd,title,100);
+					
+					//Get process id of hwnd
+					DWORD pid;
+					GetWindowThreadProcessId(hwnd,&pid);
+					
+					fprintf(output,"Killing \"%s\" (pid %d)... ",title,pid);
+					
+					//Open the process
+					HANDLE process;
+					if ((process=OpenProcess(PROCESS_TERMINATE,FALSE,pid)) == NULL) {
+						fprintf(output,"failed!\n");
+						fprintf(output,"Error: OpenProcess() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+						fflush(output);
+						return 0;
+					}
+					
+					//Terminate process
+					if (TerminateProcess(process,1) == 0) {
+						fprintf(output,"failed!\n");
+						fprintf(output,"Error: TerminateProcess() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+						fflush(output);
+						return 0;
+					}
+					
+					fprintf(output,"success!\n");
+					fflush(output);
+
+					//Prevent this keypress from being propagated to the window selected after the kill
+					return 1;
+				}
 			}
 		}
 		else if (wParam == WM_KEYUP || wParam == WM_SYSKEYUP) {
@@ -86,174 +147,6 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			if (vkey == VK_MENU || vkey == VK_LMENU || vkey == VK_RMENU) {
 				alt=0;
 			}
-			if (vkey == VK_F4) {
-				f4=0;
-			}
-		}
-		
-		//Double check that Ctrl and Alt are pressed
-		//This prevents a faulty kill if keyhook haven't received the KEYUP for these keys
-		if (ctrl && alt && f4) {
-			if (!(GetAsyncKeyState(VK_CONTROL)&0x8000)) {
-				ctrl=0;
-			}
-			else if (!(GetAsyncKeyState(VK_MENU)&0x8000)) {
-				alt=0;
-			}
-			/*else if (!(GetAsyncKeyState(VK_F4)&0x8000)) {
-				f4=0;
-			}*/
-		}
-		
-		//This will happen if Ctrl+Alt+F4 is being pressed
-		if (ctrl && alt && f4) {
-			//Open log
-			FILE *output;
-			if ((output=fopen("log-keyhook.txt","ab")) == NULL) {
-				sprintf(msg,"Failed to open log file.\nfopen() failed in file %s, line %d.",__FILE__,__LINE__);
-				MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
-			}
-			
-			if (output != NULL) {
-				//Print timestamp
-				time_t rawtime;
-				struct tm *timeinfo;
-				time(&rawtime);
-				timeinfo=localtime(&rawtime);
-				strftime(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]",timeinfo);
-				fprintf(output,"\n%s\n",msg);
-				
-				fprintf(output,"Ctrl+Alt+F4 pressed!\n");
-			}
-			
-			//Get hwnd of foreground window
-			HWND hwnd;
-			if ((hwnd=GetForegroundWindow()) == NULL) {
-				sprintf(msg,"GetForegroundWindow() failed in file %s, line %d.",__FILE__,__LINE__);
-				if (output != NULL) {
-					fprintf(output,"%s\n",msg);
-					fclose(output);
-				}
-				MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-				return 0;
-			}
-			
-			//Get hwnd title (for log)
-			if (output != NULL) {
-				char title[100];
-				GetWindowText(hwnd,title,100);
-				fprintf(output,"Window title: %s\n",title);
-			}
-			
-			//Get process id of hwnd
-			DWORD pid;
-			GetWindowThreadProcessId(hwnd,&pid);
-			if (output != NULL) {
-				fprintf(output,"Process id: %d\n",pid);
-				fprintf(output,"Opening process... ");
-			}
-			
-			HANDLE process;
-			if ((process=OpenProcess(PROCESS_TERMINATE,FALSE,pid)) == NULL) {
-				if (output != NULL) {
-					fprintf(output,"failed! (error: %d)\n",GetLastError());
-					fprintf(output,"Attempting to aquire SeDebugPrivilege privilege... ");
-				}
-				
-				//Get token
-				HANDLE hToken;
-				if (OpenThreadToken(GetCurrentThread(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, FALSE, &hToken) == 0) {
-					if (GetLastError() == ERROR_NO_TOKEN) {
-						if (ImpersonateSelf(SecurityImpersonation) == 0) {
-							sprintf(msg,"ImpersonateSelf() failed (error: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-							if (output != NULL) {
-								fprintf(output,"failed!\n%s\n",msg);
-								fclose(output);
-							}
-							MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-							return 0;
-						}
-						
-						if (OpenThreadToken(GetCurrentThread(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, FALSE, &hToken) == 0) {
-							sprintf(msg,"OpenThreadToken() failed (error: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-							if (output != NULL) {
-								fprintf(output,"failed!\n%s\n",msg);
-								fclose(output);
-							}
-							MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-							return 0;
-						}
-					}
-					else {
-						sprintf(msg,"OpenThreadToken() failed (error: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-						if (output != NULL) {
-							fprintf(output,"failed!\n%s\n",msg);
-							fclose(output);
-						}
-						MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-						return 0;
-					}
-				}
-				
-				//Enable SeDebugPrivilege
-				if (SetPrivilege(hToken, SE_DEBUG_NAME, TRUE) == FALSE) {
-					sprintf(msg,"SetPrivilege() failed (error: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-					if (output != NULL) {
-						fprintf(output,"failed!\n%s\n",msg);
-						fclose(output);
-					}
-					MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-					CloseHandle(hToken);
-					return 0;
-				}
-				CloseHandle(hToken);
-				
-				//Try to open process again
-				if (output != NULL) {
-					fprintf(output,"success!\n");
-					fprintf(output,"Opening process... ");
-				}
-				if ((process=OpenProcess(PROCESS_TERMINATE,FALSE,pid)) == NULL) {
-					sprintf(msg,"OpenProcess() failed (error: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-					if (output != NULL) {
-						fprintf(output,"failed!\n%s\n",msg);
-						fclose(output);
-					}
-					MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-					return 0;
-				}
-			}
-			
-			//Terminate process
-			if (output != NULL) {
-				fprintf(output,"success!\n");
-				fprintf(output,"Killing process... ");
-			}
-			if (TerminateProcess(process,1) == 0) {
-				sprintf(msg,"TerminateProcess() failed (error: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-				if (output != NULL) {
-					fprintf(output,"failed!\n%s\n",msg);
-					fclose(output);
-				}
-				MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-				return 0;
-			}
-			
-			if (output != NULL) {
-				fprintf(output,"success!\n");
-				
-				//Close log
-				if (fclose(output) == EOF) {
-					sprintf(msg,"fclose() failed in file %s, line %d.",__FILE__,__LINE__);
-					fprintf(output,"%s\n",msg);
-					fclose(output);
-					MessageBox(NULL, msg, "SuperF4 Error", MB_ICONERROR|MB_OK);
-					return 0;
-				}
-			}
-
-			//Prevent this keypress from being propagated to the window selected after the kill
-			return 1;
 		}
 	}
 	
@@ -261,5 +154,43 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 }
 
 BOOL APIENTRY DllMain(HINSTANCE hInstance, DWORD reason, LPVOID reserved) {
+	if (reason == DLL_PROCESS_ATTACH) {
+		//Open log
+		output=fopen("log-keyhook.txt","ab");
+		fprintf(output,"\n%s ",GetTimestamp(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]"));
+		fprintf(output,"New session. Getting SeDebugPrivilege privilege... ");
+		
+		//Create security context
+		if (ImpersonateSelf(SecurityImpersonation) == 0) {
+			fprintf(output,"failed!\n");
+			fprintf(output,"Error: ImpersonateSelf() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+			fflush(output);
+			return TRUE;
+		}
+		//Get access token
+		HANDLE hToken;
+		if (OpenThreadToken(GetCurrentThread(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, FALSE, &hToken) == 0) {
+			fprintf(output,"failed!\n");
+			fprintf(output,"Error: OpenThreadToken() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+			fflush(output);
+			return TRUE;
+		}
+		//Enable SeDebugPrivilege
+		if (SetPrivilege(hToken, SE_DEBUG_NAME, TRUE) == FALSE) {
+			fprintf(output,"failed!\n");
+			fprintf(output,"Error: SetPrivilege() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+			fflush(output);
+			CloseHandle(hToken);
+			return TRUE;
+		}
+		CloseHandle(hToken);
+		fprintf(output,"success!\n");
+		fflush(output);
+	}
+	else if (reason == DLL_PROCESS_ATTACH) {
+		//Close log
+		fclose(output);
+	}
+
 	return TRUE;
 }
