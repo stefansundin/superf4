@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<id>urn:uuid:41aca343-a995-42b8-9213-dc4b84fe45c7</id>
+	<title>SuperF4</title>
+	<link href="http://code.google.com/p/superf4/" />
+	<updated>2008-09-16T18:15:00Z</updated>
+	<author>
+		<name>Stefan Sundin</name>
+		<email>recover89@gmail.com</email>
+	</author>
+
+	<entry>
+		<id>urn:uuid:38f79a9c-3494-4d91-b623-94e19467b2dd</id>
+		<title>SuperF4 - 0.8</title>
+		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.8.7z" />
+		<updated>2008-09-16T18:15:00Z</updated>
+		<content type="text">Changelog:
+* Made the detection of Ctrl+Alt+F4 more secure, preventing faulty kills which could happen when SuperF4 didn't receive the keyup of the F4 key.
+* Only one instance of SuperF4 can now be run. Starting SuperF4 again will make the first instance add its tray icon if hidden.
+		</content>
+	</entry>
+</feed>
