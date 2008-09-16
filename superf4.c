@@ -221,7 +221,7 @@ void ShowContextMenu(HWND hWnd) {
 }
 
 int UpdateTray() {
-	strncpy(traydata.szTip,(hook_installed?"AltDrag (enabled)":"AltDrag (disabled)"),sizeof(traydata.szTip));
+	strncpy(traydata.szTip,(hook_installed?"SuperF4 (enabled)":"SuperF4 (disabled)"),sizeof(traydata.szTip));
 	traydata.hIcon=icon[hook_installed];
 	
 	if (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&traydata) == FALSE) {
