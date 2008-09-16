@@ -3,23 +3,30 @@
 
 Check [http://code.google.com/p/superf4/source/browse/trunk/info.txt info.txt] if there seems to be something missing.
 
+*0.8b:*
+  * Fixed a minor typo.
+
+*0.8:*
+  * Made the detection of Ctrl+Alt+F4 more secure, preventing faulty kills which could happen when SuperF4 didn't receive the keyup of the F4 key.
+  * Only one instance of SuperF4 can now be run. Starting SuperF4 again will make the first instance add its tray icon if hidden.
+
 *0.7:*
-keyhook now tries to get the SeDebugPrivilege privilege if OpenProcess fails, should be able to kill more programs.
+  * keyhook now tries to get the SeDebugPrivilege privilege if OpenProcess fails, should be able to kill more programs.
 
 *0.6:*
-Small fix to prevent the key pressed from being propagated to another window after terminating the process.
+  * Small fix to prevent the key pressed from being propagated to another window after terminating the process.
 
 *0.5:*
-Fixed a rare case where SuperF4 would kill a program when the user pressed Alt+F4.
+  * Fixed a rare case where SuperF4 would kill a program when the user pressed Alt+F4.
 
 *0.4:*
-Option to autostart SuperF4. Can hide tray icon in current session.
+  * Option to autostart SuperF4. Can hide tray icon in current session.
 
 *0.3:*
-The tray icon can be hidden with -hide as a parameter.
+  * The tray icon can be hidden with -hide as a parameter.
 
 *0.2:*
-Tray icon is now readded when explorer crashes.
+  * Tray icon is now readded when explorer crashes.
 
 *0.1:*
-Initial release.
+  * Initial release.
