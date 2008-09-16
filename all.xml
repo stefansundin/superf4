@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<id>urn:uuid:efa8d6a0-dc7b-4ffc-9e78-af04d3ed0044</id>
+	<title>recover's tools</title>
+	<link href="http://code.google.com/u/recover89/" />
+	<updated>2008-09-16T18:15:00Z</updated>
+	<author>
+		<name>Stefan Sundin</name>
+		<email>recover89@gmail.com</email>
+	</author>
+
+	<entry>
+		<id>urn:uuid:29603097-0998-4054-b9b7-d66f1832ec7f</id>
+		<title>This feed</title>
+		<updated>2008-09-13T19:50:00Z</updated>
+		<content type="text">
+Hi everyone.
+I will use this feed to notify you of updates to my tools and announce new tools.
+These are all my tools right now:
+SuperF4
+KillKeys
+TrayCD
+ShutdownGuard
+AltDrag
+		</content>
+	</entry>
+	<entry>
+		<id>urn:uuid:39345b26-fc1a-49f3-9446-c07b43839851</id>
+		<title>AltDrag - 0.4</title>
+		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.8.7z" />
+		<updated>2008-09-14T15:00:00Z</updated>
+		<content type="text">
+Changelog:
+* You can now hold the shift key to make the window stick to other windows. 
+		</content>
+	</entry>
+	<entry>
+		<id>urn:uuid:335989cc-664f-48ad-b93c-f9d1baff9178</id>
+		<title>SuperF4 - 0.8</title>
+		<link href="http://code.google.com/p/altdrag/downloads/detail?name=AltDrag-0.4.7z" />
+		<updated>2008-09-16T18:15:00Z</updated>
+		<content type="text">
+Changelog:
+* Made the detection of Ctrl+Alt+F4 more secure, preventing faulty kills which could happen when SuperF4 didn't receive the keyup of the F4 key.
+* Only one instance of SuperF4 can now be run. Starting SuperF4 again will make the first instance add its tray icon if hidden.
+		</content>
+	</entry>
+</feed>
