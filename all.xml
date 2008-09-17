@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>urn:uuid:efa8d6a0-dc7b-4ffc-9e78-af04d3ed0044</id>
 	<title>recover's tools</title>
-	<link href="http://code.google.com/u/recover89/" />
+	<link href="http://code.google.com/u/recover89/" rel="self" />
 	<updated>2008-09-16T21:15:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
