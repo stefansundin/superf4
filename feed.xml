@@ -2,7 +2,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>urn:uuid:41aca343-a995-42b8-9213-dc4b84fe45c7</id>
 	<title>SuperF4</title>
-	<link href="http://code.google.com/p/superf4/" rel="self" />
+	<link href="http://superf4.googlecode.com/svn/wiki/feed.xml" rel="self" />
+	<link href="http://code.google.com/p/superf4/" />
 	<updated>2008-09-16T21:15:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
