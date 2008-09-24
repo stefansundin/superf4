@@ -4,11 +4,22 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2008-09-16T21:15:00Z</updated>
+	<updated>2008-09-24T14:40:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:1ea77644-d9c4-4a76-bfc9-3ae3b1e446bc</id>
+		<title>AltDrag</title>
+		<link href="http://altdrag.googlecode.com/svn/wiki/feed.xml" />
+		<updated>2008-09-24T14:40:00Z</updated>
+		<content type="html">
+I've added an RSS feed specifically for AltDrag.&lt;br/>
+You can subscribe to it &lt;a href="http://altdrag.googlecode.com/svn/wiki/feed.xml">here&lt;/a>.
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:dd98d389-4c39-426a-9f04-e0bd0df7669c</id>
@@ -24,7 +35,7 @@ Changelog:
 	<entry>
 		<id>urn:uuid:335989cc-664f-48ad-b93c-f9d1baff9178</id>
 		<title>SuperF4 - 0.8</title>
-		<link href="http://code.google.com/p/altdrag/downloads/detail?name=AltDrag-0.4.7z" />
+		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.8.7z" />
 		<updated>2008-09-16T18:15:00Z</updated>
 		<content type="text">
 Changelog:
@@ -36,7 +47,7 @@ Changelog:
 	<entry>
 		<id>urn:uuid:39345b26-fc1a-49f3-9446-c07b43839851</id>
 		<title>AltDrag - 0.4</title>
-		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.8.7z" />
+		<link href="http://code.google.com/p/altdrag/downloads/detail?name=AltDrag-0.4.7z" />
 		<updated>2008-09-14T15:00:00Z</updated>
 		<content type="text">
 Changelog:
