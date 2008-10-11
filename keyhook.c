@@ -23,8 +23,13 @@
 
 static int ctrl=0;
 static int alt=0;
+static int win=0;
 static char msg[100];
 static FILE *output;
+
+static HINSTANCE hinstDLL;
+static HHOOK mousehook;
+static int hook_installed=0;
 
 BOOL SetPrivilege(HANDLE hToken, LPCTSTR priv, BOOL bEnablePrivilege) {
 	TOKEN_PRIVILEGES tp;
@@ -72,6 +77,40 @@ char* GetTimestamp(char *buf, size_t maxsize, char *format) {
 	return buf;
 }
 
+void Kill(HWND hwnd) {
+	fprintf(output,"%s ",GetTimestamp(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]"));
+	
+	//Get hwnd title (for log)
+	char title[100];
+	GetWindowText(hwnd,title,100);
+	
+	//Get process id of hwnd
+	DWORD pid;
+	GetWindowThreadProcessId(hwnd,&pid);
+	
+	fprintf(output,"Killing \"%s\" (pid %d)... ",title,pid);
+	
+	//Open the process
+	HANDLE process;
+	if ((process=OpenProcess(PROCESS_TERMINATE,FALSE,pid)) == NULL) {
+		fprintf(output,"failed!\n");
+		fprintf(output,"Error: OpenProcess() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+		fflush(output);
+		return;
+	}
+	
+	//Terminate process
+	if (TerminateProcess(process,1) == 0) {
+		fprintf(output,"failed!\n");
+		fprintf(output,"Error: TerminateProcess() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+		fflush(output);
+		return;
+	}
+	
+	fprintf(output,"success!\n");
+	fflush(output);
+}
+
 _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
 	if (nCode == HC_ACTION) {
 		int vkey=((PKBDLLHOOKSTRUCT)lParam)->vkCode;
@@ -85,7 +124,7 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 				alt=1;
 			}
 			if (ctrl && alt && vkey == VK_F4) {
-				//Double check that Ctrl and Alt are pressed
+				//Double check that Ctrl and Alt are being pressed
 				//This prevents a faulty kill if keyhook haven't received the keyup for these keys
 				if (!(GetAsyncKeyState(VK_CONTROL)&0x8000)) {
 					ctrl=0;
@@ -94,9 +133,6 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 					alt=0;
 				}
 				else {
-					//Kill program
-					fprintf(output,"%s ",GetTimestamp(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]"));
-					
 					//Get hwnd of foreground window
 					HWND hwnd;
 					if ((hwnd=GetForegroundWindow()) == NULL) {
@@ -105,39 +141,33 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 						return 0;
 					}
 					
-					//Get hwnd title (for log)
-					char title[100];
-					GetWindowText(hwnd,title,100);
+					//Kill it!
+					Kill(hwnd);
 					
-					//Get process id of hwnd
-					DWORD pid;
-					GetWindowThreadProcessId(hwnd,&pid);
-					
-					fprintf(output,"Killing \"%s\" (pid %d)... ",title,pid);
-					
-					//Open the process
-					HANDLE process;
-					if ((process=OpenProcess(PROCESS_TERMINATE,FALSE,pid)) == NULL) {
-						fprintf(output,"failed!\n");
-						fprintf(output,"Error: OpenProcess() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
-						fflush(output);
-						return 0;
-					}
-					
-					//Terminate process
-					if (TerminateProcess(process,1) == 0) {
-						fprintf(output,"failed!\n");
-						fprintf(output,"Error: TerminateProcess() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
-						fflush(output);
-						return 0;
-					}
-					
-					fprintf(output,"success!\n");
-					fflush(output);
-
-					//Prevent this keypress from being propagated to the window selected after the kill
+					//Prevent this keypress from being propagated
 					return 1;
 				}
+			}
+			if (vkey == VK_LWIN) {
+				win=1;
+			}
+			if (win && vkey == VK_F4) {
+				//Double check that the windows button is being pressed
+				if (!(GetAsyncKeyState(VK_LWIN)&0x8000)) {
+					win=0;
+				}
+				else {
+					//Install hook
+					InstallHook();
+					//Prevent this keypress from being propagated
+					return 1;
+				}
+			}
+			if (vkey == VK_ESCAPE && hook_installed) {
+				//Remove hook
+				RemoveHook();
+				//Prevent this keypress from being propagated
+				return 1;
 			}
 		}
 		else if (wParam == WM_KEYUP || wParam == WM_SYSKEYUP) {
@@ -147,14 +177,88 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			if (vkey == VK_MENU || vkey == VK_LMENU || vkey == VK_RMENU) {
 				alt=0;
 			}
+			if (vkey == VK_MENU || vkey == VK_LMENU || vkey == VK_RMENU) {
+				win=0;
+			}
 		}
 	}
 	
     return CallNextHookEx(NULL, nCode, wParam, lParam); 
 }
 
+_declspec(dllexport) LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
+	if (nCode == HC_ACTION) {
+		if (wParam == WM_LBUTTONDOWN) {
+			POINT pt=((PMSLLHOOKSTRUCT)lParam)->pt;
+			
+			//Get hwnd
+			HWND hwnd;
+			if ((hwnd=WindowFromPoint(pt)) == NULL) {
+				fprintf(output,"%s Error getting mouse coordinates.\n",GetTimestamp(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]"));
+				fprintf(output,"WindowFromPoint() failed in file %s, line %d.\n",__FILE__,__LINE__);
+			}
+			hwnd=GetAncestor(hwnd,GA_ROOT);
+			
+			//Kill it!
+			Kill(hwnd);
+			
+			//Remove hook
+			RemoveHook();
+			
+			//Prevent mousedown from propagating
+			return 1;
+		}
+		else if (wParam == WM_RBUTTONDOWN) {
+			//Remove hook
+			RemoveHook();
+			//Prevent mousedown from propagating
+			return 1;
+		}
+	}
+	
+	return CallNextHookEx(NULL, nCode, wParam, lParam);
+}
+
+int InstallHook() {
+	if (hook_installed) {
+		//Hook already installed
+		return 1;
+	}
+	
+	//Set up the mouse hook
+	if ((mousehook=SetWindowsHookEx(WH_MOUSE_LL,MouseProc,hinstDLL,0)) == NULL) {
+		fprintf(output,"%s Error hooking mouse.\n",GetTimestamp(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]"));
+		fprintf(output,"SetWindowsHookEx() failed (error code: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+		return 1;
+	}
+	
+	//Success
+	hook_installed=1;
+	return 0;
+}
+
+int RemoveHook() {
+	if (!hook_installed) {
+		//Hook not installed
+		return 1;
+	}
+	
+	//Remove mouse hook
+	if (UnhookWindowsHookEx(mousehook) == 0) {
+		fprintf(output,"%s Error unhooking mouse.\n",GetTimestamp(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]"));
+		fprintf(output,"UnhookWindowsHookEx() failed (error code: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+		return 1;
+	}
+	
+	//Success
+	hook_installed=0;
+	return 0;
+}
+
 BOOL APIENTRY DllMain(HINSTANCE hInstance, DWORD reason, LPVOID reserved) {
 	if (reason == DLL_PROCESS_ATTACH) {
+		hinstDLL=hInstance;
+		
 		//Open log
 		output=fopen("log-keyhook.txt","ab");
 		fprintf(output,"\n%s ",GetTimestamp(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]"));

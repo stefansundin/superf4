@@ -5,13 +5,21 @@ recover89@gmail.com
 When enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.
 The effect is the same as when you kill the process from the task manager.
 
+You can also kill a process by pressing [the windows key]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program.
+
 You can use -hide as a parameter to hide the tray icon.
+
+SuperF4 maintains a log file where it puts info about the processes it has killed, and eventual errors.
+It is safe to delete this file, but if you come across a program which can't be killed, please let me know.
 
 Changelog
 ---------
+0.9:
+Added [the windows key]+F4.
+
 0.8:
 Made the detection of Ctrl+Alt+F4 more secure, preventing faulty kills which could happen when SuperF4 didn't receive the keyup of the F4 key.
-Only one instance of SuperF4 can now be run. Starting SuperF4 again will make the first instance add its tray icon if hidden.
+Only one instance of SuperF4 can now be run. Starting SuperF4 again will make the first instance add its tray icon, if hidden.
 
 0.7:
 keyhook now tries to get the SeDebugPrivilege privilege, allowing more programs to be killed.
@@ -29,7 +37,7 @@ Option to autostart SuperF4. Can hide tray icon in current session.
 The tray icon can be hidden with -hide as a parameter.
 
 0.2:
-Tray icon is now readded when explorer crashes.
+Tray icon is now re-added when explorer crashes.
 
 0.1:
 Initial release.
