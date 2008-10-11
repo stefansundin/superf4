@@ -121,10 +121,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	traydata.hWnd=hwnd;
 	traydata.uCallbackMessage=WM_ICONTRAY;
 	
-	//Add tray icon
-	if (!hide) {
-		UpdateTray();
-	}
+	//Update tray icon
+	UpdateTray();
 	
 	//Install hook
 	InstallHook();
@@ -224,14 +222,17 @@ int UpdateTray() {
 	strncpy(traydata.szTip,(hook_installed?"SuperF4 (enabled)":"SuperF4 (disabled)"),sizeof(traydata.szTip));
 	traydata.hIcon=icon[hook_installed];
 	
-	if (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&traydata) == FALSE) {
-		sprintf(msg,"Shell_NotifyIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
-		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
-		return 1;
+	//Only add or modify if not hidden
+	if (!hide) {
+		if (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&traydata) == FALSE) {
+			sprintf(msg,"Shell_NotifyIcon() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
+			MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
+			return 1;
+		}
+		
+		//Success
+		tray_added=1;
 	}
-	
-	//Success
-	tray_added=1;
 }
 
 int RemoveTray() {
@@ -409,9 +410,7 @@ Send feedback to recover89@gmail.com", "About SuperF4", MB_ICONINFORMATION|MB_OK
 	}
 	else if (msg == WM_TASKBARCREATED) {
 		tray_added=0;
-		if (!hide) {
-			UpdateTray();
-		}
+		UpdateTray();
 	}
 	else if (msg == WM_DESTROY) {
 		if (hook_installed) {
