@@ -115,21 +115,21 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 	if (nCode == HC_ACTION) {
 		int vkey=((PKBDLLHOOKSTRUCT)lParam)->vkCode;
 		
-		//Check if Ctrl/Alt/F4 is being pressed or released
 		if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
-			if (vkey == VK_CONTROL || vkey == VK_LCONTROL || vkey == VK_RCONTROL) {
+			//Check for Ctrl+Alt+F4
+			if (vkey == VK_LCONTROL) {
 				ctrl=1;
 			}
-			if (vkey == VK_MENU || vkey == VK_LMENU || vkey == VK_RMENU) {
+			if (vkey == VK_LMENU) {
 				alt=1;
 			}
 			if (ctrl && alt && vkey == VK_F4) {
 				//Double check that Ctrl and Alt are being pressed
 				//This prevents a faulty kill if keyhook haven't received the keyup for these keys
-				if (!(GetAsyncKeyState(VK_CONTROL)&0x8000)) {
+				if (!(GetAsyncKeyState(VK_LCONTROL)&0x8000)) {
 					ctrl=0;
 				}
-				else if (!(GetAsyncKeyState(VK_MENU)&0x8000)) {
+				else if (!(GetAsyncKeyState(VK_LMENU)&0x8000)) {
 					alt=0;
 				}
 				else {
@@ -148,6 +148,7 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 					return 1;
 				}
 			}
+			//Check for [the windows key]+F4
 			if (vkey == VK_LWIN) {
 				win=1;
 			}
@@ -171,13 +172,13 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			}
 		}
 		else if (wParam == WM_KEYUP || wParam == WM_SYSKEYUP) {
-			if (vkey == VK_CONTROL || vkey == VK_LCONTROL || vkey == VK_RCONTROL) {
+			if (vkey == VK_LCONTROL) {
 				ctrl=0;
 			}
-			if (vkey == VK_MENU || vkey == VK_LMENU || vkey == VK_RMENU) {
+			if (vkey == VK_LMENU) {
 				alt=0;
 			}
-			if (vkey == VK_MENU || vkey == VK_LMENU || vkey == VK_RMENU) {
+			if (vkey == VK_LMENU) {
 				win=0;
 			}
 		}
