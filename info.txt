@@ -16,6 +16,8 @@ Changelog
 ---------
 0.9:
 Added [the windows key]+F4.
+Renamed keyhook.dll to hooks.dll.
+Renamed log file to superf4-log.txt.
 
 0.8:
 Made the detection of Ctrl+Alt+F4 more secure, preventing faulty kills which could happen when SuperF4 didn't receive the keyup of the F4 key.

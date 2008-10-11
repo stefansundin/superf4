@@ -125,7 +125,7 @@ _declspec(dllexport) LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPA
 			}
 			if (ctrl && alt && vkey == VK_F4) {
 				//Double check that Ctrl and Alt are being pressed
-				//This prevents a faulty kill if keyhook haven't received the keyup for these keys
+				//This prevents a faulty kill if we didn't received the keyup for these keys
 				if (!(GetAsyncKeyState(VK_LCONTROL)&0x8000)) {
 					ctrl=0;
 				}
@@ -261,7 +261,7 @@ BOOL APIENTRY DllMain(HINSTANCE hInstance, DWORD reason, LPVOID reserved) {
 		hinstDLL=hInstance;
 		
 		//Open log
-		output=fopen("log-keyhook.txt","ab");
+		output=fopen("superf4-log.txt","ab");
 		fprintf(output,"\n%s ",GetTimestamp(msg,sizeof(msg),"[%Y-%m-%d %H:%M:%S]"));
 		fprintf(output,"New session. Getting SeDebugPrivilege privilege... ");
 		

@@ -257,7 +257,7 @@ int InstallHook() {
 	}
 	
 	//Load dll
-	if ((hinstDLL=LoadLibrary((LPCTSTR)"keyhook.dll")) == NULL) {
+	if ((hinstDLL=LoadLibrary((LPCTSTR)"hooks.dll")) == NULL) {
 		sprintf(msg,"LoadLibrary() failed (error code: %d) in file %s, line %d.",GetLastError(),__FILE__,__LINE__);
 		MessageBox(NULL, msg, "SuperF4 Warning", MB_ICONWARNING|MB_OK);
 		return 1;
