@@ -4,11 +4,24 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2008-09-24T14:40:00Z</updated>
+	<updated>2008-10-12T20:48:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:5bb9dd3a-4c5e-41b9-8a43-181b355b805b</id>
+		<title>SuperF4 - 0.9</title>
+		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.9.7z" />
+		<updated>2008-10-12T20:48:00Z</updated>
+		<content type="text">
+Changelog:
+* You can now kill a process by pressing [the windows key]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program. 
+* Renamed keyhook.dll to hooks.dll.
+* Renamed log file to superf4-log.txt.
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:1ea77644-d9c4-4a76-bfc9-3ae3b1e446bc</id>
@@ -59,15 +72,18 @@ Changelog:
 		<id>urn:uuid:29603097-0998-4054-b9b7-d66f1832ec7f</id>
 		<title>This feed</title>
 		<updated>2008-09-13T19:50:00Z</updated>
-		<content type="text">
-Hi everyone.
-I will use this feed to notify you of updates to my tools and announce new tools.
-These are all my tools right now:
-SuperF4
-KillKeys
-TrayCD
-ShutdownGuard
-AltDrag
+		<content type="html">
+Hi everyone.&lt;br/>
+I will use this feed to notify you of updates to my tools and announce new tools.&lt;br/>
+These are all my tools right now:&lt;br/>
+&lt;ul>
+&lt;li>&lt;a href="http://code.google.com/p/superf4/">SuperF4&lt;/a>&lt;/li>
+&lt;li>&lt;a href="http://code.google.com/p/altdrag/">AltDrag&lt;/a>&lt;/li>
+&lt;li>&lt;a href="http://code.google.com/p/killkeys/">KillKeys&lt;/a>&lt;/li>
+&lt;li>&lt;a href="http://code.google.com/p/traycd/">TrayCD&lt;/a>&lt;/li>
+&lt;li>&lt;a href="http://code.google.com/p/shutdownguard/">ShutdownGuard&lt;/a>&lt;/li>
+&lt;/ul>
+You can view &lt;a href="http://code.google.com/u/recover89/">my Google Project Hosting profile&lt;/a>.
 		</content>
 	</entry>
 </feed>

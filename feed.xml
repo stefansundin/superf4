@@ -4,11 +4,24 @@
 	<title>SuperF4</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/feed.xml" rel="self" />
 	<link href="http://code.google.com/p/superf4/" />
-	<updated>2008-09-16T21:15:00Z</updated>
+	<updated>2008-10-12T20:48:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:b3d89d4e-92c1-4493-979d-d3ee58c0d91b</id>
+		<title>SuperF4 - 0.9</title>
+		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.9.7z" />
+		<updated>2008-10-12T20:48:00Z</updated>
+		<content type="text">
+Changelog:
+* You can now kill a process by pressing [the windows key]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program. 
+* Renamed keyhook.dll to hooks.dll.
+* Renamed log file to superf4-log.txt.
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:4321ee7b-6761-4e2f-b3eb-f0891489ea6d</id>
