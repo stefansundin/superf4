@@ -1,7 +1,7 @@
 #summary Directly from info.txt
 #labels Featured
 
-Check [http://code.google.com/p/superf4/source/browse/trunk/info.txt info.txt] if there seems to be something missing.
+Check [http://code.google.com/p/superf4/source/browse/trunk/info.txt info.txt] if there seems to be something missing. Note that info.txt can contain changes for upcoming versions.
 
 *0.9:*
   * You can now kill a process by pressing [[lolwiki the windows key]]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program.
