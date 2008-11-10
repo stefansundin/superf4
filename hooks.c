@@ -32,43 +32,6 @@ static int hook_installed=0;
 
 static char txt[100];
 
-BOOL SetPrivilege(HANDLE hToken, LPCTSTR priv, BOOL bEnablePrivilege) {
-	TOKEN_PRIVILEGES tp;
-	LUID luid;
-	TOKEN_PRIVILEGES tpPrevious;
-	DWORD cbPrevious=sizeof(TOKEN_PRIVILEGES);
-
-	if (!LookupPrivilegeValue(NULL, priv, &luid)) {
-		return FALSE;
-	}
-	
-	//Get current privileges
-	tp.PrivilegeCount=1;
-	tp.Privileges[0].Luid=luid;
-	tp.Privileges[0].Attributes=0;
-
-	if (AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), &tpPrevious, &cbPrevious) != 0 && GetLastError() != ERROR_SUCCESS) {
-		return FALSE;
-	}
-
-	//Set privileges
-	tpPrevious.PrivilegeCount=1;
-	tpPrevious.Privileges[0].Luid=luid;
-
-	if(bEnablePrivilege) {
-		tpPrevious.Privileges[0].Attributes |= (SE_PRIVILEGE_ENABLED);
-	}
-	else {
-		tpPrevious.Privileges[0].Attributes ^= (SE_PRIVILEGE_ENABLED & tpPrevious.Privileges[0].Attributes);
-	}
-
-	if (AdjustTokenPrivileges(hToken, FALSE, &tpPrevious, cbPrevious, NULL, NULL) != 0 && GetLastError() != ERROR_SUCCESS) {
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
 char* GetTimestamp(char *buf, size_t maxsize, char *format) {
 	time_t rawtime;
 	struct tm *timeinfo;
@@ -91,6 +54,36 @@ void Kill(HWND hwnd) {
 	
 	fprintf(log,"Killing \"%s\" (pid %d)... ",title,pid);
 	
+	int SeDebugPrivilege=0;
+	//Get process token
+	HANDLE hToken;
+	TOKEN_PRIVILEGES tkp;
+	if (OpenProcessToken(GetCurrentProcess(),TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY, &hToken) == 0) {
+		fprintf(log,"failed to get SeDebugPrivilege.\n");
+		fprintf(log,"Error: OpenProcessToken() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+		fprintf(log,"Trying to kill without SeDebugPrivilege... ");
+		fflush(log);
+	}
+	else {
+		//Get LUID for SeDebugPrivilege
+		LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &tkp.Privileges[0].Luid);
+		tkp.PrivilegeCount=1;
+		tkp.Privileges[0].Attributes=SE_PRIVILEGE_ENABLED;
+		
+		//Enable SeDebugPrivilege
+		AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, NULL, 0); 
+		if (GetLastError() != ERROR_SUCCESS) {
+			fprintf(log,"failed to get SeDebugPrivilege.\n");
+			fprintf(log,"Error: AdjustTokenPrivileges() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+			fprintf(log,"Trying to kill without SeDebugPrivilege... ");
+			fflush(log);
+		}
+		else {
+			//Got it
+			SeDebugPrivilege=1;
+		}
+	}
+	
 	//Open the process
 	HANDLE process;
 	if ((process=OpenProcess(PROCESS_TERMINATE,FALSE,pid)) == NULL) {
@@ -106,6 +99,12 @@ void Kill(HWND hwnd) {
 		fprintf(log,"Error: TerminateProcess() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
 		fflush(log);
 		return;
+	}
+	
+	//Disable SeDebugPrivilege
+	if (SeDebugPrivilege) {
+		tkp.Privileges[0].Attributes=0;
+		AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, NULL, 0);
 	}
 	
 	fprintf(log,"success!\n");
@@ -263,34 +262,7 @@ BOOL APIENTRY DllMain(HINSTANCE hInstance, DWORD reason, LPVOID reserved) {
 		
 		//Open log
 		log=fopen("superf4-log.txt","ab");
-		fprintf(log,"\n%s ",GetTimestamp(txt,sizeof(txt),"[%Y-%m-%d %H:%M:%S]"));
-		fprintf(log,"New session. Getting SeDebugPrivilege privilege... ");
-		
-		//Create security context
-		if (ImpersonateSelf(SecurityImpersonation) == 0) {
-			fprintf(log,"failed!\n");
-			fprintf(log,"Error: ImpersonateSelf() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
-			fflush(log);
-			return TRUE;
-		}
-		//Get access token
-		HANDLE hToken;
-		if (OpenThreadToken(GetCurrentThread(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, FALSE, &hToken) == 0) {
-			fprintf(log,"failed!\n");
-			fprintf(log,"Error: OpenThreadToken() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
-			fflush(log);
-			return TRUE;
-		}
-		//Enable SeDebugPrivilege
-		if (SetPrivilege(hToken, SE_DEBUG_NAME, TRUE) == FALSE) {
-			fprintf(log,"failed!\n");
-			fprintf(log,"Error: SetPrivilege() failed (error: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
-			fflush(log);
-			CloseHandle(hToken);
-			return TRUE;
-		}
-		CloseHandle(hToken);
-		fprintf(log,"success!\n");
+		fprintf(log,"\n%s New session.\n",GetTimestamp(txt,sizeof(txt),"[%Y-%m-%d %H:%M:%S]"));
 		fflush(log);
 	}
 	else if (reason == DLL_PROCESS_DETACH) {

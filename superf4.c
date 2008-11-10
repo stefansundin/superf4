@@ -391,10 +391,10 @@ LRESULT CALLBACK MyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 http://superf4.googlecode.com/\n\
 recover89@gmail.com\n\
 \n\
-When enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.\n\
+Press Ctrl+Alt+F4 to kill the process of the currently selected window.\n\
 The effect is the same as when you kill the process from the task manager.\n\
 \n\
-You can also kill a process by pressing [the windows key]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program.\n\
+You can also kill a process by pressing [the windows key]+F4 and then clicking the window with the mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program.\n\
 \n\
 You can use -hide as a parameter to hide the tray icon.\n\
 \n\

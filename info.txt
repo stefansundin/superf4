@@ -2,10 +2,10 @@ SuperF4
 http://superf4.googlecode.com/
 recover89@gmail.com
 
-When enabled, press Ctrl+Alt+F4 to kill the process of the currently selected window.
+Press Ctrl+Alt+F4 to kill the process of the currently selected window.
 The effect is the same as when you kill the process from the task manager.
 
-You can also kill a process by pressing [the windows key]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program.
+You can also kill a process by pressing [the windows key]+F4 and then clicking the window with the mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program.
 
 You can use -hide as a parameter to hide the tray icon.
 
@@ -14,6 +14,9 @@ It is safe to delete this file, but if you come across a program which can't be 
 
 Changelog
 ---------
+trunk:
+Requests SeDebugPrivilege in a more secure way.
+
 0.9:
 Added [the windows key]+F4.
 Renamed keyhook.dll to hooks.dll.
