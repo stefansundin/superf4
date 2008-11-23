@@ -23,8 +23,9 @@ BEGIN
 			VALUE "FileDescription", "SuperF4"
 			VALUE "FileVersion", "0.9"
 			VALUE "InternalName", "superf4"
-			VALUE "LegalCopyright", "© Stefan Sundin 2008"
 			VALUE "OriginalFilename", "SuperF4.exe"
+			VALUE "CompanyName", "Stefan Sundin"
+			VALUE "LegalCopyright", "© Stefan Sundin 2008"
 		END
 	END
 	BLOCK "VarFileInfo"
