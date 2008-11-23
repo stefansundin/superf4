@@ -17,7 +17,7 @@ if "%1" == "all" (
 		if not exist "build/%%f/SuperF4" (
 			mkdir "build\%%f\SuperF4"
 		)
-		copy "localization/%%f/info.txt" "build/%%f/SuperF4/info.txt"
+		copy "localization\%%f\info.txt" "build/%%f/SuperF4/info.txt"
 		
 		gcc -o "build/%%f/SuperF4/SuperF4.exe" superf4.c build/resources.o -mwindows -lshlwapi -DL10N_FILE=\"localization/%%f/strings.h\"
 		if exist "build/%%f/SuperF4/SuperF4.exe" (
