@@ -4,11 +4,23 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2008-11-16T19:50:00Z</updated>
+	<updated>2008-11-30T13:17:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:d0644db0-1acd-496f-b186-6b9c4f3a0012</id>
+		<title>ShutdownGuard localization and installer</title>
+		<link href="http://code.google.com/p/shutdownguard/" />
+		<updated>2008-11-30T13:17:00Z</updated>
+		<content type="html">
+I've just released a Spanish version of ShutdownGuard 0.2. Now it's easy to translate ShutdownGuard, so if you want to translate ShutdownGuard to your language, visit the &lt;a href="http://code.google.com/p/shutdownguard/wiki/Localize">Localize&lt;/a> wiki page to find some easy instructions on how to do just that. Thanks to Fabrizio Ferri for translating the Spanish version!&lt;br/>
+&lt;br/>
+I've also released &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.2%20%28Installer%29.exe">an installer&lt;/a> which contains both languages. Please report any problem you find.
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:9d1468ba-f909-4f7b-ab6a-d85ecb881fe1</id>
