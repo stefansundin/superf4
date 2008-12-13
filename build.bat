@@ -24,18 +24,9 @@ if "%1" == "all" (
 			strip "build/%%f/SuperF4/SuperF4.exe"
 			upx --best -qq "build/%%f/SuperF4/SuperF4.exe"
 		)
-		
-		gcc -c -o "build/%%f/hooks.o" hooks.c
-		if exist "build/%%f/SuperF4/hooks.o" (
-			gcc -shared -o "build/%%f/SuperF4/hooks.dll" "build/%%f/hooks.o"
-			strip "build/%%f/SuperF4/hooks.dll"
-			upx --best -qq "build/%%f/SuperF4/hooks.dll"
-		)
 	)
 ) else (
 	gcc -o SuperF4.exe superf4.c build/resources.o -mwindows -lshlwapi
-	gcc -c -o "build/hooks.o" hooks.c
-	gcc -shared -o "hooks.dll" "build/hooks.o"
 	
 	if "%1" == "run" (
 		start SuperF4.exe

@@ -20,6 +20,7 @@ Changelog
 ---------
 trunk:
 Requests SeDebugPrivilege in a more secure way.
+Merged hooks.dll into SuperF4.exe.
 
 0.9 - 2008-10-12:
 Added [the windows key]+F4.
