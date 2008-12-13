@@ -1,4 +1,4 @@
-#summary Why is hooks.dll necessary
+#summary Why hooks.dll is necessary
 #labels Phase-Implementation
 
 = Introduction =
@@ -7,4 +7,4 @@
 
 When dynamically linking to a dll file you must know the address to the function you want to call. You look up the address with the function name. This name might not be what you put in your source file, since the compiler mangles the name. I use a freeware utility called [http://www.nirsoft.net/utils/dll_export_viewer.html DLL Export Viewer] to look up the correct name. In the mangled function name, the number after the @ sign indicates how many bytes are passed in parameters.
 
-I recently learned that the low level keyboard and mouse hooks can be used without a dll file. I might update SuperF4 and my other programs so that they do not need a dll file anymore.
+The next version will not contain a dll file since I found a way to make `SuperF4.exe` double as a dll file.
