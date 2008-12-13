@@ -5,24 +5,25 @@
 What !SuperF4 basically does, is kill the process of the currently selected program when you press Ctrl+Alt+F4.
 You might think, doesn't Alt+F4 do this? Well, it's a bit different. When you press Alt+F4, the program can refuse to quit. Windows essentially only asks the program to quit, and lets it decide for itself what to do (often it behaves just as if you would have pressed the X in the upper-right corner).
 
-Since 0.9, you can also kill a process by pressing [[lolwiki the windows key]]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that !SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program. 
+Since 0.9, you can also kill a process by pressing [[lolwiki the windows key]]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that !SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program.
 
 = Why? =
-I'm pretty sure you have encountered a game that get hung by some stupid bug, your computer gets all slow and you just can't get out of the game since it's fullscreen and nothing happens when you press Ctrl+Alt+Del to bring up the task manager... you eventually give up and reboot the computer by pressing the power button. :(
-This have happened to me quite a few times and I eventually got tired of it, and made this program.
+I'm pretty sure you have encountered a game that hung because of some stupid bug, your computer gets all slow and you just can't get out of the game since it's fullscreen and nothing happens when you press Ctrl+Alt+Del to bring up the task manager... you eventually give up and reboot the computer by pressing the power button. :(
+This have happened to me quite a few times and I eventually got tired of it, so I made !SuperF4.
 Now I can just press Ctrl+Alt+F4 and get back to the desktop within a few seconds. :)
 
 = More =
 !SuperF4 should be able to kill all kinds of processes, whether they are hung or not.
 Beware though, !SuperF4 effectively kills the program and doesn't give it a chance to save unsaved work etc...
 Since 0.7, !SuperF4 should be able to kill all programs.
-Let me know if you've encountered a program !SuperF4 couldn't kill.
+[mailto:recover89@gmail.com Let me know] if you encounter a program !SuperF4 can't kill.
 
-!SuperF4 creates a log which keep track of things you've killed, and if it succeeded or not.
-You can safely delete this log, but it would be nice if you could post info on programs that can't be killed, I might be able to get it working for those programs in the future.
+!SuperF4 creates a log which keep track of things you've killed, and whether it succeeded or not.
+You can safely delete this log file, but it would be nice if you could let me know if you find a program that can't be killed, I might be able to get it working for that program in the future.
 
-There are two files, !SuperF4.exe and keyhook.dll.
-!SuperF4.exe hooks keyhook.dll to the keyboard, which makes keyhook.dll receive all the keypresses, this makes it possible to detect when you press Ctrl+Alt+F4. When you press it, keyhook.dll kills the process of the currently selected window.
-When started, you can enable/disable the keyhook by clicking the tray icon, no other configuration exists.
+There are two files, `SuperF4.exe` and `hooks.dll`.
+`SuperF4.exe` hooks `hooks.dll` to the keyboard, which makes `hooks.dll` receive all the keypresses, this makes it possible to detect when you press Ctrl+Alt+F4. When you press it, `hooks.dll` kills the process of the currently selected window.
+In the next version, `hooks.dll` will be integrated into `SuperF4.exe`.
+When started, you can enable/disable the hooks by clicking the tray icon, no other configuration except autostart exists.
 
 Feel free to post this program wherever you want, just be sure to give proper credits.
