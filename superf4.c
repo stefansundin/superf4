@@ -50,6 +50,7 @@ static char txt[100];
 static HINSTANCE hinstDLL=NULL;
 static HHOOK keyhook=NULL;
 static HHOOK mousehook=NULL;
+static HWND cursorwnd=NULL;
 static int ctrl=0;
 static int alt=0;
 static int win=0;
@@ -121,7 +122,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	wnd.hInstance=hInst;
 	wnd.hIcon=NULL;
 	wnd.hIconSm=NULL;
-	wnd.hCursor=LoadImage(NULL, IDC_ARROW, IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR|LR_SHARED);
+	wnd.hCursor=LoadImage(hInst, "kill", IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
 	wnd.hbrBackground=(HBRUSH)(COLOR_WINDOW+1);
 	wnd.lpszMenuName=NULL;
 	wnd.lpszClassName=L10N_NAME;
@@ -130,7 +131,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	RegisterClassEx(&wnd);
 	
 	//Create window
-	HWND hwnd=CreateWindowEx(0,wnd.lpszClassName, L10N_NAME, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInst, NULL);
+	HWND hwnd=CreateWindowEx(/*WS_EX_LAYERED|*/WS_EX_TOOLWINDOW, wnd.lpszClassName, L10N_NAME, WS_POPUP|WS_MAXIMIZE, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	SetWindowPos(hwnd,HWND_TOPMOST,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE); //Always on top
+	cursorwnd=hwnd;
 
 	//Register TaskbarCreated so we can re-add the tray icon if explorer.exe crashes
 	if ((WM_TASKBARCREATED=RegisterWindowMessage("TaskbarCreated")) == 0) {
@@ -460,6 +463,10 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 		if (wParam == WM_LBUTTONDOWN) {
 			POINT pt=((PMSLLHOOKSTRUCT)lParam)->pt;
 			
+			//Make sure cursorwnd isn't in the way
+			ShowWindow(cursorwnd,SW_HIDE);
+			SetWindowLongPtr(cursorwnd,GWL_EXSTYLE,WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
+			
 			//Get hwnd
 			HWND hwnd;
 			if ((hwnd=WindowFromPoint(pt)) == NULL) {
@@ -501,6 +508,10 @@ int HookMouse() {
 		return 1;
 	}
 	
+	//Show cursor
+	SetWindowLongPtr(cursorwnd,GWL_EXSTYLE,WS_EX_LAYERED|WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
+	ShowWindowAsync(cursorwnd,SW_SHOWNA);
+	
 	//Success
 	return 0;
 }
@@ -517,6 +528,10 @@ int UnhookMouse() {
 		fprintf(log,"UnhookWindowsHookEx() failed (error code: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
 		return 1;
 	}
+	
+	//Hide cursor
+	ShowWindow(cursorwnd,SW_HIDE);
+	SetWindowLongPtr(cursorwnd,GWL_EXSTYLE,WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 	
 	//Success
 	mousehook=NULL;
@@ -650,6 +665,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		RemoveTray();
 		PostQuitMessage(0);
 		return 0;
+	}
+	else if (msg == WM_LBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_RBUTTONDOWN) {
+		//Hide the window if clicked on, this might happen if it wasn't hidden by the hooks for some reason
+		ShowWindow(hwnd,SW_HIDE);
+		SetWindowLongPtr(hwnd,GWL_EXSTYLE,WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
