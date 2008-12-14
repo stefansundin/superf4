@@ -131,7 +131,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	RegisterClassEx(&wnd);
 	
 	//Create window
-	HWND hwnd=CreateWindowEx(/*WS_EX_LAYERED|*/WS_EX_TOOLWINDOW, wnd.lpszClassName, L10N_NAME, WS_POPUP|WS_MAXIMIZE, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	HWND hwnd=CreateWindowEx(/*WS_EX_LAYERED|*/WS_EX_TOOLWINDOW, wnd.lpszClassName, L10N_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
 	SetWindowPos(hwnd,HWND_TOPMOST,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE); //Always on top
 	cursorwnd=hwnd;
 
@@ -509,6 +509,12 @@ int HookMouse() {
 	}
 	
 	//Show cursor
+	RECT desktop;
+	if (GetWindowRect(GetDesktopWindow(),&desktop) == 0) {
+		fprintf(log,"%s Error resizing cursorwnd.\n",GetTimestamp(txt,sizeof(txt),"[%Y-%m-%d %H:%M:%S]"));
+		fprintf(log,"GetWindowRect(GetDesktopWindow()) failed (error code: %d) in file %s, line %d.\n",GetLastError(),__FILE__,__LINE__);
+	}
+	MoveWindow(cursorwnd,desktop.left,desktop.top,desktop.right-desktop.left,desktop.bottom-desktop.top,FALSE);
 	SetWindowLongPtr(cursorwnd,GWL_EXSTYLE,WS_EX_LAYERED|WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 	ShowWindowAsync(cursorwnd,SW_SHOWNA);
 	
