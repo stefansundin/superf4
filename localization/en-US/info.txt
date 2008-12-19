@@ -7,12 +7,12 @@ The effect is the same as when you kill the process from the task manager.
 You can also kill a process by pressing [the windows key]+F4 and then clicking the window with the mouse.
 You can press escape or the right mouse button to exit this mode without killing a program.
 
-SuperF4 maintains a log file where it puts info about the processes it has killed, and eventual errors.
-It is safe to delete this file, but if you come across a program which can't be killed, please let me know.
+SuperF4 will automatically check for updates.
+You can disable this in SuperF4.ini.
 
 You can use -hide as a parameter to hide the tray icon.
 
-Check for updates at http://superf4.googlecode.com/
+Visit the website at http://superf4.googlecode.com/
 Send feedback to recover89@gmail.com
 
 Changelog
@@ -21,6 +21,8 @@ trunk:
 Requests SeDebugPrivilege in a more secure way.
 Merged hooks.dll into SuperF4.exe.
 The mouse cursor now changes when you press [the windows key]+F4.
+Removed log file.
+Added update checking.
 
 0.9 - 2008-10-12:
 Added [the windows key]+F4.
