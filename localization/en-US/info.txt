@@ -15,6 +15,9 @@ You can use -hide as a parameter to hide the tray icon.
 Visit the website at http://superf4.googlecode.com/
 Send feedback to recover89@gmail.com
 
+If you feel this program is useful, please consider donating money.
+You can find out how to donate on the website.
+
 Changelog
 ---------
 trunk:

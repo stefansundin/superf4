@@ -58,15 +58,15 @@
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 static HICON icon[2];
 static NOTIFYICONDATA traydata;
-static unsigned int WM_TASKBARCREATED=0;
-static unsigned int WM_ADDTRAY=0;
+static UINT WM_TASKBARCREATED=0;
+static UINT WM_ADDTRAY=0;
 static int tray_added=0;
 static int hide=0;
 static int update=0;
 struct {
 	int CheckForUpdate;
 } settings={0};
-static wchar_t txt[100];
+static wchar_t txt[1000];
 
 //Cool stuff
 static HINSTANCE hinstDLL=NULL;
@@ -76,6 +76,7 @@ static HWND cursorwnd=NULL;
 static int ctrl=0;
 static int alt=0;
 static int win=0;
+static int winxp=0;
 
 //Error message handling
 static int showerror=1;
@@ -244,9 +245,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		UpdateTray();
 	}
 	
+	//Check if OS is WinXP/Server 2003
+	OSVERSIONINFO vi;
+	vi.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
+	GetVersionEx(&vi);
+	if (vi.dwMajorVersion == 5 && vi.dwMinorVersion >= 1) {
+		//Now we will set cursorwnd to 99% transparent to make it work in XP
+		winxp=1;
+	}
+	
 	//Load settings
 	wchar_t path[MAX_PATH];
-	GetModuleFileName(NULL, path, sizeof(path));
+	GetModuleFileName(NULL,path,sizeof(path)/sizeof(wchar_t));
 	PathRenameExtension(path,L".ini");
 	GetPrivateProfileString(L"Update",L"CheckForUpdate",L"0",txt,sizeof(txt)/sizeof(wchar_t),path);
 	swscanf(txt,L"%d",&settings.CheckForUpdate);
@@ -591,7 +601,9 @@ int HookMouse() {
 	}
 	MoveWindow(cursorwnd,desktop.left,desktop.top,desktop.right-desktop.left,desktop.bottom-desktop.top,FALSE);
 	SetWindowLongPtr(cursorwnd,GWL_EXSTYLE,WS_EX_LAYERED|WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
-	SetLayeredWindowAttributes(cursorwnd, 0, 1, LWA_ALPHA); //Almost transparent (XP fix)
+	if (winxp) {
+		SetLayeredWindowAttributes(cursorwnd,0,1,LWA_ALPHA); //Almost transparent (XP fix)
+	}
 	ShowWindowAsync(cursorwnd,SW_SHOWNA);
 	
 	//Success
@@ -629,10 +641,10 @@ int HookKeyboard() {
 	}
 	
 	//Load library
-	wchar_t path[MAX_PATH]=APP_NAME;
-	GetModuleFileName(NULL, path, sizeof(path));
-	if ((hinstDLL=LoadLibraryEx(path,NULL,0)) == NULL) {
-		Error(L"LoadLibraryEx()",L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.",GetLastError(),__LINE__);
+	wchar_t path[MAX_PATH];
+	GetModuleFileName(NULL,path,sizeof(path)/sizeof(wchar_t));
+	if ((hinstDLL=LoadLibrary(path)) == NULL) {
+		Error(L"LoadLibrary()",L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.",GetLastError(),__LINE__);
 		return 1;
 	}
 	
