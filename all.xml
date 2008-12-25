@@ -4,11 +4,21 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2008-11-30T13:17:00Z</updated>
+	<updated>2008-12-25T13:37:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:beda07ae-f772-475d-ac55-4173d7816c40</id>
+		<title>ShutdownGuard - 0.3</title>
+		<link href="http://code.google.com/p/shutdownguard/" />
+		<updated>2008-12-25T13:37:00Z</updated>
+		<content type="html">
+I've finally released ShutdownGuard 0.3 which addresses the problems that were introduced in the Unicode versions of 0.2. In addition to that I've implemented an update checker and the ability to configure the prevention message (example: &lt;i>Do not shut this server off!&lt;/i>). The update checker will only check for updates and notify you when one is available, you will have to download and install the update manually. I've also added a translation for Lithuanian (thanks p|b!). The 7z archives of the other languages are available if you go to the downloads section (all languages are included in the installer). I've also added instructions on how to donate, read the &lt;a href="http://code.google.com/p/shutdownguard/wiki/Donate">Donate page&lt;/a>. Merry Christmas everyone!
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:d0644db0-1acd-496f-b186-6b9c4f3a0012</id>
