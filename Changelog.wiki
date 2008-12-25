@@ -1,5 +1,4 @@
 #summary Directly from info.txt
-#labels Featured
 
 Check [http://superf4.googlecode.com/svn/trunk/localization/en-US/info.txt info.txt] if there seems to be something missing. Note that info.txt can contain changes for upcoming versions.
 
