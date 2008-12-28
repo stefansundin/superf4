@@ -13,7 +13,7 @@
 !define APP_VERSION   "1.0"
 !define APP_URL       "http://superf4.googlecode.com/"
 !define APP_UPDATEURL "http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
-!define L10N_VERSION  2
+!define L10N_VERSION  1
 
 ;General
 
