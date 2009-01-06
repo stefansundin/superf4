@@ -31,7 +31,7 @@ if "%1" == "all" (
 	echo Building installer
 	makensis /V2 installer.nsi
 ) else (
-	gcc -o SuperF4.exe superf4.c build/resources.o -mwindows -lshlwapi -lwininet
+	gcc -o SuperF4.exe superf4.c build/resources.o -mwindows -lshlwapi -lwininet -DDEBUG
 	
 	if "%1" == "run" (
 		start SuperF4.exe

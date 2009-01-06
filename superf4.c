@@ -24,7 +24,6 @@
 #define APP_VERSION   "1.0"
 #define APP_URL       L"http://superf4.googlecode.com/"
 #define APP_UPDATEURL L"http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
-//#define DEBUG
 
 //Localization
 #ifndef L10N_FILE
