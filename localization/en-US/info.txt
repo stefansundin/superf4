@@ -20,7 +20,7 @@ You can find out how to donate on the website.
 
 Changelog
 ---------
-trunk:
+1.0 - 2009-01-12:
 Requests SeDebugPrivilege in a more secure way.
 Merged hooks.dll into SuperF4.exe.
 The mouse cursor now changes when you press [the windows key]+F4.

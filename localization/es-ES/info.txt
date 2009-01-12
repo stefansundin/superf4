@@ -21,7 +21,7 @@ Encontrarás las instrucciones en la página web.
 
 Historial de cambios
 --------------------
-Truncado:
+1.0 - 2009-01-12:
 Pide SeDebugPrivilege de forma más segura.
 Fundido hooks.dll en SuperF4.exe.
 El cursor del ratón cambia al pulsar Windows+F4.
