@@ -4,11 +4,25 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2008-12-25T13:37:00Z</updated>
+	<updated>2009-01-12T23:00:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:58dbdb5e-93f9-4e88-8b6a-7ded14349ce4</id>
+		<title>SuperF4 1.0, AltDrag 0.5, KillKeys 1.0 and TrayCD 1.0</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2009-01-12T23:00:00Z</updated>
+		<content type="html">
+I've released &lt;a href="http://code.google.com/p/superf4/">SuperF4 1.0&lt;/a>, &lt;a href="http://code.google.com/p/altdrag/">AltDrag 0.5&lt;/a>, &lt;a href="http://code.google.com/p/killkeys/">KillKeys 1.0&lt;/a> and &lt;a href="http://code.google.com/p/traycd/">TrayCD 1.0&lt;/a>. Read the notes on their respective sites.&lt;br/>
+All my applications are now available in Spanish thanks to Fabrizio Ferri.&lt;br/>
+I have also opened &lt;a href="http://groups.google.com/group/recovers-tools"> a forum&lt;/a> which I hope you'll use to discuss my tools, let me know what's good and what's bad.&lt;br/>
+I have also gotten some reports that my tools show up on some antivirus scanners, these are all false positives! I will try to report it to the antivirus vendors.&lt;br/>
+Finally, I would like to let you know that I have put donating details on the site, so if you feel one of my programs is useful, please consider &lt;a href="http://code.google.com/p/superf4/wiki/Donate">donating money&lt;/a>.
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:beda07ae-f772-475d-ac55-4173d7816c40</id>

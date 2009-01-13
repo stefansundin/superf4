@@ -4,11 +4,25 @@
 	<title>SuperF4</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/feed.xml" rel="self" />
 	<link href="http://code.google.com/p/superf4/" />
-	<updated>2008-10-12T20:48:00Z</updated>
+	<updated>2009-01-12T23:00:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:d1c6575c-90d1-48a1-a494-33bceff4eb2e</id>
+		<title>SuperF4 - 1.0</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2009-01-12T23:00:00Z</updated>
+		<content type="html">
+Released 1.0.&lt;br/>
+Finally 1.0! Yay! Not many new features though, but I think SuperF4 now accomplishes what I set out for it to do. SuperF4 is now available in Spanish thanks to Fabrizio Ferri.&lt;br/>
+I have also opened &lt;a href="http://groups.google.com/group/recovers-tools"> a forum&lt;/a> which I hope you'll use to discuss SuperF4 and my other tools, let me know what's good and what's bad.&lt;br/>
+I have also gotten some reports that my tools show up on some antivirus scanners, these are all false positives! I will try to report it to the antivirus vendors.&lt;br/>
+Finally, I would like to let you know that I have put donating details on the site, so if you feel this program is useful, please consider &lt;a href="http://code.google.com/p/superf4/wiki/Donate">donating money&lt;/a>.
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:b3d89d4e-92c1-4493-979d-d3ee58c0d91b</id>
