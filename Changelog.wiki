@@ -2,6 +2,13 @@
 
 Check [http://superf4.googlecode.com/svn/trunk/localization/en-US/info.txt info.txt] if there seems to be something missing. Note that info.txt can contain changes for upcoming versions.
 
+*1.0* - 2009-01-12:
+  * Requests SeDebugPrivilege in a more secure way.
+  * Merged hooks.dll into SuperF4.exe.
+  * The mouse cursor now changes when you press [the windows key]+F4.
+  * Removed log file.
+  * Added update checking.
+
 *0.9* - 2008-10-12:
   * You can now kill a process by pressing [[lolwiki the windows key]]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program.
   * Renamed keyhook.dll to hooks.dll.
