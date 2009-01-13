@@ -5,7 +5,7 @@ Check [http://superf4.googlecode.com/svn/trunk/localization/en-US/info.txt info.
 *1.0* - 2009-01-12:
   * Requests SeDebugPrivilege in a more secure way.
   * Merged hooks.dll into SuperF4.exe.
-  * The mouse cursor now changes when you press [the windows key]+F4.
+  * The mouse cursor now changes when you press [[lolwiki the windows key]]+F4.
   * Removed log file.
   * Added update checking.
 
