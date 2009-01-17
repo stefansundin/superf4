@@ -490,9 +490,6 @@ _declspec(dllexport) LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wPa
 					//Get hwnd of foreground window
 					HWND hwnd;
 					if ((hwnd=GetForegroundWindow()) == NULL) {
-						#ifdef DEBUG
-						Error(L"GetForegroundWindow()",L"LowLevelKeyboardProc()",GetLastError(),__LINE__);
-						#endif
 						return CallNextHookEx(NULL, nCode, wParam, lParam);
 					}
 					
