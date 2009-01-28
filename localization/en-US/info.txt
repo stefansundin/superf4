@@ -20,6 +20,9 @@ You can find out how to donate on the website.
 
 Changelog
 ---------
+1.1:
+Language can now be changed in SuperF4.ini.
+
 1.0 - 2009-01-12:
 Requests SeDebugPrivilege in a more secure way.
 Merged hooks.dll into SuperF4.exe.
