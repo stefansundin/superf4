@@ -1,4 +1,4 @@
-#summary Why hooks.dll is necessary
+#summary Why hooks.dll is (was) necessary
 #labels Phase-Implementation
 
 = Introduction =
@@ -7,4 +7,6 @@
 
 When dynamically linking to a dll file you must know the address to the function you want to call. You look up the address with the function name. This name might not be what you put in your source file, since the compiler mangles the name. I use a freeware utility called [http://www.nirsoft.net/utils/dll_export_viewer.html DLL Export Viewer] to look up the correct name. In the mangled function name, the number after the @ sign indicates how many bytes are passed as parameters.
 
-SuperF4 no longer includes a dll file since I found out that it's possible to do global keyboard and mouse hooks with an exe file doubling as a dll file.
+= Update =
+
+!SuperF4 no longer includes a dll file since I found out that it's possible to do global keyboard and mouse hooks with an exe file doubling as a dll file. In Vista, the exe file doesn't even have to contain dll declarations and it doesn't need to LoadLibrary() itself. However, !SuperF4 still does that to maintain compatibility with Windows XP.
