@@ -15,18 +15,24 @@
 !define APP_UPDATEURL "http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
 !define L10N_VERSION  1
 
-;General
+;Libraries
 
 !include "MUI2.nsh"
+!include "Sections.nsh"
+!include "LogicLib.nsh"
+!include "StrFunc.nsh"
+${StrLoc}
+
+;General
 
 Name "${APP_NAME} ${APP_VERSION}"
 OutFile "build/${APP_NAME}-${APP_VERSION}.exe"
 InstallDir "$PROGRAMFILES\${APP_NAME}"
 InstallDirRegKey HKCU "Software\${APP_NAME}" "Install_Dir"
-RequestExecutionLevel user
+;RequestExecutionLevel user
 ShowInstDetails hide
 ShowUninstDetails show
-SetCompressor lzma
+SetCompressor /SOLID lzma
 
 ;Interface
 
@@ -59,6 +65,8 @@ SetCompressor lzma
 !insertmacro MUI_RESERVEFILE_LANGDLL
 
 ;Installer
+
+Var IndependentSectionState ;Helps keep track of the autostart dependency thingie
 
 Section "$(L10N_UPDATE_SECTION)"
 	NSISdl::download "${APP_UPDATEURL}" "$TEMP\${APP_NAME}-updatecheck"
@@ -124,11 +132,9 @@ Section "$(L10N_SHORTCUT)"
 SectionEnd
 
 SectionGroup /e "$(L10N_AUTOSTART)"
-	Section /o "$(L10N_AUTOSTART)"
-		WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}" '"$INSTDIR\${APP_NAME}.exe"'
+	Section /o "$(L10N_AUTOSTART)" sec_autostart
 	SectionEnd
-	Section /o "$(L10N_AUTOSTART_HIDE)"
-		WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}" '"$INSTDIR\${APP_NAME}.exe" -hide'
+	Section /o "$(L10N_AUTOSTART_HIDE)" sec_hide
 	SectionEnd
 SectionGroupEnd
 
@@ -138,6 +144,43 @@ FunctionEnd
 
 Function .onInit
 	!insertmacro MUI_LANGDLL_DISPLAY
+	;Determine current autostart setting
+	StrCpy $IndependentSectionState 0
+	ReadRegStr $0 HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}"
+	IfErrors done
+		!insertmacro SelectSection ${sec_autostart}
+		${StrLoc} $0 $0 "-hide" "<"
+		${If} $0 != ""
+			StrCpy $IndependentSectionState 1
+			!insertmacro SelectSection ${sec_hide}
+		${EndIf}
+	done:
+FunctionEnd
+
+Function .onSelChange
+	;Hide tray automatically checks Autostart
+	${If} ${SectionIsSelected} ${sec_hide}
+		${If} $IndependentSectionState == 0
+			StrCpy $IndependentSectionState 1
+			!insertmacro SelectSection ${sec_autostart}
+		${ElseIfNot} ${SectionIsSelected} ${sec_autostart}
+			StrCpy $IndependentSectionState 0
+			!insertmacro UnselectSection ${sec_hide}
+		${EndIf}
+	${Else}
+		StrCpy $IndependentSectionState 0
+	${EndIf}
+FunctionEnd
+
+Function .onInstSuccess
+	;Set or remove autostart
+	${If} ${SectionIsSelected} ${sec_hide}
+		WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}" '"$INSTDIR\${APP_NAME}.exe" -hide'
+	${ElseIf} ${SectionIsSelected} ${sec_autostart}
+		WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}" '"$INSTDIR\${APP_NAME}.exe"'
+	${Else}
+		DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}"
+	${EndIf}
 FunctionEnd
 
 ;Uninstaller

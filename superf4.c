@@ -267,14 +267,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		UpdateTray();
 	}
 	
-	//Check if OS is WinXP/Server 2003
-	OSVERSIONINFO vi;
-	vi.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
-	GetVersionEx(&vi);
-	if (vi.dwMajorVersion == 5 && vi.dwMinorVersion >= 1) {
-		//Now we will set cursorwnd to 99% transparent to make it work in XP
-		winxp=1;
-	}
 	//Check for update
 	if (settings.CheckForUpdate) {
 		CheckForUpdate();
@@ -628,9 +620,7 @@ int HookMouse() {
 	}
 	MoveWindow(cursorwnd,desktop.left,desktop.top,desktop.right-desktop.left,desktop.bottom-desktop.top,FALSE);
 	SetWindowLongPtr(cursorwnd,GWL_EXSTYLE,WS_EX_LAYERED|WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
-	if (winxp) {
-		SetLayeredWindowAttributes(cursorwnd,0,1,LWA_ALPHA); //Almost transparent (XP fix)
-	}
+	SetLayeredWindowAttributes(cursorwnd,0,1,LWA_ALPHA); //Almost transparent
 	ShowWindowAsync(cursorwnd,SW_SHOWNA);
 	
 	//Success
