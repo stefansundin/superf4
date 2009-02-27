@@ -22,7 +22,7 @@ struct strings es_ES={
  /* tray_enabled */   APP_NAME " (activado)",
  /* tray_disabled */  APP_NAME " (desactivado)",
  /* update_balloon */ L"Nueva versión disponible",
- /* update_dialog */  L"Hay una nueva versión disponible.\n¿Ir a la página web?",
+ /* update_dialog */  L"Hay una nueva versión disponible.\n¿Ir a la página web?\n\n(Puedes desactivar la comprobación automática de actualizaciones editando "APP_NAME".ini)",
  /* about_title */    L"Acerca de " APP_NAME,
  /* about */          APP_NAME " - " APP_VERSION "\n\
 Por Stefan Sundin\n\
