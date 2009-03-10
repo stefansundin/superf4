@@ -68,7 +68,7 @@ SetCompressor /SOLID lzma
 
 Var IndependentSectionState ;Helps keep track of the autostart dependency thingie
 
-Section "$(L10N_UPDATE_SECTION)"
+Section "$(L10N_UPDATE_SECTION)" sec_update
 	NSISdl::download "${APP_UPDATEURL}" "$TEMP\${APP_NAME}-updatecheck"
 	Pop $R0
 	StrCmp $R0 "success" +3
@@ -91,7 +91,7 @@ Section "${APP_NAME} (${APP_VERSION})"
 
 	FindWindow $0 "${APP_NAME}" ""
 	IntCmp $0 0 continue
-		MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_INSTALL)" IDNO continue
+		MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_INSTALL)" /SD IDYES IDNO continue
 			DetailPrint "$(L10N_CLOSING)"
 			SendMessage $0 ${WM_CLOSE} 0 0
 			Sleep 1000
@@ -144,6 +144,10 @@ FunctionEnd
 
 Function .onInit
 	!insertmacro MUI_LANGDLL_DISPLAY
+	;If silent, deselect check for update
+	IfSilent 0 autostart_check
+		!insertmacro UnselectSection ${sec_update}
+	autostart_check:
 	;Determine current autostart setting
 	StrCpy $IndependentSectionState 0
 	ReadRegStr $0 HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}"
@@ -181,6 +185,9 @@ Function .onInstSuccess
 	${Else}
 		DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}"
 	${EndIf}
+	;Run program if silent
+	IfSilent 0 +2
+		Call Launch
 FunctionEnd
 
 ;Uninstaller
@@ -188,7 +195,7 @@ FunctionEnd
 Section "Uninstall"
 	FindWindow $0 "${APP_NAME}" ""
 	IntCmp $0 0 continue
-		MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_UNINSTALL)" IDNO continue
+		MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_UNINSTALL)" /SD IDYES IDNO continue
 			DetailPrint "$(L10N_CLOSING)"
 			SendMessage $0 ${WM_CLOSE} 0 0
 			Sleep 1000
