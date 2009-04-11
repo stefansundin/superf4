@@ -68,7 +68,9 @@ LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 HICON icon[2];
 NOTIFYICONDATA traydata;
 UINT WM_TASKBARCREATED=0;
+UINT WM_UPDATESETTINGS=0;
 UINT WM_ADDTRAY=0;
+UINT WM_HIDETRAY=0;
 int tray_added=0;
 int hide=0;
 int update=0;
@@ -181,12 +183,24 @@ void CheckForUpdate() {
 
 //Entry point
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, int iCmdShow) {
+	//Check command line
+	if (!strcmp(szCmdLine,"-hide")) {
+		hide=1;
+	}
+	
 	//Look for previous instance
+	WM_UPDATESETTINGS=RegisterWindowMessage(L"UpdateSettings");
 	WM_ADDTRAY=RegisterWindowMessage(L"AddTray");
+	WM_HIDETRAY=RegisterWindowMessage(L"HideTray");
 	HWND previnst;
 	if ((previnst=FindWindow(APP_NAME,NULL)) != NULL) {
-		SendMessage(previnst,WM_ADDTRAY,0,0);
-		PostMessage(previnst,WM_USER+2,0,0); //Compatibility with old versions (this will be removed in the future)
+		PostMessage(previnst,WM_UPDATESETTINGS,0,0);
+		if (hide) {
+			PostMessage(previnst,WM_HIDETRAY,0,0);
+		}
+		else {
+			PostMessage(previnst,WM_ADDTRAY,0,0);
+		}
 		return 0;
 	}
 	
@@ -202,11 +216,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		if (!wcscmp(txt,languages[i].code)) {
 			l10n=languages[i].strings;
 		}
-	}
-	
-	//Check command line
-	if (!strcmp(szCmdLine,"-hide")) {
-		hide=1;
 	}
 	
 	//Create window class
@@ -353,7 +362,8 @@ int UpdateTray() {
 		int tries=0; //If trying to add, try at least five times (required on some slow systems when the program is on autostart since explorer hasn't initialized the tray area)
 		while (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&traydata) == FALSE) {
 			tries++;
-			if (tray_added || tries >= 5) {
+			Sleep(200);
+			if (tray_added || tries >= 20) {
 				Error(L"Shell_NotifyIcon(NIM_ADD/NIM_MODIFY)",L"Failed to update tray icon.",GetLastError(),__LINE__);
 				return 1;
 			}
@@ -591,18 +601,6 @@ int HookMouse() {
 		return 1;
 	}
 	
-	//Load settings
-	wchar_t path[MAX_PATH];
-	GetModuleFileName(NULL,path,sizeof(path)/sizeof(wchar_t));
-	PathRenameExtension(path,L".ini");
-	GetPrivateProfileString(APP_NAME,L"Language",L"en-US",txt,sizeof(txt)/sizeof(wchar_t),path);
-	int i;
-	for (i=0; i < num_languages; i++) {
-		if (!wcscmp(txt,languages[i].code)) {
-			l10n=languages[i].strings;
-		}
-	}
-	
 	//Set up the mouse hook
 	if ((mousehook=SetWindowsHookEx(WH_MOUSE_LL,LowLevelMouseProc,hinstDLL,0)) == NULL) {
 		#ifdef DEBUG
@@ -655,6 +653,9 @@ int HookKeyboard() {
 		//Keyboard already hooked
 		return 1;
 	}
+	
+	//Update settings
+	SendMessage(traydata.hWnd,WM_UPDATESETTINGS,0,0);
 	
 	//Load library
 	wchar_t path[MAX_PATH];
@@ -736,9 +737,27 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			SendMessage(hwnd,WM_COMMAND,SWM_UPDATE,0);
 		}
 	}
+	else if (msg == WM_UPDATESETTINGS) {
+		//Load settings
+		wchar_t path[MAX_PATH];
+		GetModuleFileName(NULL,path,sizeof(path)/sizeof(wchar_t));
+		PathRenameExtension(path,L".ini");
+		//Language
+		GetPrivateProfileString(APP_NAME,L"Language",L"en-US",txt,sizeof(txt)/sizeof(wchar_t),path);
+		int i;
+		for (i=0; i < num_languages; i++) {
+			if (!wcscmp(txt,languages[i].code)) {
+				l10n=languages[i].strings;
+			}
+		}
+	}
 	else if (msg == WM_ADDTRAY) {
 		hide=0;
 		UpdateTray();
+	}
+	else if (msg == WM_HIDETRAY) {
+		hide=1;
+		RemoveTray();
 	}
 	else if (msg == WM_TASKBARCREATED) {
 		tray_added=0;

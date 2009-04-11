@@ -13,7 +13,7 @@
 !define APP_VERSION   "1.0"
 !define APP_URL       "http://superf4.googlecode.com/"
 !define APP_UPDATEURL "http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
-!define L10N_VERSION  1
+!define L10N_VERSION  2
 
 ;Libraries
 
@@ -50,7 +50,10 @@ SetCompressor /SOLID lzma
 
 ;Pages
 
+Page custom PageUpgrade PageUpgradeLeave
+!define MUI_PAGE_CUSTOMFUNCTION_PRE SkipPage
 !insertmacro MUI_PAGE_COMPONENTS
+!define MUI_PAGE_CUSTOMFUNCTION_PRE SkipPage
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
@@ -64,15 +67,68 @@ SetCompressor /SOLID lzma
 
 !insertmacro MUI_RESERVEFILE_LANGDLL
 
-;Installer
+;Variables
 
-Var IndependentSectionState ;Helps keep track of the autostart dependency thingie
+Var Upgrade_State
+Var Upgradebox
+Var Newinstallbox
+Var IndependentSectionState ;Helps keep track of the autostart checkboxes
+
+;Functions
+
+!macro AddTray un
+Function ${un}AddTray
+	;Add tray icon if program is running
+	FindWindow $0 "${APP_NAME}" ""
+		IntCmp $0 0 done
+		DetailPrint "Adding tray icon"
+		System::Call "user32::RegisterWindowMessage(t 'AddTray') i .r1"
+		SendMessage $0 $1 0 0
+	done:
+FunctionEnd
+!macroend
+!insertmacro AddTray ""
+!insertmacro AddTray "un."
+
+;Detect previous installation
+
+Function PageUpgrade
+	ReadRegStr $0 HKCU "Software\${APP_NAME}" "Install_Dir"
+	IfFileExists $0 +2
+		Abort
+	
+	nsDialogs::Create 1018
+	!insertmacro MUI_HEADER_TEXT "$(L10N_UPGRADE_TITLE)" "$(L10N_UPGRADE_SUBTITLE)"
+	${NSD_CreateLabel} 0 0 100% 20u "$(L10N_UPGRADE_HEADER)"
+	
+	${NSD_CreateRadioButton} 0 45 100% 10u "$(L10N_UPGRADE_UPGRADE)"
+	Pop $Upgradebox
+	${NSD_CreateLabel} 16 60 100% 20u "$(L10N_UPGRADE_INI)"
+	
+	${NSD_CreateRadioButton} 0 95 100% 10u "$(L10N_UPGRADE_INSTALL)"
+	Pop $Newinstallbox
+	
+	;Check the correct button when going back to this page
+	${If} $Upgrade_State == ${BST_UNCHECKED}
+		${NSD_Check} $Newinstallbox
+	${Else}
+		${NSD_Check} $Upgradebox
+	${EndIf}
+	
+	nsDialogs::Show
+FunctionEnd
+
+Function PageUpgradeLeave
+	${NSD_GetState} $Upgradebox $Upgrade_State
+FunctionEnd
+
+;Installer
 
 Section "$(L10N_UPDATE_SECTION)" sec_update
 	NSISdl::download "${APP_UPDATEURL}" "$TEMP\${APP_NAME}-updatecheck"
-	Pop $R0
-	StrCmp $R0 "success" +3
-		DetailPrint "Update check failed. Error: $R0"
+	Pop $0
+	StrCmp $0 "success" +3
+		DetailPrint "Update check failed. Error: $0"
 		Goto done
 	FileOpen $0 "$TEMP\${APP_NAME}-updatecheck" r
 	IfErrors done
@@ -80,21 +136,23 @@ Section "$(L10N_UPDATE_SECTION)" sec_update
 	FileClose $0
 	Delete /REBOOTOK "$TEMP\${APP_NAME}-updatecheck"
 	StrCmp ${APP_VERSION} $1 done 0
-	MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_UPDATE_DIALOG)" IDNO done
+	MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_UPDATE_DIALOG)" /SD IDNO IDNO done
 		ExecShell "open" "${APP_URL}"
 		Quit
 	done:
 SectionEnd
 
-Section "${APP_NAME} (${APP_VERSION})"
+Section "${APP_NAME} (${APP_VERSION})" sec_app
 	SectionIn RO
 
 	FindWindow $0 "${APP_NAME}" ""
 	IntCmp $0 0 continue
-		MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_INSTALL)" /SD IDYES IDNO continue
-			DetailPrint "$(L10N_CLOSING)"
-			SendMessage $0 ${WM_CLOSE} 0 0
-			Sleep 1000
+		${If} $Upgrade_State != ${BST_CHECKED}
+			MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_INSTALL)" /SD IDYES IDNO continue
+		${EndIf}
+		DetailPrint "Closing running ${APP_NAME}"
+		SendMessage $0 ${WM_CLOSE} 0 0
+		Sleep 1000
 	continue:
 
 	SetOutPath "$INSTDIR"
@@ -102,6 +160,10 @@ Section "${APP_NAME} (${APP_VERSION})"
 	;Store directory and version
 	WriteRegStr HKCU "Software\${APP_NAME}" "Install_Dir" "$INSTDIR"
 	WriteRegStr HKCU "Software\${APP_NAME}" "Version" "${APP_VERSION}"
+	
+	;Rename old ini file if it exists
+	IfFileExists "${APP_NAME}.ini" 0 +2
+		Rename "${APP_NAME}.ini" "${APP_NAME}-old.ini"
 	
 	;Install files
 	File "build\en-US\${APP_NAME}\${APP_NAME}.exe"
@@ -114,7 +176,7 @@ Section "${APP_NAME} (${APP_VERSION})"
 		Goto files_installed
 	es-ES:
 		File "build\es-ES\${APP_NAME}\info.txt"
-		WriteINIStr "$INSTDIR\${APP_NAME}.ini" "${APP_NAME}" "Language" "es-ES"
+		WriteINIStr "${APP_NAME}.ini" "${APP_NAME}" "Language" "es-ES"
 		Goto files_installed
 
 	files_installed:
@@ -127,7 +189,7 @@ Section "${APP_NAME} (${APP_VERSION})"
 	WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}" "NoRepair" 1
 SectionEnd
 
-Section "$(L10N_SHORTCUT)"
+Section "$(L10N_SHORTCUT)" sec_shortcut
 	CreateShortCut "$SMPROGRAMS\${APP_NAME}.lnk" "$INSTDIR\${APP_NAME}.exe" "" "$INSTDIR\${APP_NAME}.exe" 0
 SectionEnd
 
@@ -142,8 +204,17 @@ Function Launch
 	Exec "$INSTDIR\${APP_NAME}.exe"
 FunctionEnd
 
+;Used when upgrading to skip the components and directory pages
+Function SkipPage
+	${If} $Upgrade_State == ${BST_CHECKED}
+		!insertmacro UnselectSection ${sec_shortcut}
+		Abort
+	${EndIf}
+FunctionEnd
+
 Function .onInit
 	!insertmacro MUI_LANGDLL_DISPLAY
+	Call AddTray
 	;If silent, deselect check for update
 	IfSilent 0 autostart_check
 		!insertmacro UnselectSection ${sec_update}
@@ -192,17 +263,23 @@ FunctionEnd
 
 ;Uninstaller
 
+Function un.onInit
+	!insertmacro MUI_UNGETLANGUAGE
+	Call un.AddTray
+FunctionEnd
+
 Section "Uninstall"
 	FindWindow $0 "${APP_NAME}" ""
 	IntCmp $0 0 continue
 		MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_UNINSTALL)" /SD IDYES IDNO continue
-			DetailPrint "$(L10N_CLOSING)"
+			DetailPrint "Closing running ${APP_NAME}"
 			SendMessage $0 ${WM_CLOSE} 0 0
 			Sleep 1000
 	continue:
 
 	Delete /REBOOTOK "$INSTDIR\${APP_NAME}.exe"
 	Delete /REBOOTOK "$INSTDIR\${APP_NAME}.ini"
+	Delete /REBOOTOK "$INSTDIR\${APP_NAME}-old.ini"
 	Delete /REBOOTOK "$INSTDIR\info.txt"
 	Delete /REBOOTOK "$INSTDIR\Uninstall.exe"
 	RMDir /REBOOTOK "$INSTDIR"
@@ -213,7 +290,3 @@ Section "Uninstall"
 	DeleteRegKey /ifempty HKCU "Software\${APP_NAME}"
 	DeleteRegKey /ifempty HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"
 SectionEnd
-
-Function un.onInit
-	!insertmacro MUI_UNGETLANGUAGE
-FunctionEnd
