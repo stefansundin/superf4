@@ -4,11 +4,27 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2009-02-12T16:30:00Z</updated>
+	<updated>2009-04-24T13:37:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:1af49022-2266-4510-8907-7aba5d7763b8</id>
+		<title>AltDrag - 0.7</title>
+		<link href="http://code.google.com/p/altdrag/" />
+		<updated>2009-04-24T13:37:00Z</updated>
+		<content type="html">
+Released 0.7.&lt;br/>
+This version adds the ability to roll-up windows by double-clicking with the middle mouse button. I've also added a new feature called &lt;tt>StickyScreen&lt;/tt> which makes windows automatically stick to the screen borders without needing shift. This only works with the Alt button unless you enable &lt;tt>ExperimentalFeatures&lt;/tt>.&lt;br/>
+I have also fixed a few bugs with &lt;tt>ExperimentalFeatures&lt;/tt>, so it's working really well now, give it a try.&lt;br/>
+In addition to that I've fixed a couple of small bugs, including an error message that sometimes popped up if you had AltDrag on autostart.&lt;br/>
+I've also updated the installer, so upgrading should be a breeze.&lt;br/>
+&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://altdrag.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a>
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:c95e03e5-0c3e-446c-8d36-fd2ffc9404a8</id>
