@@ -3,7 +3,7 @@
 
 = Introduction =
 
-First you need to download the !SuperF4 source code, [http://code.google.com/p/superf4/source/checkout instructions over here].
+First you need to download the !SuperF4 source code, [http://code.google.com/p/superf4/source/checkout instructions here].
 
 Then to build !SuperF4, you need [http://www.mingw.org/ MinGW]. You only need to install _MinGW base tools_ (aka _Minimal_).
 
