@@ -87,7 +87,7 @@ HWND cursorwnd=NULL;
 int ctrl=0;
 int alt=0;
 int win=0;
-int winxp=0;
+int superkill=0;
 
 //Error message handling
 int showerror=1;
@@ -95,8 +95,8 @@ int showerror=1;
 LRESULT CALLBACK ErrorMsgProc(INT nCode, WPARAM wParam, LPARAM lParam) {
 	if (nCode == HCBT_ACTIVATE) {
 		//Edit the caption of the buttons
-		SetDlgItemText((HWND)wParam,IDYES,L"Copy error");
-		SetDlgItemText((HWND)wParam,IDNO,L"OK");
+		SetDlgItemText((HWND)wParam, IDYES, L"Copy error");
+		SetDlgItemText((HWND)wParam, IDNO,  L"OK");
 	}
 	return 0;
 }
@@ -376,11 +376,11 @@ int UpdateTray() {
 		int tries=0; //Try at least ten times, sleep 100 ms between each attempt
 		while (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&traydata) == FALSE) {
 			tries++;
-			Sleep(100);
 			if (tries >= 10) {
 				Error(L"Shell_NotifyIcon(NIM_ADD/NIM_MODIFY)",L"Failed to update tray icon.",GetLastError(),__LINE__);
 				return 1;
 			}
+			Sleep(100);
 		}
 		
 		//Success
@@ -449,7 +449,7 @@ void Kill(HWND hwnd) {
 	//Get process token
 	HANDLE hToken;
 	TOKEN_PRIVILEGES tkp;
-	if (OpenProcessToken(GetCurrentProcess(),TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY, &hToken) == 0) {
+	if (OpenProcessToken(GetCurrentProcess(),TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,&hToken) == 0) {
 		#ifdef DEBUG
 		Error(L"OpenProcessToken()",L"Kill()",GetLastError(),__LINE__);
 		#endif
@@ -573,12 +573,12 @@ _declspec(dllexport) LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wPa
 
 LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 	if (nCode == HC_ACTION) {
-		if (wParam == WM_LBUTTONDOWN) {
+		if (wParam == WM_LBUTTONDOWN && superkill) {
 			POINT pt=((PMSLLHOOKSTRUCT)lParam)->pt;
 			
 			//Make sure cursorwnd isn't in the way
-			ShowWindow(cursorwnd,SW_HIDE);
-			SetWindowLongPtr(cursorwnd,GWL_EXSTYLE,WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
+			ShowWindow(cursorwnd, SW_HIDE);
+			SetWindowLongPtr(cursorwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 			
 			//Get hwnd
 			HWND hwnd;
@@ -599,9 +599,15 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 			return 1;
 		}
 		else if (wParam == WM_RBUTTONDOWN) {
+			//Disable mouse
+			DisableMouse();
+			//Prevent mousedown from propagating
+			return 1;
+		}
+		else if (wParam == WM_RBUTTONUP) {
 			//Unhook mouse
 			UnhookMouse();
-			//Prevent mousedown from propagating (this won't have any effect since the hook is removed by now)
+			//Prevent mouseup from propagating
 			return 1;
 		}
 	}
@@ -624,26 +630,23 @@ int HookMouse() {
 	}
 	
 	//Show cursor
-	RECT desktop;
-	if (GetWindowRect(GetDesktopWindow(),&desktop) == 0) {
-		#ifdef DEBUG
-		Error(L"GetWindowRect(GetDesktopWindow())",L"HookMouse()",GetLastError(),__LINE__);
-		#endif
-	}
-	MoveWindow(cursorwnd,desktop.left,desktop.top,desktop.right-desktop.left,desktop.bottom-desktop.top,FALSE);
-	SetWindowLongPtr(cursorwnd,GWL_EXSTYLE,WS_EX_LAYERED|WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
-	SetLayeredWindowAttributes(cursorwnd,0,1,LWA_ALPHA); //Almost transparent
-	ShowWindowAsync(cursorwnd,SW_SHOWNA);
+	int left=GetSystemMetrics(SM_XVIRTUALSCREEN);
+	int top=GetSystemMetrics(SM_YVIRTUALSCREEN);
+	int width=GetSystemMetrics(SM_CXVIRTUALSCREEN);
+	int height=GetSystemMetrics(SM_CYVIRTUALSCREEN);
+	MoveWindow(cursorwnd, left, top, width, height, FALSE);
+	SetWindowLongPtr(cursorwnd, GWL_EXSTYLE, WS_EX_LAYERED|WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
+	SetLayeredWindowAttributes(cursorwnd, 0, 1, LWA_ALPHA); //Almost transparent
+	ShowWindowAsync(cursorwnd, SW_SHOWNA);
 	
 	//Success
+	superkill=1;
 	return 0;
 }
 
-int UnhookMouse() {
-	if (!mousehook) {
-		//Mouse not hooked
-		return 1;
-	}
+DWORD WINAPI DelayedUnhookMouse() {
+	//Sleep so mouse events have time to be canceled
+	Sleep(100);
 	
 	//Unhook the mouse hook
 	if (UnhookWindowsHookEx(mousehook) == 0) {
@@ -653,13 +656,33 @@ int UnhookMouse() {
 		return 1;
 	}
 	
-	//Hide cursor
-	ShowWindow(cursorwnd,SW_HIDE);
-	SetWindowLongPtr(cursorwnd,GWL_EXSTYLE,WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
-	
 	//Success
 	mousehook=NULL;
+}
+
+int UnhookMouse() {
+	if (!mousehook) {
+		//Mouse not hooked
+		return 1;
+	}
+	
+	//Disable
+	DisableMouse();
+	
+	//Unhook
+	CreateThread(NULL,0,DelayedUnhookMouse,NULL,0,NULL);
+	
+	//Success
 	return 0;
+}
+
+int DisableMouse() {
+	//Disable
+	superkill=0;
+	
+	//Hide cursor
+	ShowWindow(cursorwnd, SW_HIDE);
+	SetWindowLongPtr(cursorwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 }
 
 int HookKeyboard() {
