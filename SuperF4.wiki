@@ -2,22 +2,21 @@
 #labels Featured
 
 = What =
-What !SuperF4 basically does, is kill the process of the currently selected program when you press Ctrl+Alt+F4.
-You might think, doesn't Alt+F4 do this? Well, it's a bit different. When you press Alt+F4, the program can refuse to quit. Windows essentially only asks the program to quit, and lets it decide for itself what to do (often it behaves just as if you would have pressed the × in the upper-right corner).
+What !SuperF4 basically does, is kill the process of the foreground window when you press Ctrl+Alt+F4.
+You might think, doesn't Alt+F4 do this? Well, it's a bit different. When you press Alt+F4, the program can refuse to quit. Windows essentially only asks the program to quit, and lets it decide for itself what to do (almost always it behaves just as if you would have pressed the × in the upper-right corner).
 
 You can also kill a process by pressing [the
 windows key]+F4 and then clicking the window with your mouse. You can press escape or the right mouse button to exit this mode without killing a program.
 
 = Why? =
-I'm pretty sure you have encountered a game that hung because of some stupid bug, your computer gets all slow and you just can't get out of the game since it's fullscreen and nothing happens when you press Ctrl+Alt+Del to bring up the task manager... you eventually give up and reboot the computer by pressing the power button. :(
-This have happened to me quite a few times and I eventually got tired of it, so I made !SuperF4.
-Now I can just press Ctrl+Alt+F4 and get back to the desktop within a few seconds. :)
+You might have encountered a game that hung because of some stupid bug, then your computer gets all slow and you just can't get out of the game since it's fullscreen and nothing happens when you press Ctrl+Alt+Del to bring up the task manager. You eventually give up and reboot the computer by pressing the power button. :(
+
+This have happened to me quite a few times and I got tired of it, so I made !SuperF4. Now I can just press Ctrl+Alt+F4 and get back to the desktop within a few seconds. :)
 
 = More =
 !SuperF4 should be able to kill all kinds of processes, whether they are hung or not.
-Beware though, !SuperF4 effectively kills the program and doesn't give it a chance to save unsaved work etc...
-[mailto:recover89@gmail.com Let me know] if you encounter a program !SuperF4 can't kill.
+Beware though, !SuperF4 effectively kills the program and doesn't give it a chance to save unsaved work.
 
-When started, you can enable/disable !SuperF4 by clicking the tray icon, no other configuration except autostart exists.
+When started, you can enable or disable !SuperF4 by clicking the tray icon. No other configuration except autostart exists.
 
 Feel free to post this program wherever you want, just be sure to give proper credits.
