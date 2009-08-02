@@ -6,10 +6,10 @@ if not exist build (
 	mkdir build
 )
 
-windres -o build\resources.o resources.rc
+windres -o build\resources.o include\resources.rc
 
 if "%1" == "all" (
-	gcc -o build\ini.exe ini.c -lshlwapi
+	gcc -o build\ini.exe include\ini.c -lshlwapi
 	
 	@echo.
 	echo Building binaries
@@ -32,7 +32,7 @@ if "%1" == "all" (
 			copy "build\en-US\SuperF4\SuperF4.exe" "build\%%f\SuperF4"
 		)
 		copy "localization\%%f\info.txt" "build\%%f\SuperF4"
-		copy "SuperF4.ini" "build\%%f\SuperF4"
+		copy SuperF4.ini "build\%%f\SuperF4"
 		"build\ini.exe" "build\%%f\SuperF4\SuperF4.ini" SuperF4 Language %%f
 	)
 	

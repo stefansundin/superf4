@@ -10,7 +10,7 @@
 
 
 !define APP_NAME      "SuperF4"
-!define APP_VERSION   "1.0"
+!define APP_VERSION   "1.1"
 !define APP_URL       "http://superf4.googlecode.com/"
 !define APP_UPDATEURL "http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
 !define L10N_VERSION  2
@@ -29,7 +29,7 @@ Name "${APP_NAME} ${APP_VERSION}"
 OutFile "build/${APP_NAME}-${APP_VERSION}.exe"
 InstallDir "$PROGRAMFILES\${APP_NAME}"
 InstallDirRegKey HKCU "Software\${APP_NAME}" "Install_Dir"
-;RequestExecutionLevel user
+RequestExecutionLevel admin
 ShowInstDetails hide
 ShowUninstDetails show
 SetCompressor /SOLID lzma

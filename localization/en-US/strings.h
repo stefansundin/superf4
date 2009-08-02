@@ -11,7 +11,7 @@
 	(at your option) any later version.
 */
 
-struct strings en_US={
+struct strings en_US = {
  /* menu_enable */    L"Enable",
  /* menu_disable */   L"Disable",
  /* menu_hide */      L"Hide tray",
@@ -27,10 +27,10 @@ struct strings en_US={
  /* about */          APP_NAME " - " APP_VERSION "\n\
 Made by Stefan Sundin\n\
 \n\
-Press Ctrl+Alt+F4 to kill the process of the currently selected window.\n\
+Press Ctrl+Alt+F4 to kill the foreground program. \
 The effect is the same as when you kill the process from the task manager.\n\
 \n\
-You can also kill a process by pressing [the windows key]+F4 and then clicking the window with the mouse.\n\
+You can also kill a process by pressing [the windows key]+F4 and then clicking the window with the mouse. \
 You can press escape or the right mouse button to exit this mode without killing a program.\n\
 \n\
 Visit the website at "APP_URL"\n\

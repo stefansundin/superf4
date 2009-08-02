@@ -4,9 +4,9 @@
 struct {
 	wchar_t *code;
 	struct strings *strings;
-} languages[]={
-	{L"en-US",&en_US},
-	{L"es-ES",&es_ES},
+} languages[] = {
+	{L"en-US", &en_US},
+	{L"es-ES", &es_ES},
 };
 
-int num_languages=2;
+int num_languages = 2;

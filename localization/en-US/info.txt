@@ -18,11 +18,15 @@ Send feedback to recover89@gmail.com
 If you feel this program is useful, please consider donating money.
 You can find out how to donate on the website.
 
+SuperF4 is open source, licensed under GPL.
+
 Changelog
 ---------
 1.1:
 Fixed mouse cursor not changing when pressing [the windows key]+F4 if Aero was disabled in Vista.
+Improved mouse cursor when using multiple monitors.
 Language can now be changed in SuperF4.ini.
+A lot of small bug fixes.
 
 1.0 - 2009-01-12:
 Requests SeDebugPrivilege in a more secure way.
