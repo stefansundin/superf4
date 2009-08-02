@@ -90,6 +90,27 @@ FunctionEnd
 !insertmacro AddTray ""
 !insertmacro AddTray "un."
 
+!macro CloseApp un
+Function ${un}CloseApp
+	;Close app if running
+	FindWindow $0 "${APP_NAME}" ""
+	IntCmp $0 0 done
+		${If} $Upgrade_State != ${BST_CHECKED}
+			MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_INSTALL)" /SD IDYES IDNO done
+		${EndIf}
+		DetailPrint "Closing running ${APP_NAME}."
+		SendMessage $0 ${WM_CLOSE} 0 0
+		waitloop:
+		FindWindow $0 "${APP_NAME}" ""
+		IntCmp $0 0 done
+			Sleep 10
+			Goto waitloop
+	done:
+FunctionEnd
+!macroend
+!insertmacro CloseApp ""
+!insertmacro CloseApp "un."
+
 ;Detect previous installation
 
 Function PageUpgrade
@@ -145,15 +166,8 @@ SectionEnd
 Section "${APP_NAME} (${APP_VERSION})" sec_app
 	SectionIn RO
 
-	FindWindow $0 "${APP_NAME}" ""
-	IntCmp $0 0 continue
-		${If} $Upgrade_State != ${BST_CHECKED}
-			MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_INSTALL)" /SD IDYES IDNO continue
-		${EndIf}
-		DetailPrint "Closing running ${APP_NAME}."
-		SendMessage $0 ${WM_CLOSE} 0 0
-		Sleep 1000
-	continue:
+	;Close app if running
+	Call CloseApp
 
 	SetOutPath "$INSTDIR"
 
@@ -272,13 +286,7 @@ Function un.onInit
 FunctionEnd
 
 Section "Uninstall"
-	FindWindow $0 "${APP_NAME}" ""
-	IntCmp $0 0 continue
-		MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_UNINSTALL)" /SD IDYES IDNO continue
-			DetailPrint "Closing running ${APP_NAME}."
-			SendMessage $0 ${WM_CLOSE} 0 0
-			Sleep 1000
-	continue:
+	Call un.CloseApp
 
 	Delete /REBOOTOK "$INSTDIR\${APP_NAME}.exe"
 	Delete /REBOOTOK "$INSTDIR\${APP_NAME}.ini"
