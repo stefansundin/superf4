@@ -453,7 +453,7 @@ _declspec(dllexport) LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wPa
 			if (vkey == VK_LMENU) {
 				alt = 0;
 			}
-			if (vkey == VK_LMENU) {
+			if (vkey == VK_LWIN) {
 				win = 0;
 			}
 		}
