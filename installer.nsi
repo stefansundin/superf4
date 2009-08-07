@@ -101,11 +101,11 @@ Function ${un}CloseApp
 		DetailPrint "Closing running ${APP_NAME}."
 		SendMessage $0 ${WM_CLOSE} 0 0
 		waitloop:
+		Sleep 10
 		FindWindow $0 "${APP_NAME}" ""
-		IntCmp $0 0 done
-			Sleep 10
-			Goto waitloop
+		IntCmp $0 0 done waitloop waitloop
 	done:
+	Sleep 100
 FunctionEnd
 !macroend
 !insertmacro CloseApp ""
@@ -156,10 +156,11 @@ Section "$(L10N_UPDATE_SECTION)" sec_update
 	FileRead $0 $1
 	FileClose $0
 	Delete /REBOOTOK "$TEMP\${APP_NAME}-updatecheck"
-	StrCmp ${APP_VERSION} $1 done 0
-	MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_UPDATE_DIALOG)" /SD IDNO IDNO done
-		ExecShell "open" "${APP_URL}"
-		Quit
+	${If} $1 > ${APP_VERSION}
+		MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_UPDATE_DIALOG)" /SD IDNO IDNO done
+			ExecShell "open" "${APP_URL}"
+			Quit
+	${EndIf}
 	done:
 SectionEnd
 
