@@ -186,6 +186,7 @@ Section "${APP_NAME} (${APP_VERSION})" sec_app
 	
 	IntCmp $LANGUAGE ${LANG_ENGLISH} en-US
 	IntCmp $LANGUAGE ${LANG_SPANISH} es-ES
+	IntCmp $LANGUAGE ${LANG_GALICIAN} gl-ES
 	en-US:
 		File "build\en-US\${APP_NAME}\info.txt"
 		Goto files_installed
@@ -193,7 +194,10 @@ Section "${APP_NAME} (${APP_VERSION})" sec_app
 		File "build\es-ES\${APP_NAME}\info.txt"
 		WriteINIStr "$INSTDIR\${APP_NAME}.ini" "${APP_NAME}" "Language" "es-ES"
 		Goto files_installed
-
+	gl-ES:
+		File "build\gl-ES\${APP_NAME}\info.txt"
+		WriteINIStr "$INSTDIR\${APP_NAME}.ini" "${APP_NAME}" "Language" "gl-ES"
+		Goto files_installed
 	files_installed:
 
 	;Create uninstaller

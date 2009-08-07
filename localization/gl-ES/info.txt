@@ -1,0 +1,66 @@
+SuperF4
+Feito por Stefan Sundin
+
+Preme Ctrl+Alt+F4 para matar o proceso da ventá seleccionada actualmente.
+O efecto é o mesmo que cando matas o proceso no Xestor de Tarefas.
+
+Tamén podes matar un proceso premendo [A tecla de Windows]+F4 e facendo clic na ventá co rato.
+Podes premer escape ou o botón dereito do rato para saír dese modo sen matar ningún programa.
+
+SuperF4 ha comprobar automaticamente se hai actualizacións.
+Pódelo desactivar editando SuperF4.ini, poñendo CheckForUpdate=0 no apartado [Update].
+
+Podes usar -hide como parámetro para esconder a icona na bandexa do sistema.
+
+Visita a páxina web en http://superf4.googlecode.com/
+Envía a túa opinión ou comentarios (en inglés ou senón poñendo "Galician" ó comezo) a recover89@gmail.com
+
+Se atopas útil este programa, considera doar diñeiro por favor.
+Podes atopar como doar na páxina web.
+
+SuperF4 é un programa de código fonte aberto, baixo a licencia GPL.
+
+Listaxe de Cambios:
+-------------------
+1.1:
+Corrixido que non cambiase o cursor cando se preme [A Tecla de Windows]+F4 se Aero estaba desactivado en Vista.
+Mellorado o cursor do rato cando se usan varios monitores.
+Agora pódese editar a lingua en SuperF4.ini seleccionando adecuadamente Language=lingua.
+Moitas correccións de erros.
+
+1.0 - 2009-01-12:
+Pídese SeDebugPrivilege dun modo máis seguro.
+Xuntado hooks.dll en SuperF4.exe.
+Agora cambia o cursor cando se preme [A tecla de Windows]+F4.
+Eliminado o arquivo de rexistro.
+Engadido a comprobación de actualización.
+
+0.9 - 2008-10-12:
+Engadido [A tecla de Windows]+F4.
+keyhook.dll pasa a chamarse hooks.dll.
+O arquivo de rexistro pasa a ser superf4-log.txt.
+
+0.8 - 2008-09-16:
+Detección de Ctrl+Alt+F4 máis segura, previndo matar accidentalmente cando SuperF4 non recibía que se levantase a tecla F4.
+Agora só pode estar en execución unha instancia de SuperF4. Tratando de executar outra, mostrará a primeira instancia e a súa icona se está escondida.
+
+0.7 - 2008-05-11:
+O control das teclas agora trata de obter o privilexio SeDebugPrivilege, permitindo matar a máis programas.
+
+0.6 - 2008-03-15:
+Pequena corrección para previr que a tecla premida se propagase a outra ventá unha vez eliminado o proceso.
+
+0.5 - 2008-03-05:
+Arranxado un raro caso no que SuperF4 mataría o programa cando o usuario premese Alt+F4.
+
+0.4 - 2008-02-24:
+Opción para que SuperF4 arranque ó iniciar o sistema. Pódese esconder a icona da bandexa na sesión actual.
+
+0.3 - 2008-02-14:
+A icona na bandexa do sistema pódese esconder co parámetro -hide.
+
+0.2 - 2008-02-08:
+Agora volve a aparecer a icona na bandexa do sistema cando se reinicia o explorador de Windows.
+
+0.1 - 2008-02-08:
+Lanzamento inicial.
