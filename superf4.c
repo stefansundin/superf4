@@ -154,7 +154,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	icon[0] = LoadImage(hInst,L"tray-disabled",IMAGE_ICON,0,0,LR_DEFAULTCOLOR);
 	icon[1] = LoadImage(hInst,L"tray-enabled",IMAGE_ICON,0,0,LR_DEFAULTCOLOR);
 	if (icon[0] == NULL || icon[1] == NULL) {
-		Error(L"LoadImage('tray-*')", L"Fatal error.", GetLastError(), __LINE__);
+		Error(L"LoadImage('tray-*')", L"Fatal error.", GetLastError(), TEXT(__FILE__), __LINE__);
 		PostQuitMessage(1);
 	}
 	
@@ -267,7 +267,7 @@ int UpdateTray() {
 		while (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&traydata) == FALSE) {
 			tries++;
 			if (tries >= 10) {
-				Error(L"Shell_NotifyIcon(NIM_ADD/NIM_MODIFY)", L"Failed to update tray icon.", GetLastError(), __LINE__);
+				Error(L"Shell_NotifyIcon(NIM_ADD/NIM_MODIFY)", L"Failed to update tray icon.", GetLastError(), TEXT(__FILE__), __LINE__);
 				return 1;
 			}
 			Sleep(100);
@@ -286,7 +286,7 @@ int RemoveTray() {
 	}
 	
 	if (Shell_NotifyIcon(NIM_DELETE,&traydata) == FALSE) {
-		Error(L"Shell_NotifyIcon(NIM_DELETE)", L"Failed to remove tray icon.", GetLastError(), __LINE__);
+		Error(L"Shell_NotifyIcon(NIM_DELETE)", L"Failed to remove tray icon.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
@@ -300,14 +300,14 @@ void SetAutostart(int on, int hide) {
 	HKEY key;
 	int error = RegCreateKeyEx(HKEY_CURRENT_USER,L"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,NULL,0,KEY_SET_VALUE,NULL,&key,NULL);
 	if (error != ERROR_SUCCESS) {
-		Error(L"RegOpenKeyEx(HKEY_CURRENT_USER,'Software\\Microsoft\\Windows\\CurrentVersion\\Run')", L"Error opening the registry.", error, __LINE__);
+		Error(L"RegOpenKeyEx(HKEY_CURRENT_USER,'Software\\Microsoft\\Windows\\CurrentVersion\\Run')", L"Error opening the registry.", error, TEXT(__FILE__), __LINE__);
 		return;
 	}
 	if (on) {
 		//Get path
 		wchar_t path[MAX_PATH];
 		if (GetModuleFileName(NULL,path,MAX_PATH) == 0) {
-			Error(L"GetModuleFileName(NULL)", L"SetAutostart()", GetLastError(), __LINE__);
+			Error(L"GetModuleFileName(NULL)", L"SetAutostart()", GetLastError(), TEXT(__FILE__), __LINE__);
 			return;
 		}
 		//Add
@@ -315,7 +315,7 @@ void SetAutostart(int on, int hide) {
 		swprintf(value, (hide?L"\"%s\" -hide":L"\"%s\""), path);
 		error = RegSetValueEx(key,APP_NAME,0,REG_SZ,(LPBYTE)value,(wcslen(value)+1)*sizeof(wchar_t));
 		if (error != ERROR_SUCCESS) {
-			Error(L"RegSetValueEx('"APP_NAME"')", L"SetAutostart()", error, __LINE__);
+			Error(L"RegSetValueEx('"APP_NAME"')", L"SetAutostart()", error, TEXT(__FILE__), __LINE__);
 			return;
 		}
 	}
@@ -323,7 +323,7 @@ void SetAutostart(int on, int hide) {
 		//Remove
 		error = RegDeleteValue(key,APP_NAME);
 		if (error != ERROR_SUCCESS) {
-			Error(L"RegDeleteValue('"APP_NAME"')", L"SetAutostart()", error, __LINE__);
+			Error(L"RegDeleteValue('"APP_NAME"')", L"SetAutostart()", error, TEXT(__FILE__), __LINE__);
 			return;
 		}
 	}
@@ -343,7 +343,7 @@ void Kill(HWND hwnd) {
 	TOKEN_PRIVILEGES tkp;
 	if (OpenProcessToken(GetCurrentProcess(),TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,&hToken) == 0) {
 		#ifdef DEBUG
-		Error(L"OpenProcessToken()", L"Kill()", GetLastError(), __LINE__);
+		Error(L"OpenProcessToken()", L"Kill()", GetLastError(), TEXT(__FILE__), __LINE__);
 		#endif
 	}
 	else {
@@ -355,7 +355,7 @@ void Kill(HWND hwnd) {
 		//Enable SeDebugPrivilege
 		if (AdjustTokenPrivileges(hToken,FALSE,&tkp,0,NULL,0) == 0 || GetLastError() != ERROR_SUCCESS) {
 			#ifdef DEBUG
-			Error(L"AdjustTokenPrivileges()", L"Kill()", GetLastError(), __LINE__);
+			Error(L"AdjustTokenPrivileges()", L"Kill()", GetLastError(), TEXT(__FILE__), __LINE__);
 			#endif
 		}
 		else {
@@ -368,7 +368,7 @@ void Kill(HWND hwnd) {
 	HANDLE process = OpenProcess(PROCESS_TERMINATE,FALSE,pid);
 	if (process == NULL) {
 		#ifdef DEBUG
-		Error(L"OpenProcess()", L"Kill()", GetLastError(), __LINE__);
+		Error(L"OpenProcess()", L"Kill()", GetLastError(), TEXT(__FILE__), __LINE__);
 		#endif
 		return;
 	}
@@ -376,7 +376,7 @@ void Kill(HWND hwnd) {
 	//Terminate process
 	if (TerminateProcess(process,1) == 0) {
 		#ifdef DEBUG
-		Error(L"TerminateProcess()", L"Kill()", GetLastError(), __LINE__);
+		Error(L"TerminateProcess()", L"Kill()", GetLastError(), TEXT(__FILE__), __LINE__);
 		#endif
 		return;
 	}
@@ -475,7 +475,7 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 			HWND hwnd = WindowFromPoint(pt);
 			if (hwnd == NULL) {
 				#ifdef DEBUG
-				Error(L"WindowFromPoint()", L"LowLevelMouseProc()", GetLastError(), __LINE__);
+				Error(L"WindowFromPoint()", L"LowLevelMouseProc()", GetLastError(), TEXT(__FILE__), __LINE__);
 				#endif
 				return CallNextHookEx(NULL, nCode, wParam, lParam);
 			}
@@ -517,7 +517,7 @@ int HookMouse() {
 	mousehook = SetWindowsHookEx(WH_MOUSE_LL,LowLevelMouseProc,hinstDLL,0);
 	if (mousehook == NULL) {
 		#ifdef DEBUG
-		Error(L"SetWindowsHookEx(WH_MOUSE_LL)", L"HookMouse()", GetLastError(), __LINE__);
+		Error(L"SetWindowsHookEx(WH_MOUSE_LL)", L"HookMouse()", GetLastError(), TEXT(__FILE__), __LINE__);
 		#endif
 		return 1;
 	}
@@ -544,7 +544,7 @@ DWORD WINAPI DelayedUnhookMouse() {
 	//Unhook the mouse hook
 	if (UnhookWindowsHookEx(mousehook) == 0) {
 		#ifdef DEBUG
-		Error(L"UnhookWindowsHookEx(mousehook)", L"UnhookMouse()", GetLastError(), __LINE__);
+		Error(L"UnhookWindowsHookEx(mousehook)", L"UnhookMouse()", GetLastError(), TEXT(__FILE__), __LINE__);
 		#endif
 		return 1;
 	}
@@ -592,21 +592,21 @@ int HookKeyboard() {
 	GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
 	hinstDLL = LoadLibrary(path);
 	if (hinstDLL == NULL) {
-		Error(L"LoadLibrary()", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), __LINE__);
+		Error(L"LoadLibrary()", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
 	//Get address to keyboard hook (beware name mangling)
 	HOOKPROC procaddr = (HOOKPROC)GetProcAddress(hinstDLL,"LowLevelKeyboardProc@12");
 	if (procaddr == NULL) {
-		Error(L"GetProcAddress('LowLevelKeyboardProc@12')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), __LINE__);
+		Error(L"GetProcAddress('LowLevelKeyboardProc@12')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
 	//Set up the hook
 	keyhook = SetWindowsHookEx(WH_KEYBOARD_LL,procaddr,hinstDLL,0);
 	if (keyhook == NULL) {
-		Error(L"SetWindowsHookEx(WH_KEYBOARD_LL)", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), __LINE__);
+		Error(L"SetWindowsHookEx(WH_KEYBOARD_LL)", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
@@ -623,7 +623,7 @@ int UnhookKeyboard() {
 	
 	//Remove keyboard hook
 	if (UnhookWindowsHookEx(keyhook) == 0) {
-		Error(L"UnhookWindowsHookEx(keyhook)", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), __LINE__);
+		Error(L"UnhookWindowsHookEx(keyhook)", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
@@ -632,7 +632,7 @@ int UnhookKeyboard() {
 	
 	//Unload library
 	if (FreeLibrary(hinstDLL) == 0) {
-		Error(L"FreeLibrary()", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), __LINE__);
+		Error(L"FreeLibrary()", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
