@@ -551,7 +551,7 @@ DWORD WINAPI DelayedUnhookMouse() {
 	
 	//Success
 	mousehook = NULL;
-   return 0;
+	return 0;
 }
 
 int UnhookMouse() {
@@ -577,7 +577,7 @@ int DisableMouse() {
 	//Hide cursor
 	ShowWindow(cursorwnd, SW_HIDE);
 	SetWindowLongPtr(cursorwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
-   return 0;
+	return 0;
 }
 
 int HookKeyboard() {
