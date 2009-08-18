@@ -1,7 +1,7 @@
 SuperF4
 Made by Stefan Sundin
 
-Press Ctrl+Alt+F4 to kill the process of the currently selected window.
+Press Ctrl+Alt+F4 to kill the foreground program.
 The effect is the same as when you kill the process from the task manager.
 
 You can also kill a process by pressing [the windows key]+F4 and then clicking the window with the mouse.
@@ -24,7 +24,7 @@ Changelog
 ---------
 1.1:
 Fixed mouse cursor not changing when pressing [the windows key]+F4 if Aero was disabled in Vista.
-Improved mouse cursor when using multiple monitors.
+Mouse cursor now spans multiple monitors.
 Language can now be changed in SuperF4.ini.
 A lot of small bug fixes.
 
