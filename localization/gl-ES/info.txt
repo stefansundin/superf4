@@ -1,7 +1,8 @@
 SuperF4
 Feito por Stefan Sundin
+Traducido por Alexander De Sousa
 
-Preme Ctrl+Alt+F4 para matar o proceso da ventá seleccionada actualmente.
+Preme Ctrl+Alt+F4 para matar o programa actual.
 O efecto é o mesmo que cando matas o proceso no Xestor de Tarefas.
 
 Tamén podes matar un proceso premendo [A tecla de Windows]+F4 e facendo clic na ventá co rato.
@@ -24,7 +25,7 @@ Listaxe de Cambios:
 -------------------
 1.1:
 Corrixido que non cambiase o cursor cando se preme [A Tecla de Windows]+F4 se Aero estaba desactivado en Vista.
-Mellorado o cursor do rato cando se usan varios monitores.
+O cursor do rato agora abarca varios monitores de estaren presentes.
 Agora pódese editar a lingua en SuperF4.ini seleccionando adecuadamente Language=lingua.
 Moitas correccións de erros.
 

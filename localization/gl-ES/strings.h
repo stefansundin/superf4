@@ -25,6 +25,7 @@ struct strings gl_ES = {
  /* about_title */    L"Acerca de " APP_NAME,
  /* about */          APP_NAME " - " APP_VERSION "\n\
 Feito por Stefan Sundin\n\
+Traducido por Alexander De Sousa\n\
 \n\
 Preme Ctrl+Alt+F4 para matar o proceso do programa actual. \
 O efecto é o mesmo que cando matas o proceso no Xestor de Tarefas.\n\
