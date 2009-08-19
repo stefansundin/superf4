@@ -2,6 +2,12 @@
 
 Check [http://superf4.googlecode.com/svn/trunk/localization/en-US/info.txt info.txt] if there seems to be something missing. Note that info.txt can contain changes for upcoming versions.
 
+*1.1* - 2009-08-19:
+  * Fixed mouse cursor not changing when pressing [the windows key]+F4 if Aero was disabled in Vista.
+  * Mouse cursor now spans multiple monitors.
+  * Language can now be changed in SuperF4.ini.
+  * A lot of small bug fixes.
+
 *1.0* - 2009-01-12:
   * Requests SeDebugPrivilege in a more secure way.
   * Merged hooks.dll into SuperF4.exe.
