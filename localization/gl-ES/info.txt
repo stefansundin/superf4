@@ -23,7 +23,7 @@ SuperF4 é un programa de código fonte aberto, baixo a licencia GPL.
 
 Listaxe de Cambios:
 -------------------
-1.1:
+1.1 - 2009-08-19:
 Corrixido que non cambiase o cursor cando se preme [A Tecla de Windows]+F4 se Aero estaba desactivado en Vista.
 O cursor do rato agora abarca varios monitores de estaren presentes.
 Agora pódese editar a lingua en SuperF4.ini seleccionando adecuadamente Language=lingua.

@@ -22,7 +22,7 @@ SuperF4 is open source, licensed under GPL.
 
 Changelog
 ---------
-1.1:
+1.1 - 2009-08-19:
 Fixed mouse cursor not changing when pressing [the windows key]+F4 if Aero was disabled in Vista.
 Mouse cursor now spans multiple monitors.
 Language can now be changed in SuperF4.ini.

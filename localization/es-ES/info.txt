@@ -23,7 +23,7 @@ SuperF4 es un programa de código abierto bajo licencia GPL.
 
 Historial de cambios
 --------------------
-1.1:
+1.1 - 2009-08-19:
 Arreglado fallo del puntero del ratón que no cambiaba al pulsar Win+F4 con Aero desactivado en Vista.
 El cursor del ratón puede moverse ahora entre múltiples pantallas.
 El idioma puede cambiarse en el fichero SuperF4.ini.
