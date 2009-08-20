@@ -9,4 +9,4 @@ When dynamically linking to a dll file you must know the address to the function
 
 = Update =
 
-!SuperF4 no longer includes a dll file since I found out that it's possible to do global keyboard and mouse hooks with an exe file doubling as a dll file. In Vista, the exe file doesn't even have to contain dll declarations and it doesn't need to `LoadLibrary()` itself. However, !SuperF4 still does that to maintain compatibility with Windows XP.
+SuperF4 no longer includes a dll file since I found out that it's possible to do global keyboard and mouse hooks with an exe file doubling as a dll file. In Vista, the exe file doesn't even have to contain dll declarations and it doesn't need to `LoadLibrary()` itself. However, SuperF4 still does that to maintain compatibility with Windows XP.
