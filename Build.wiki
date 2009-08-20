@@ -3,14 +3,14 @@
 
 = Introduction =
 
-First you need to download the !SuperF4 source code, [http://code.google.com/p/superf4/source/checkout instructions here].
+First you need to download the SuperF4 source code, [http://code.google.com/p/superf4/source/checkout instructions here].
 
-Then to build !SuperF4, you need [http://www.mingw.org/ MinGW]. You only need to install _MinGW base tools_ (aka _Minimal_).
+Then to build SuperF4, you need [http://www.mingw.org/ MinGW]. You only need to install _MinGW base tools_ (_Minimal_).
 
 You then need to add MinGW to the PATH variable, so the build script can use the tools. Do this by _right clicking_ on the _Computer_ desktop icon, go to the _Advanced_ tab, press the _Environment variables_ button, locate the _PATH_ system-wide variable, add _<MinGW path>\bin_ to the list, and press ok on all the dialogs.
 
-If you want to build the installer you need [http://www.scratchpaper.com/ NSIS Unicode], put it in PATH as well.
+If you want to build the installer you need [http://nsis.sourceforge.net/ NSIS], put it in PATH as well.
 
-Now it should hopefully work if you run _build.bat_.
+Now it should hopefully work if you run _build.bat_. It's more comfortable to run it in a terminal, so you can see all the output. You can also run _build run_ to autmatically run SuperF4 after it has been built. To build the installer run _build all_.
 
 Add a comment if you need help.
