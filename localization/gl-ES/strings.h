@@ -21,7 +21,7 @@ struct strings gl_ES = {
  /* tray_enabled */   APP_NAME " (activado)",
  /* tray_disabled */  APP_NAME " (desactivado)",
  /* update_balloon */ L"Nova versión dispoñíbel!",
- /* update_dialog */  L"Unha nova versión está dispoñíbel.\nQueres ir á páxina web?",
+ /* update_dialog */  L"Unha nova versión está dispoñíbel.\nQueres ir á páxina web?\n\n(Podes desactivar a comprobación de actualizacións en "APP_NAME".ini)",
  /* about_title */    L"Acerca de " APP_NAME,
  /* about */          APP_NAME " - " APP_VERSION "\n\
 Feito por Stefan Sundin\n\
