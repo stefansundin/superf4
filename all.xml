@@ -4,11 +4,31 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2009-08-19T21:20:00Z</updated>
+	<updated>2009-08-23T22:00:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:820b0be7-bb73-4321-b9a0-96c96325bf7b</id>
+		<title>TrayCD - 1.1</title>
+		<link href="http://code.google.com/p/traycd/" />
+		<updated>2009-08-23T22:00:00Z</updated>
+		<content type="html">
+Released 1.1.&lt;br/>
+This release fixes many small bugs. No major feature added. New language: Galician by Alexander De Sousa. Alexander has also helped me fix some bugs, thanks! :)&lt;br/>
+&lt;br/>
+&lt;u>Changelog:&lt;/u>
+&lt;ul>
+&lt;li>Language can now be changed in TrayCD.ini.&lt;/li>
+&lt;li>A lot of small bug fixes.&lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/traycd/">&lt;img src="http://traycd.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://traycd.googlecode.com/files/TrayCD-1.1.exe">&lt;img src="http://traycd.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.1.7z">English&lt;/a> - &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.1%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.1%20%28Galician%29.7z">Galician&lt;/a>&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://traycd.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:3d3c95c4-2b27-4430-9a71-21bc47a0739c</id>
@@ -19,6 +39,13 @@
 Released 1.1.&lt;br/>
 This release fixes many small bugs and updating is recommended. No major feature added. New language: Galician by Alexander De Sousa. Alexander has also helped me fix some bugs, thanks! :)&lt;br/>
 &lt;br/>
+&lt;u>Changelog:&lt;/u>
+&lt;ul>
+&lt;li>Fixed mouse cursor not changing when pressing Win+F4 if Aero was disabled in Vista.&lt;/li>
+&lt;li>Mouse cursor now spans multiple monitors.&lt;/li>
+&lt;li>Language can now be changed in SuperF4.ini.&lt;/li>
+&lt;li>A lot of small bug fixes.&lt;/li>
+&lt;/ul>
 &lt;a href="http://code.google.com/p/superf4/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
 &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1.exe">&lt;img src="http://superf4.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1.7z">English&lt;/a> - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1%20%28Galician%29.7z">Galician&lt;/a>&lt;br/>
 &lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
