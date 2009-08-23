@@ -1,5 +1,4 @@
 ;SuperF4 installer
-;NSIS Unicode: http://www.scratchpaper.com/
 ;
 ;Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
 ;
@@ -80,7 +79,7 @@ Var IndependentSectionState ;Helps keep track of the autostart checkboxes
 Function ${un}AddTray
 	;Add tray icon if program is running
 	FindWindow $0 "${APP_NAME}" ""
-		IntCmp $0 0 done
+	IntCmp $0 0 done
 		DetailPrint "Adding tray icon."
 		System::Call "user32::RegisterWindowMessage(t 'AddTray') i .r1"
 		SendMessage $0 $1 0 0
@@ -103,9 +102,10 @@ Function ${un}CloseApp
 		waitloop:
 		Sleep 10
 		FindWindow $0 "${APP_NAME}" ""
-		IntCmp $0 0 done waitloop waitloop
+		IntCmp $0 0 closed waitloop waitloop
+	closed:
+	Sleep 100 ;Sleep 100ms extra to let Windows do its thing
 	done:
-	Sleep 100
 FunctionEnd
 !macroend
 !insertmacro CloseApp ""
