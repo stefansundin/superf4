@@ -33,8 +33,9 @@
 #define SWM_AUTOSTART_HIDE_ON  WM_APP+5
 #define SWM_AUTOSTART_HIDE_OFF WM_APP+6
 #define SWM_UPDATE             WM_APP+7
-#define SWM_ABOUT              WM_APP+8
-#define SWM_EXIT               WM_APP+9
+#define SWM_XKILL              WM_APP+8
+#define SWM_ABOUT              WM_APP+9
+#define SWM_EXIT               WM_APP+10
 
 //Stuff missing in MinGW
 #define NIIF_USER 4
@@ -239,10 +240,13 @@ void ShowContextMenu(HWND hwnd) {
 	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_POPUP, (UINT)hAutostartMenu, l10n->menu_autostart);
 	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
 	
+	//xkill
+	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_XKILL, L"xkill");
+	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
+	
 	//Update
 	if (update) {
 		InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_UPDATE, l10n->menu_update);
-		InsertMenu(hMenu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
 	}
 	
 	//About
@@ -658,6 +662,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		if (lParam == WM_LBUTTONDOWN || lParam == WM_LBUTTONDBLCLK) {
 			ToggleState();
 		}
+		else if (lParam == WM_MBUTTONDOWN) {
+			HookMouse();
+		}
 		else if (lParam == WM_RBUTTONDOWN) {
 			ShowContextMenu(hwnd);
 		}
@@ -724,6 +731,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 				ShellExecute(NULL, L"open", APP_URL, NULL, NULL, SW_SHOWNORMAL);
 			}
 		}
+		else if (wmId == SWM_XKILL) {
+			HookMouse();
+		}
 		else if (wmId == SWM_ABOUT) {
 			MessageBox(NULL, l10n->about, l10n->about_title, MB_ICONINFORMATION|MB_OK);
 		}
@@ -743,6 +753,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		//Hide the window if clicked on, this might happen if it wasn't hidden by the hooks for some reason
 		ShowWindow(hwnd, SW_HIDE);
 		SetWindowLongPtr(hwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
+		//Since we take away the skull, make sure we can't kill anything
+		UnhookMouse();
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }

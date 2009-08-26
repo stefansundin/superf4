@@ -95,7 +95,11 @@ Function ${un}CloseApp
 	FindWindow $0 "${APP_NAME}" ""
 	IntCmp $0 0 done
 		${If} $Upgrade_State != ${BST_CHECKED}
-			MessageBox MB_ICONINFORMATION|MB_YESNO "$(L10N_RUNNING_INSTALL)" /SD IDYES IDNO done
+			StrCpy $1 "$(L10N_RUNNING)"
+			${If} "${un}" == "un."
+				StrCpy $1 "$1$\n$(L10N_RUNNING_UNINSTALL)"
+			${EndIf}
+			MessageBox MB_ICONINFORMATION|MB_YESNO "$1" /SD IDYES IDNO done
 		${EndIf}
 		DetailPrint "Closing running ${APP_NAME}."
 		SendMessage $0 ${WM_CLOSE} 0 0
