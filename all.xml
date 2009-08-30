@@ -4,11 +4,32 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2009-08-23T22:00:00Z</updated>
+	<updated>2009-08-30T20:00:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:0892fc44-c622-4456-ab9a-09ce1816106b</id>
+		<title>KillKeys - 1.1</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2009-08-30T20:00:00Z</updated>
+		<content type="html">
+Released 1.1.&lt;br/>
+This release fixes a crash that prevented the use of both Keys and Keys_Fullscreen at the same time. It also fixes many small bugs. No major feature added. New language: Galician by Alexander De Sousa.&lt;br/>
+&lt;br/>
+&lt;u>Changelog:&lt;/u>
+&lt;ul>
+&lt;li>Fixed crash when using both Keys and Keys_Fullscreen.&lt;/li>
+&lt;li>Language can now be changed in KillKeys.ini.&lt;/li>
+&lt;li>A lot of small bug fixes.&lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/killkeys/">&lt;img src="http://killkeys.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.1.exe">&lt;img src="http://killkeys.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.1.7z">English&lt;/a> - &lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.1%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.1%20%28Galician%29.7z">Galician&lt;/a>&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://killkeys.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:820b0be7-bb73-4321-b9a0-96c96325bf7b</id>
