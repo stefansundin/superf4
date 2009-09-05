@@ -4,11 +4,36 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2009-08-30T20:00:00Z</updated>
+	<updated>2009-09-05T17:00:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:e6d231a9-ccfb-4a55-ad35-8eaf384dcb7c</id>
+		<title>ShutdownGuard - 0.4</title>
+		<link href="http://code.google.com/p/shutdownguard/" />
+		<updated>2009-09-05T17:00:00Z</updated>
+		<content type="html">
+Released 0.4.&lt;br/>
+I finally got around to work some on ShutdownGuard. The biggest new feature is the ability to patch programs to prevent them from forcing the computer from shutting down. This is &lt;b>experimental&lt;/b> (and disabled by default), read more &lt;a href="http://code.google.com/p/shutdownguard/wiki/PatchApps">on the wiki&lt;/a>.&lt;br/>
+Another nice thing is that I have added a Reboot button to the shutdown dialog.&lt;br/>
+New language: Galician by Alexander De Sousa.&lt;br/>
+&lt;br/>
+&lt;u>Changelog:&lt;/u>
+&lt;ul>
+&lt;li>Added the ability to patch apps (see &lt;a href="http://code.google.com/p/shutdownguard/wiki/PatchApps">wiki&lt;/a>).&lt;/li>
+&lt;li>Added reboot button to the shutdown dialog.&lt;/li>
+&lt;li>Added Silent option.&lt;/li>
+&lt;li>Added HelpUrl option.&lt;/li>
+&lt;li>Language can now be changed in ShutdownGuard.ini.&lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/shutdownguard/">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4.exe">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4.7z">English&lt;/a> - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4%20%28Galician%29.7z">Galician&lt;/a> - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4%20%28Lithuanian%29.7z">Lithuanian&lt;/a> - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4%20%28Nynorsk%29.7z">Nynorsk&lt;/a>&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:0892fc44-c622-4456-ab9a-09ce1816106b</id>
