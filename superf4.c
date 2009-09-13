@@ -10,11 +10,11 @@
 
 #define UNICODE
 #define _UNICODE
+#define _WIN32_WINNT 0x0500
+#define _WIN32_IE 0x0600
 
 #include <stdio.h>
 #include <stdlib.h>
-#define _WIN32_WINNT 0x0500
-#define _WIN32_IE 0x0600
 #include <windows.h>
 #include <shlwapi.h>
 
@@ -38,11 +38,13 @@
 #define SWM_EXIT               WM_APP+10
 
 //Stuff missing in MinGW
+#ifndef NIIF_USER
 #define NIIF_USER 4
 #define NIN_BALLOONSHOW        WM_USER+2
 #define NIN_BALLOONHIDE        WM_USER+3
 #define NIN_BALLOONTIMEOUT     WM_USER+4
 #define NIN_BALLOONUSERCLICK   WM_USER+5
+#endif
 
 //Localization
 struct strings {
@@ -186,9 +188,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	}
 	
 	//Check for update
-	if (settings.CheckForUpdate) {
-		CheckForUpdate();
-	}
+	CheckForUpdate();
 	
 	//Message loop
 	MSG msg;
@@ -237,7 +237,7 @@ void ShowContextMenu(HWND hwnd) {
 	HMENU hAutostartMenu = CreatePopupMenu();
 	InsertMenu(hAutostartMenu, -1, MF_BYPOSITION|(autostart_enabled?MF_CHECKED:0), (autostart_enabled?SWM_AUTOSTART_OFF:SWM_AUTOSTART_ON), l10n->menu_autostart);
 	InsertMenu(hAutostartMenu, -1, MF_BYPOSITION|(autostart_hide?MF_CHECKED:0), (autostart_hide?SWM_AUTOSTART_HIDE_OFF:SWM_AUTOSTART_HIDE_ON), l10n->menu_hide);
-	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_POPUP, (UINT)hAutostartMenu, l10n->menu_autostart);
+	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_POPUP, (UINT_PTR)hAutostartMenu, l10n->menu_autostart);
 	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
 	
 	//xkill
@@ -267,10 +267,10 @@ int UpdateTray() {
 	
 	//Only add or modify if not hidden or if balloon will be displayed
 	if (!hide || traydata.uFlags&NIF_INFO) {
-		int tries = 0; //Try at least ten times, sleep 100 ms between each attempt
+		int tries = 0; //Try at least a hundred times, sleep 100 ms between each attempt
 		while (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&traydata) == FALSE) {
 			tries++;
-			if (tries >= 10) {
+			if (tries >= 100) {
 				Error(L"Shell_NotifyIcon(NIM_ADD/NIM_MODIFY)", L"Failed to update tray icon.", GetLastError(), TEXT(__FILE__), __LINE__);
 				return 1;
 			}
@@ -392,7 +392,7 @@ void Kill(HWND hwnd) {
 	}
 }
 
-_declspec(dllexport) LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
+__declspec(dllexport) LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
 	if (nCode == HC_ACTION) {
 		int vkey = ((PKBDLLHOOKSTRUCT)lParam)->vkCode;
 		
@@ -598,14 +598,22 @@ int HookKeyboard() {
 	GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
 	hinstDLL = LoadLibrary(path);
 	if (hinstDLL == NULL) {
-		Error(L"LoadLibrary()", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
+		Error(L"LoadLibrary('SuperF4.exe')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
-	//Get address to keyboard hook (beware name mangling)
-	HOOKPROC procaddr = (HOOKPROC)GetProcAddress(hinstDLL,"LowLevelKeyboardProc@12");
+	//Name decoration
+	//This is really an ugly hack to make both MinGW and WPG System64 use their respective name decorations
+	#ifdef _WIN64
+	#define KeyhookNameDecoration "" //WPG System64
+	#else
+	#define KeyhookNameDecoration "@12" //MinGW
+	#endif
+	
+	//Get address to keyboard hook (beware name decoration)
+	HOOKPROC procaddr = (HOOKPROC)GetProcAddress(hinstDLL,"LowLevelKeyboardProc"KeyhookNameDecoration);
 	if (procaddr == NULL) {
-		Error(L"GetProcAddress('LowLevelKeyboardProc@12')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
+		Error(L"GetProcAddress('LowLevelKeyboardProc"KeyhookNameDecoration"')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
