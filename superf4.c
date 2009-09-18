@@ -154,10 +154,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	cursorwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
 	
 	//Load icons
-	icon[0] = LoadImage(hInst,L"tray-disabled",IMAGE_ICON,0,0,LR_DEFAULTCOLOR);
-	icon[1] = LoadImage(hInst,L"tray-enabled",IMAGE_ICON,0,0,LR_DEFAULTCOLOR);
+	icon[0] = LoadImage(hInst,L"tray_disabled",IMAGE_ICON,0,0,LR_DEFAULTCOLOR);
+	icon[1] = LoadImage(hInst,L"tray_enabled",IMAGE_ICON,0,0,LR_DEFAULTCOLOR);
 	if (icon[0] == NULL || icon[1] == NULL) {
-		Error(L"LoadImage('tray-*')", L"Fatal error.", GetLastError(), TEXT(__FILE__), __LINE__);
+		Error(L"LoadImage('tray_*')", L"Fatal error.", GetLastError(), TEXT(__FILE__), __LINE__);
 		PostQuitMessage(1);
 	}
 	
@@ -594,11 +594,9 @@ int HookKeyboard() {
 	SendMessage(traydata.hWnd, WM_UPDATESETTINGS, 0, 0);
 	
 	//Load library
-	wchar_t path[MAX_PATH];
-	GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
-	hinstDLL = LoadLibrary(path);
+	hinstDLL = GetModuleHandle(L"SuperF4.exe");
 	if (hinstDLL == NULL) {
-		Error(L"LoadLibrary('SuperF4.exe')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
+		Error(L"GetModuleHandle('SuperF4.exe')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
@@ -643,12 +641,6 @@ int UnhookKeyboard() {
 	
 	//Remove mouse hook (it probably isn't hooked, but just in case)
 	UnhookMouse();
-	
-	//Unload library
-	if (FreeLibrary(hinstDLL) == 0) {
-		Error(L"FreeLibrary()", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
-		return 1;
-	}
 	
 	//Success
 	keyhook = NULL;
