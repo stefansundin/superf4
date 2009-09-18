@@ -120,7 +120,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	//Load settings
 	wchar_t path[MAX_PATH];
 	GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
-	PathRenameExtension(path, L".ini");
+	PathRemoveFileSpec(path);
+	wcscat(path, L"\\"APP_NAME".ini");
 	GetPrivateProfileString(L"Update", L"CheckForUpdate", L"0", txt, sizeof(txt)/sizeof(wchar_t), path);
 	swscanf(txt, L"%d", &settings.CheckForUpdate);
 	GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
@@ -594,7 +595,9 @@ int HookKeyboard() {
 	SendMessage(traydata.hWnd, WM_UPDATESETTINGS, 0, 0);
 	
 	//Load library
-	hinstDLL = GetModuleHandle(L"SuperF4.exe");
+	wchar_t path[MAX_PATH];
+	GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
+	hinstDLL = GetModuleHandle(path);
 	if (hinstDLL == NULL) {
 		Error(L"GetModuleHandle('SuperF4.exe')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
@@ -682,7 +685,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		//Load settings
 		wchar_t path[MAX_PATH];
 		GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
-		PathRenameExtension(path, L".ini");
+		PathRemoveFileSpec(path);
+		wcscat(path, L"\\"APP_NAME".ini");
 		//Language
 		GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
 		int i;

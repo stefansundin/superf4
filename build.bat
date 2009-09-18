@@ -6,7 +6,7 @@ if not exist build (
 	mkdir build
 )
 
-windres -o build\resources.o include\resources.rc
+windres -o build\superf4.o include\superf4.rc
 
 if "%1" == "all" (
 	gcc -o build\ini.exe include\ini.c -lshlwapi -march=pentium2
@@ -16,7 +16,7 @@ if "%1" == "all" (
 	if not exist "build\en-US\SuperF4" (
 		mkdir "build\en-US\SuperF4"
 	)
-	gcc -o "build\en-US\SuperF4\SuperF4.exe" superf4.c build\resources.o -mwindows -lshlwapi -lwininet -march=pentium2 -O2
+	gcc -o "build\en-US\SuperF4\SuperF4.exe" superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -march=pentium2 -O2
 	if not exist "build\en-US\SuperF4\SuperF4.exe" (
 		exit /b
 	)
@@ -40,7 +40,7 @@ if "%1" == "all" (
 	echo Building installer
 	makensis /V2 installer.nsi
 ) else (
-	gcc -o SuperF4.exe superf4.c build\resources.o -mwindows -lshlwapi -lwininet -march=pentium2 -DDEBUG
+	gcc -o SuperF4.exe superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -march=pentium2 -DDEBUG
 	
 	if "%1" == "run" (
 		start SuperF4.exe
