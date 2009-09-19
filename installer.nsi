@@ -20,6 +20,7 @@
 !include "Sections.nsh"
 !include "LogicLib.nsh"
 !include "StrFunc.nsh"
+!include "x64.nsh"
 ${StrLoc}
 
 ;General
@@ -185,7 +186,11 @@ Section "${APP_NAME} (${APP_VERSION})" sec_app
 		Rename "${APP_NAME}.ini" "${APP_NAME}-old.ini"
 	
 	;Install files
-	File "build\en-US\${APP_NAME}\${APP_NAME}.exe"
+	${If} ${RunningX64}
+		File "build\x64\en-US\${APP_NAME}\${APP_NAME}.exe"
+	${Else}
+		File "build\en-US\${APP_NAME}\${APP_NAME}.exe"
+	${EndIf}
 	File "build\en-US\${APP_NAME}\${APP_NAME}.ini"
 	
 	IntCmp $LANGUAGE ${LANG_ENGLISH} en-US
@@ -239,6 +244,10 @@ Function SkipPage
 FunctionEnd
 
 Function .onInit
+	;Detect x64
+	${If} ${RunningX64}
+		StrCpy $INSTDIR "$PROGRAMFILES64\${APP_NAME}"
+	${EndIf}
 	!insertmacro MUI_LANGDLL_DISPLAY
 	Call AddTray
 	;If silent, deselect check for update
