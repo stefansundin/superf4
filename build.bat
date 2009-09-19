@@ -23,17 +23,19 @@ if "%1" == "all" (
 	strip "build\en-US\SuperF4\SuperF4.exe"
 	
 	for /D %%f in (localization/*) do (
-		@echo.
-		echo Putting together %%f
-		if not %%f == en-US (
-			if not exist "build\%%f\SuperF4" (
-				mkdir "build\%%f\SuperF4"
+		if not exist "localization\%%f\outdated.txt" (
+			@echo.
+			echo Putting together %%f
+			if not %%f == en-US (
+				if not exist "build\%%f\SuperF4" (
+					mkdir "build\%%f\SuperF4"
+				)
+				copy "build\en-US\SuperF4\SuperF4.exe" "build\%%f\SuperF4"
 			)
-			copy "build\en-US\SuperF4\SuperF4.exe" "build\%%f\SuperF4"
+			copy "localization\%%f\info.txt" "build\%%f\SuperF4"
+			copy SuperF4.ini "build\%%f\SuperF4"
+			"build\ini.exe" "build\%%f\SuperF4\SuperF4.ini" SuperF4 Language %%f
 		)
-		copy "localization\%%f\info.txt" "build\%%f\SuperF4"
-		copy SuperF4.ini "build\%%f\SuperF4"
-		"build\ini.exe" "build\%%f\SuperF4\SuperF4.ini" SuperF4 Language %%f
 	)
 	
 	@echo.
