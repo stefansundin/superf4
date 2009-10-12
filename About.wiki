@@ -1,7 +1,7 @@
 #summary What SuperF4 does and why
 #labels Featured
 
-= What =
+= What? =
 What SuperF4 basically does, is kill the process of the foreground window when you press Ctrl+Alt+F4.
 You might think, doesn't Alt+F4 do this? Well, it's a bit different. When you press Alt+F4, the program can refuse to quit. Windows essentially only asks the program to quit, and lets it decide for itself what to do (almost always it behaves just as if you would have pressed the × in the upper-right corner).
 
@@ -16,6 +16,6 @@ This has happened to me quite a few times and I got tired of it, so I made Super
 SuperF4 should be able to kill all kinds of processes, whether they are hung or not.
 Beware though, SuperF4 effectively kills the program and doesn't give it a chance to save unsaved work.
 
-When started, you can enable or disable SuperF4 by clicking the tray icon. You can set it to autostart in the tray menu, and you can set the language and whether SuperF4 should check for updates in SuperF4.ini.
+When started, you can enable or disable SuperF4 by clicking the tray icon. You can set it to autostart in the tray menu. SuperF4 will automatically check for updates when you start the program, but you can disable that in SuperF4.ini.
 
 Feel free to post this program wherever you want, just be sure to give proper credits.
