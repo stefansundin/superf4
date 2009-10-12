@@ -8,14 +8,14 @@ You might think, doesn't Alt+F4 do this? Well, it's a bit different. When you pr
 You can also kill a process by pressing Win+F4 and then clicking the window with your mouse. You can press escape or the right mouse button to exit this mode without killing a program.
 
 = Why? =
-You might have encountered a game that hung because of some stupid bug, then your computer gets all slow and you just can't get out of the game since it's fullscreen and nothing happens when you press Ctrl+Alt+Del to bring up the task manager. You eventually give up and reboot the computer by pressing the power button. :(
+You might have encountered a game that hung because of some stupid bug, then your computer gets all slow and you just can't get out of the game since it's fullscreen and nothing happens when you press Ctrl+Alt+Delete to bring up the task manager. You eventually give up and reboot the computer by pressing the power button. :(
 
-This have happened to me quite a few times and I got tired of it, so I made SuperF4. Now I can just press Ctrl+Alt+F4 and get back to the desktop within a few seconds. :)
+This has happened to me quite a few times and I got tired of it, so I made SuperF4. Now I can just press Ctrl+Alt+F4 and get back to the desktop within a few seconds. :)
 
 = More =
 SuperF4 should be able to kill all kinds of processes, whether they are hung or not.
 Beware though, SuperF4 effectively kills the program and doesn't give it a chance to save unsaved work.
 
-When started, you can enable or disable SuperF4 by clicking the tray icon. No other configuration except autostart exists.
+When started, you can enable or disable SuperF4 by clicking the tray icon. You can set it to autostart in the tray menu, and you can set the language and whether SuperF4 should check for updates in SuperF4.ini.
 
 Feel free to post this program wherever you want, just be sure to give proper credits.
