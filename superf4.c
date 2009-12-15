@@ -604,9 +604,9 @@ int HookKeyboard() {
 	}
 	
 	//Name decoration
-	//This is really an ugly hack to make both MinGW and WPG System64 use their respective name decorations
+	//This is really an ugly hack to make both MinGW and MinGW-w64 use their respective name decorations
 	#ifdef _WIN64
-	#define KeyhookNameDecoration "" //WPG System64
+	#define KeyhookNameDecoration ""    //MinGW-w64
 	#else
 	#define KeyhookNameDecoration "@12" //MinGW
 	#endif
