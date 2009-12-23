@@ -3,14 +3,21 @@ tray_disabled ICON "media/tray-disabled.ico"
 tray_enabled ICON "media/tray-enabled.ico"
 kill CURSOR "media/kill.cur"
 
+tray_xmas_disabled ICON "media/tray-xmas-disabled.ico"
+tray_xmas_enabled ICON "media/tray-xmas-enabled.ico"
+
 #define CREATEPROCESS_MANIFEST_RESOURCE_ID 1
 #define RT_MANIFEST 24
+#ifdef _WIN64
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "SuperF4_x64.exe.manifest"
+#else
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "SuperF4.exe.manifest"
+#endif
 
 #define VS_VERSION_INFO 1
 VS_VERSION_INFO VERSIONINFO
-	FILEVERSION 1,1,0,0
-	PRODUCTVERSION 1,1,0,0
+	FILEVERSION 1,2,0,0
+	PRODUCTVERSION 1,2,0,0
 	FILEFLAGSMASK 0x3fL
 	FILEFLAGS 0x0L
 	FILEOS 0x40004L
@@ -22,7 +29,7 @@ BEGIN
 		BLOCK "040904b0"
 		BEGIN
 			VALUE "FileDescription", "SuperF4"
-			VALUE "FileVersion", "1.1"
+			VALUE "FileVersion", "1.2"
 			VALUE "InternalName", "superf4"
 			VALUE "OriginalFilename", "SuperF4.exe"
 			VALUE "CompanyName", "Stefan Sundin"

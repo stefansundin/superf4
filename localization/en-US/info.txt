@@ -22,6 +22,11 @@ SuperF4 is open source, licensed under GPL.
 
 Changelog
 ---------
+1.2:
+Added 64-bit executable. The installer will automatically install the correct executable.
+Added xkill to tray menu.
+Fixed Shell_NotifyIcon error that appeared for some when SuperF4 was on autostart.
+
 1.1 - 2009-08-19:
 Fixed mouse cursor not changing when pressing [the windows key]+F4 if Aero was disabled in Vista.
 Mouse cursor now spans multiple monitors.

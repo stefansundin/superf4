@@ -8,8 +8,7 @@ all: pre
 	gcc -o build/ini.exe include/ini.c -lshlwapi
 	
 	mkdir -p build/x64/en-US/SuperF4
-	gcc -o build/x64/en-US/SuperF4/SuperF4.exe superf4.c build/superf4_x64.o -mwindows -lshlwapi -lwininet -O2
-	strip build/x64/en-US/SuperF4/SuperF4.exe
+	gcc -o build/x64/en-US/SuperF4/SuperF4.exe superf4.c build/superf4_x64.o -mwindows -lshlwapi -lwininet -O2 -s
 	@for lang in ${L10N} ;\
 	do \
 		echo Putting together $$lang ;\
@@ -26,4 +25,4 @@ all: pre
 pre:
 	-taskkill -IM SuperF4_x64.exe
 	-mkdir build
-	windres -o build/superf4_x64.o include/superf4_x64.rc
+	windres -o build/superf4_x64.o include/superf4.rc

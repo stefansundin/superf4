@@ -1,5 +1,5 @@
 /*
-	Check for update
+	Check for update.
 	Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
 	
 	This program is free software: you can redistribute it and/or modify
@@ -31,14 +31,14 @@ DWORD WINAPI _CheckForUpdate() {
 	
 	//Open connection
 	HINTERNET http, file;
-	http = InternetOpen(APP_NAME" - "APP_VERSION,INTERNET_OPEN_TYPE_DIRECT,NULL,NULL,0);
+	http = InternetOpen(APP_NAME" - "APP_VERSION, INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 	if (http == NULL) {
 		#ifdef DEBUG
 		Error(L"InternetOpen()", L"Could not establish connection.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
 		#endif
 		return 1;
 	}
-	file = InternetOpenUrl(http,APP_UPDATEURL,NULL,0,INTERNET_FLAG_NO_AUTH|INTERNET_FLAG_NO_AUTO_REDIRECT|INTERNET_FLAG_NO_CACHE_WRITE|INTERNET_FLAG_NO_COOKIES|INTERNET_FLAG_NO_UI,0);
+	file = InternetOpenUrl(http, APP_UPDATEURL, NULL, 0, INTERNET_FLAG_NO_AUTH|INTERNET_FLAG_NO_AUTO_REDIRECT|INTERNET_FLAG_NO_CACHE_WRITE|INTERNET_FLAG_NO_COOKIES|INTERNET_FLAG_NO_UI, 0);
 	if (file == NULL) {
 		#ifdef DEBUG
 		Error(L"InternetOpenUrl()", L"Could not establish connection.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);

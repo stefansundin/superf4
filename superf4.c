@@ -20,7 +20,7 @@
 
 //App
 #define APP_NAME      L"SuperF4"
-#define APP_VERSION   "1.1"
+#define APP_VERSION   "1.2"
 #define APP_URL       L"http://superf4.googlecode.com/"
 #define APP_UPDATEURL L"http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
 
@@ -32,10 +32,11 @@
 #define SWM_AUTOSTART_OFF      WM_APP+4
 #define SWM_AUTOSTART_HIDE_ON  WM_APP+5
 #define SWM_AUTOSTART_HIDE_OFF WM_APP+6
-#define SWM_UPDATE             WM_APP+7
-#define SWM_XKILL              WM_APP+8
-#define SWM_ABOUT              WM_APP+9
-#define SWM_EXIT               WM_APP+10
+#define SWM_SETTINGS           WM_APP+7
+#define SWM_UPDATE             WM_APP+8
+#define SWM_XKILL              WM_APP+9
+#define SWM_ABOUT              WM_APP+10
+#define SWM_EXIT               WM_APP+11
 
 //Stuff missing in MinGW
 #ifndef NIIF_USER
@@ -47,21 +48,6 @@
 #endif
 
 //Localization
-struct strings {
-	wchar_t *menu_enable;
-	wchar_t *menu_disable;
-	wchar_t *menu_hide;
-	wchar_t *menu_autostart;
-	wchar_t *menu_update;
-	wchar_t *menu_about;
-	wchar_t *menu_exit;
-	wchar_t *tray_enabled;
-	wchar_t *tray_disabled;
-	wchar_t *update_balloon;
-	wchar_t *update_dialog;
-	wchar_t *about_title;
-	wchar_t *about;
-};
 #include "localization/strings.h"
 struct strings *l10n = &en_US;
 
@@ -126,10 +112,24 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	swscanf(txt, L"%d", &settings.CheckForUpdate);
 	GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
 	int i;
-	for (i=0; i < num_languages; i++) {
+	for (i=0; languages[i].code != NULL; i++) {
 		if (!wcscmp(txt,languages[i].code)) {
 			l10n = languages[i].strings;
 			break;
+		}
+	}
+	
+	//Xmas - don't talk about this, it's a surprise :)
+	//A little late for 2009, but it will be there for next year and later
+	//Remove with Xmas=0 in ini file, force with Xmas=1
+	int xmas;
+	GetPrivateProfileString(L"SuperF4", L"Xmas", L"2", txt, sizeof(txt)/sizeof(wchar_t), path);
+	swscanf(txt, L"%d", &xmas);
+	if (xmas == 2) {
+		SYSTEMTIME time;
+		GetSystemTime(&time);
+		if (time.wMonth != 12) {
+			xmas = 0;
 		}
 	}
 	
@@ -143,7 +143,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	wnd.hInstance = hInst;
 	wnd.hIcon = NULL;
 	wnd.hIconSm = NULL;
-	wnd.hCursor = LoadImage(hInst,L"kill",IMAGE_CURSOR,0,0,LR_DEFAULTCOLOR);
+	wnd.hCursor = LoadImage(hInst, L"kill", IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
 	wnd.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
 	wnd.lpszMenuName = NULL;
 	wnd.lpszClassName = APP_NAME;
@@ -155,8 +155,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	cursorwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
 	
 	//Load icons
-	icon[0] = LoadImage(hInst,L"tray_disabled",IMAGE_ICON,0,0,LR_DEFAULTCOLOR);
-	icon[1] = LoadImage(hInst,L"tray_enabled",IMAGE_ICON,0,0,LR_DEFAULTCOLOR);
+	icon[0] = LoadImage(hInst, (xmas?L"tray_xmas_disabled":L"tray_disabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
+	icon[1] = LoadImage(hInst, (xmas?L"tray_xmas_enabled":L"tray_enabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
 	if (icon[0] == NULL || icon[1] == NULL) {
 		Error(L"LoadImage('tray_*')", L"Fatal error.", GetLastError(), TEXT(__FILE__), __LINE__);
 		PostQuitMessage(1);
@@ -203,13 +203,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 void ShowContextMenu(HWND hwnd) {
 	POINT pt;
 	GetCursorPos(&pt);
-	HMENU hMenu = CreatePopupMenu();
+	HMENU menu = CreatePopupMenu();
 	
 	//Toggle
-	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_TOGGLE, (keyhook?l10n->menu_disable:l10n->menu_enable));
+	InsertMenu(menu, -1, MF_BYPOSITION, SWM_TOGGLE, (keyhook?l10n->menu_disable:l10n->menu_enable));
 	
 	//Hide
-	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_HIDE, l10n->menu_hide);
+	InsertMenu(menu, -1, MF_BYPOSITION, SWM_HIDE, l10n->menu_hide);
 	
 	//Check autostart
 	int autostart_enabled=0, autostart_hide=0;
@@ -225,7 +225,7 @@ void ShowContextMenu(HWND hwnd) {
 	GetModuleFileName(NULL, path, MAX_PATH);
 	swprintf(txt, L"\"%s\"", path);
 	if (!wcscmp(txt,autostart_value)) {
-		autostart_enabled=1;
+		autostart_enabled = 1;
 	}
 	else {
 		swprintf(txt, L"\"%s\" -hide", path);
@@ -234,32 +234,34 @@ void ShowContextMenu(HWND hwnd) {
 			autostart_hide = 1;
 		}
 	}
-	//Autostart
-	HMENU hAutostartMenu = CreatePopupMenu();
-	InsertMenu(hAutostartMenu, -1, MF_BYPOSITION|(autostart_enabled?MF_CHECKED:0), (autostart_enabled?SWM_AUTOSTART_OFF:SWM_AUTOSTART_ON), l10n->menu_autostart);
-	InsertMenu(hAutostartMenu, -1, MF_BYPOSITION|(autostart_hide?MF_CHECKED:0), (autostart_hide?SWM_AUTOSTART_HIDE_OFF:SWM_AUTOSTART_HIDE_ON), l10n->menu_hide);
-	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_POPUP, (UINT_PTR)hAutostartMenu, l10n->menu_autostart);
-	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
+	//Options
+	HMENU menu_options = CreatePopupMenu();
+	InsertMenu(menu_options, -1, MF_BYPOSITION|(autostart_enabled?MF_CHECKED:0), (autostart_enabled?SWM_AUTOSTART_OFF:SWM_AUTOSTART_ON), l10n->menu_autostart);
+	InsertMenu(menu_options, -1, MF_BYPOSITION|(autostart_hide?MF_CHECKED:0), (autostart_hide?SWM_AUTOSTART_HIDE_OFF:SWM_AUTOSTART_HIDE_ON), l10n->menu_hide);
+	InsertMenu(menu_options, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
+	InsertMenu(menu_options, -1, MF_BYPOSITION, SWM_SETTINGS, l10n->menu_settings);
+	InsertMenu(menu, -1, MF_BYPOSITION|MF_POPUP, (UINT_PTR)menu_options, l10n->menu_options);
+	InsertMenu(menu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
 	
 	//xkill
-	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_XKILL, L"xkill");
-	InsertMenu(hMenu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
+	InsertMenu(menu, -1, MF_BYPOSITION, SWM_XKILL, L"xkill");
+	InsertMenu(menu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
 	
 	//Update
 	if (update) {
-		InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_UPDATE, l10n->menu_update);
+		InsertMenu(menu, -1, MF_BYPOSITION, SWM_UPDATE, l10n->menu_update);
 	}
 	
 	//About
-	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_ABOUT, l10n->menu_about);
+	InsertMenu(menu, -1, MF_BYPOSITION, SWM_ABOUT, l10n->menu_about);
 	
 	//Exit
-	InsertMenu(hMenu, -1, MF_BYPOSITION, SWM_EXIT, l10n->menu_exit);
+	InsertMenu(menu, -1, MF_BYPOSITION, SWM_EXIT, l10n->menu_exit);
 
 	//Track menu
 	SetForegroundWindow(hwnd);
-	TrackPopupMenu(hMenu, TPM_BOTTOMALIGN, pt.x, pt.y, 0, hwnd, NULL);
-	DestroyMenu(hMenu);
+	TrackPopupMenu(menu, TPM_BOTTOMALIGN, pt.x, pt.y, 0, hwnd, NULL);
+	DestroyMenu(menu);
 }
 
 int UpdateTray() {
@@ -296,14 +298,14 @@ int RemoveTray() {
 	}
 	
 	//Success
-	tray_added=0;
+	tray_added = 0;
 	return 0;
 }
 
 void SetAutostart(int on, int hide) {
 	//Open key
 	HKEY key;
-	int error = RegCreateKeyEx(HKEY_CURRENT_USER,L"Software\\Microsoft\\Windows\\CurrentVersion\\Run",0,NULL,0,KEY_SET_VALUE,NULL,&key,NULL);
+	int error = RegCreateKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, NULL, 0, KEY_SET_VALUE, NULL, &key, NULL);
 	if (error != ERROR_SUCCESS) {
 		Error(L"RegCreateKeyEx(HKEY_CURRENT_USER,'Software\\Microsoft\\Windows\\CurrentVersion\\Run')", L"Error opening the registry.", error, TEXT(__FILE__), __LINE__);
 		return;
@@ -318,7 +320,7 @@ void SetAutostart(int on, int hide) {
 		//Add
 		wchar_t value[MAX_PATH+10];
 		swprintf(value, (hide?L"\"%s\" -hide":L"\"%s\""), path);
-		error = RegSetValueEx(key,APP_NAME,0,REG_SZ,(LPBYTE)value,(wcslen(value)+1)*sizeof(wchar_t));
+		error = RegSetValueEx(key, APP_NAME, 0, REG_SZ, (LPBYTE)value, (wcslen(value)+1)*sizeof(wchar_t));
 		if (error != ERROR_SUCCESS) {
 			Error(L"RegSetValueEx('"APP_NAME"')", L"SetAutostart()", error, TEXT(__FILE__), __LINE__);
 			return;
@@ -326,7 +328,7 @@ void SetAutostart(int on, int hide) {
 	}
 	else {
 		//Remove
-		error = RegDeleteValue(key,APP_NAME);
+		error = RegDeleteValue(key, APP_NAME);
 		if (error != ERROR_SUCCESS) {
 			Error(L"RegDeleteValue('"APP_NAME"')", L"SetAutostart()", error, TEXT(__FILE__), __LINE__);
 			return;
@@ -370,7 +372,7 @@ void Kill(HWND hwnd) {
 	}
 	
 	//Open the process
-	HANDLE process = OpenProcess(PROCESS_TERMINATE,FALSE,pid);
+	HANDLE process = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
 	if (process == NULL) {
 		#ifdef DEBUG
 		Error(L"OpenProcess()", L"Kill()", GetLastError(), TEXT(__FILE__), __LINE__);
@@ -484,7 +486,7 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 				#endif
 				return CallNextHookEx(NULL, nCode, wParam, lParam);
 			}
-			hwnd = GetAncestor(hwnd,GA_ROOT);
+			hwnd = GetAncestor(hwnd, GA_ROOT);
 			
 			//Kill it!
 			Kill(hwnd);
@@ -519,7 +521,7 @@ int HookMouse() {
 	}
 	
 	//Set up the mouse hook
-	mousehook = SetWindowsHookEx(WH_MOUSE_LL,LowLevelMouseProc,hinstDLL,0);
+	mousehook = SetWindowsHookEx(WH_MOUSE_LL, LowLevelMouseProc, hinstDLL, 0);
 	if (mousehook == NULL) {
 		#ifdef DEBUG
 		Error(L"SetWindowsHookEx(WH_MOUSE_LL)", L"HookMouse()", GetLastError(), TEXT(__FILE__), __LINE__);
@@ -612,14 +614,14 @@ int HookKeyboard() {
 	#endif
 	
 	//Get address to keyboard hook (beware name decoration)
-	HOOKPROC procaddr = (HOOKPROC)GetProcAddress(hinstDLL,"LowLevelKeyboardProc"KeyhookNameDecoration);
+	HOOKPROC procaddr = (HOOKPROC)GetProcAddress(hinstDLL, "LowLevelKeyboardProc"KeyhookNameDecoration);
 	if (procaddr == NULL) {
 		Error(L"GetProcAddress('LowLevelKeyboardProc"KeyhookNameDecoration"')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
 	//Set up the hook
-	keyhook = SetWindowsHookEx(WH_KEYBOARD_LL,procaddr,hinstDLL,0);
+	keyhook = SetWindowsHookEx(WH_KEYBOARD_LL, procaddr, hinstDLL, 0);
 	if (keyhook == NULL) {
 		Error(L"SetWindowsHookEx(WH_KEYBOARD_LL)", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
@@ -690,7 +692,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		//Language
 		GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
 		int i;
-		for (i=0; i < num_languages; i++) {
+		for (i=0; languages[i].code != NULL; i++) {
 			if (!wcscmp(txt,languages[i].code)) {
 				l10n = languages[i].strings;
 				break;
@@ -729,6 +731,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		}
 		else if (wmId == SWM_AUTOSTART_HIDE_OFF) {
 			SetAutostart(1, 0);
+		}
+		else if (wmId == SWM_SETTINGS) {
+			wchar_t path[MAX_PATH];
+			GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
+			PathRemoveFileSpec(path);
+			wcscat(path, L"\\"APP_NAME".ini");
+			ShellExecute(NULL, L"open", path, NULL, NULL, SW_SHOWNORMAL);
 		}
 		else if (wmId == SWM_UPDATE) {
 			if (MessageBox(NULL,l10n->update_dialog,APP_NAME,MB_ICONINFORMATION|MB_YESNO|MB_SYSTEMMODAL) == IDYES) {

@@ -1,5 +1,5 @@
 /*
-	Writes information to a .ini file.
+	Read/write to ini files.
 	Used to batch-write the Language setting when using 'build all'.
 	
 	Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 	else if (WritePrivateProfileString(argv[2],argv[3],argv[4],path) == 0) {
 		int errorcode = GetLastError();
 		char *errormsg;
-		int length = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,NULL,errorcode,0,(char*)&errormsg,0,NULL);
+		int length = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM, NULL, errorcode, 0, (char*)&errormsg, 0, NULL);
 		errormsg[length-2] = '\0'; //Remove that damn newline at the end of the formatted error message
 		printf("WritePrivateProfileString() failed in file %s, line %d.\nError: %s (%d)", TEXT(__FILE__), __LINE__, errormsg, errorcode);
 		LocalFree(errormsg);
