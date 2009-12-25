@@ -12,46 +12,51 @@
 
 int update = 0;
 
-DWORD WINAPI _CheckForUpdate() {
-	if (!settings.CheckForUpdate) return 1;
+DWORD WINAPI _CheckForUpdate(LPVOID arg) {
+	int verbose = *(int*)arg;
+	free(arg);
 	
 	//Check if we are connected to the internet
-	DWORD flags; //Not used
+	DWORD flags; //Not really used
 	int tries = 0; //Try at least ten times, sleep one second between each attempt
 	while (InternetGetConnectedState(&flags,0) == FALSE) {
 		tries++;
-		Sleep(1000);
-		if (tries >= 10) {
-			#ifdef DEBUG
-			Error(L"InternetGetConnectedState()", L"No internet connection.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
-			#endif
+		if (!verbose) {
+			Sleep(1000);
+		}
+		if (tries >= 10 || verbose) {
+			if (verbose) {
+				Error(L"InternetGetConnectedState()", L"No internet connection.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
+			}
 			return 1;
 		}
 	}
 	
 	//Open connection
-	HINTERNET http, file;
-	http = InternetOpen(APP_NAME" - "APP_VERSION, INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+	HINTERNET http = InternetOpen(APP_NAME" - "APP_VERSION, INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
 	if (http == NULL) {
-		#ifdef DEBUG
-		Error(L"InternetOpen()", L"Could not establish connection.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
-		#endif
+		if (verbose) {
+			Error(L"InternetOpen()", L"Could not establish connection.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
+		}
 		return 1;
 	}
-	file = InternetOpenUrl(http, APP_UPDATEURL, NULL, 0, INTERNET_FLAG_NO_AUTH|INTERNET_FLAG_NO_AUTO_REDIRECT|INTERNET_FLAG_NO_CACHE_WRITE|INTERNET_FLAG_NO_COOKIES|INTERNET_FLAG_NO_UI, 0);
+	HINTERNET file = InternetOpenUrl(http, APP_UPDATEURL, NULL, 0, INTERNET_FLAG_RELOAD|INTERNET_FLAG_NO_CACHE_WRITE|INTERNET_FLAG_NO_AUTH|INTERNET_FLAG_NO_AUTO_REDIRECT|INTERNET_FLAG_NO_COOKIES|INTERNET_FLAG_NO_UI, 0);
 	if (file == NULL) {
-		#ifdef DEBUG
-		Error(L"InternetOpenUrl()", L"Could not establish connection.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
-		#endif
+		if (verbose) {
+			Error(L"InternetOpenUrl()", L"Could not establish connection.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
+		}
+		InternetCloseHandle(http);
 		return 1;
 	}
 	//Read file
 	char data[20];
 	DWORD numread;
 	if (InternetReadFile(file,data,sizeof(data),&numread) == FALSE) {
-		#ifdef DEBUG
-		Error(L"InternetReadFile()", L"Could not read file.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
-		#endif
+		if (verbose) {
+			Error(L"InternetReadFile()", L"Could not read file.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
+		}
+		InternetCloseHandle(file);
+		InternetCloseHandle(http);
 		return 1;
 	}
 	data[numread] = '\0';
@@ -65,25 +70,37 @@ DWORD WINAPI _CheckForUpdate() {
 	
 	//Make sure the server returned 200
 	if (wcscmp(code,L"200")) {
-		#ifdef DEBUG
-		swprintf(txt, L"Server returned %s error when checking for update.\nPlease check for update manually at "APP_URL, code);
-		MessageBox(NULL, txt, APP_NAME, MB_ICONWARNING|MB_OK);
-		#endif
+		if (verbose) {
+			swprintf(txt, L"Server returned %s error when checking for update.\nPlease check for update manually at "APP_URL, code);
+			MessageBox(NULL, txt, APP_NAME, MB_ICONWARNING|MB_OK);
+		}
 		return 2;
 	}
 	
 	//New version available?
 	if (strcmp(data,APP_VERSION) > 0) {
 		update = 1;
-		wcsncpy(traydata.szInfo, l10n->update_balloon, sizeof(traydata.szInfo)/sizeof(wchar_t));
-		traydata.uFlags |= NIF_INFO;
-		UpdateTray();
-		traydata.uFlags ^= NIF_INFO;
+		if (verbose) {
+			SendMessage(traydata.hWnd, WM_COMMAND, SWM_UPDATE, 0);
+		}
+		else {
+			wcsncpy(traydata.szInfo, l10n->update_balloon, sizeof(traydata.szInfo)/sizeof(wchar_t));
+			traydata.uFlags |= NIF_INFO;
+			UpdateTray();
+			traydata.uFlags ^= NIF_INFO;
+		}
+	}
+	else {
+		update = 0;
+		if (verbose) {
+			MessageBox(NULL, l10n->update_nonew, APP_NAME, MB_ICONINFORMATION|MB_OK);
+		}
 	}
 	return 0;
 }
 
-void CheckForUpdate() {
-	if (!settings.CheckForUpdate) return;
-	CreateThread(NULL, 0, _CheckForUpdate, NULL, 0, NULL);
+void CheckForUpdate(int p_verbose) {
+	int *verbose = malloc(sizeof(p_verbose));
+	*verbose = p_verbose;
+	CreateThread(NULL, 0, _CheckForUpdate, verbose, 0, NULL);
 }

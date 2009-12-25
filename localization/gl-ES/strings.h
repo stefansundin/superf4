@@ -11,21 +11,23 @@
 */
 
 struct strings gl_ES = {
- /* menu_enable */    L"Activar",
- /* menu_disable */   L"Desactivar",
- /* menu_hide */      L"Esconder a icona",
- /* menu_options */   L"Preferencias",
+ /* menu_enable    */ L"Activar",
+ /* menu_disable   */ L"Desactivar",
+ /* menu_hide      */ L"Esconder a icona",
+ /* menu_options   */ L"Preferencias",
  /* menu_autostart */ L"Arrancar ó inicio",
- /* menu_settings */  L"Abrir configuración",
- /* menu_update */    L"Actualización dispoñibel",
- /* menu_about */     L"Acerca de",
- /* menu_exit */      L"Saír",
- /* tray_enabled */   APP_NAME " (activado)",
- /* tray_disabled */  APP_NAME " (desactivado)",
+ /* menu_settings  */ L"Abrir configuración",
+ /* menu_chkupdate */ L"Check for update",
+ /* menu_update    */ L"Actualización dispoñibel",
+ /* menu_about     */ L"Acerca de",
+ /* menu_exit      */ L"Saír",
+ /* tray_enabled   */ APP_NAME " (activado)",
+ /* tray_disabled  */ APP_NAME " (desactivado)",
  /* update_balloon */ L"Nova versión dispoñíbel!",
- /* update_dialog */  L"Unha nova versión está dispoñíbel.\nQueres ir á páxina web?\n\n(Podes desactivar a comprobación de actualizacións en "APP_NAME".ini)",
- /* about_title */    L"Acerca de " APP_NAME,
- /* about */          APP_NAME " - " APP_VERSION "\n\
+ /* update_dialog  */ L"Unha nova versión está dispoñíbel.\nQueres ir á páxina web?\n\nPodes desactivar a comprobación de actualizacións en "APP_NAME".ini.",
+ /* update_nonew   */ L"No update available.",
+ /* about_title    */ L"Acerca de " APP_NAME,
+ /* about          */ APP_NAME " - " APP_VERSION "\n\
 Feito por Stefan Sundin\n\
 Traducido por Alexander De Sousa\n\
 \n\

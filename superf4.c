@@ -33,10 +33,11 @@
 #define SWM_AUTOSTART_HIDE_ON  WM_APP+5
 #define SWM_AUTOSTART_HIDE_OFF WM_APP+6
 #define SWM_SETTINGS           WM_APP+7
-#define SWM_UPDATE             WM_APP+8
-#define SWM_XKILL              WM_APP+9
-#define SWM_ABOUT              WM_APP+10
-#define SWM_EXIT               WM_APP+11
+#define SWM_CHECKFORUPDATE     WM_APP+8
+#define SWM_UPDATE             WM_APP+9
+#define SWM_XKILL              WM_APP+10
+#define SWM_ABOUT              WM_APP+11
+#define SWM_EXIT               WM_APP+12
 
 //Stuff missing in MinGW
 #ifndef NIIF_USER
@@ -133,6 +134,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		}
 	}
 	
+	//Load icons
+	icon[0] = LoadImage(hInst, (xmas?L"tray_xmas_disabled":L"tray_disabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
+	icon[1] = LoadImage(hInst, (xmas?L"tray_xmas_enabled":L"tray_enabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
+	if (icon[0] == NULL || icon[1] == NULL) {
+		Error(L"LoadImage('tray_*')", L"Fatal error.", GetLastError(), TEXT(__FILE__), __LINE__);
+		return 1;
+	}
+	
 	//Create window class
 	WNDCLASSEX wnd;
 	wnd.cbSize = sizeof(WNDCLASSEX);
@@ -153,14 +162,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	
 	//Create window
 	cursorwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
-	
-	//Load icons
-	icon[0] = LoadImage(hInst, (xmas?L"tray_xmas_disabled":L"tray_disabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
-	icon[1] = LoadImage(hInst, (xmas?L"tray_xmas_enabled":L"tray_enabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
-	if (icon[0] == NULL || icon[1] == NULL) {
-		Error(L"LoadImage('tray_*')", L"Fatal error.", GetLastError(), TEXT(__FILE__), __LINE__);
-		PostQuitMessage(1);
-	}
 	
 	//Create icondata
 	traydata.cbSize = sizeof(NOTIFYICONDATA);
@@ -189,7 +190,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	}
 	
 	//Check for update
-	CheckForUpdate();
+	if (settings.CheckForUpdate) {
+		CheckForUpdate(0);
+	}
 	
 	//Message loop
 	MSG msg;
@@ -240,6 +243,7 @@ void ShowContextMenu(HWND hwnd) {
 	InsertMenu(menu_options, -1, MF_BYPOSITION|(autostart_hide?MF_CHECKED:0), (autostart_hide?SWM_AUTOSTART_HIDE_OFF:SWM_AUTOSTART_HIDE_ON), l10n->menu_hide);
 	InsertMenu(menu_options, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
 	InsertMenu(menu_options, -1, MF_BYPOSITION, SWM_SETTINGS, l10n->menu_settings);
+	InsertMenu(menu_options, -1, MF_BYPOSITION, SWM_CHECKFORUPDATE, l10n->menu_chkupdate);
 	InsertMenu(menu, -1, MF_BYPOSITION|MF_POPUP, (UINT_PTR)menu_options, l10n->menu_options);
 	InsertMenu(menu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
 	
@@ -738,6 +742,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			PathRemoveFileSpec(path);
 			wcscat(path, L"\\"APP_NAME".ini");
 			ShellExecute(NULL, L"open", path, NULL, NULL, SW_SHOWNORMAL);
+		}
+		else if (wmId == SWM_CHECKFORUPDATE) {
+			CheckForUpdate(1);
 		}
 		else if (wmId == SWM_UPDATE) {
 			if (MessageBox(NULL,l10n->update_dialog,APP_NAME,MB_ICONINFORMATION|MB_YESNO|MB_SYSTEMMODAL) == IDYES) {

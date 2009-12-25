@@ -6,6 +6,7 @@ struct strings {
 	wchar_t *menu_options;
 	wchar_t *menu_autostart;
 	wchar_t *menu_settings;
+	wchar_t *menu_chkupdate;
 	wchar_t *menu_update;
 	wchar_t *menu_about;
 	wchar_t *menu_exit;
@@ -13,6 +14,7 @@ struct strings {
 	wchar_t *tray_disabled;
 	wchar_t *update_balloon;
 	wchar_t *update_dialog;
+	wchar_t *update_nonew;
 	wchar_t *about_title;
 	wchar_t *about;
 };

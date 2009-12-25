@@ -54,9 +54,9 @@ if "%1" == "all" (
 	)
 ) else if "%1" == "x64" (
 	%prefix64%windres -o build\superf4_x64.o include\superf4.rc
-	%prefix64%gcc -o SuperF4.exe superf4.c build\superf4_x64.o -mwindows -lshlwapi -lwininet -march=pentium2 -DDEBUG
+	%prefix64%gcc -o SuperF4.exe superf4.c build\superf4_x64.o -mwindows -lshlwapi -lwininet -march=pentium2 -g -DDEBUG
 ) else (
-	%prefix32%gcc -o SuperF4.exe superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -march=pentium2 -DDEBUG
+	%prefix32%gcc -o SuperF4.exe superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -march=pentium2 -g -DDEBUG
 	
 	if "%1" == "run" (
 		start SuperF4.exe

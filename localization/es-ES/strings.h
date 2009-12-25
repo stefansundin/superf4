@@ -12,21 +12,23 @@
 */
 
 struct strings es_ES = {
- /* menu_enable */    L"Activar",
- /* menu_disable */   L"Desactivar",
- /* menu_hide */      L"Ocultar icono",
- /* menu_options */   L"Opciones",
+ /* menu_enable    */ L"Activar",
+ /* menu_disable   */ L"Desactivar",
+ /* menu_hide      */ L"Ocultar icono",
+ /* menu_options   */ L"Opciones",
  /* menu_autostart */ L"Iniciar con Windows",
- /* menu_settings */  L"Abrir configuración",
- /* menu_update */    L"Actualización disponible",
- /* menu_about */     L"Acerca de",
- /* menu_exit */      L"Salir",
- /* tray_enabled */   APP_NAME " (activado)",
- /* tray_disabled */  APP_NAME " (desactivado)",
+ /* menu_settings  */ L"Abrir configuración",
+ /* menu_chkupdate */ L"Check for update",
+ /* menu_update    */ L"Actualización disponible",
+ /* menu_about     */ L"Acerca de",
+ /* menu_exit      */ L"Salir",
+ /* tray_enabled   */ APP_NAME " (activado)",
+ /* tray_disabled  */ APP_NAME " (desactivado)",
  /* update_balloon */ L"Nueva versión disponible",
- /* update_dialog */  L"Hay una nueva versión disponible.\n¿Ir a la página web?\n\n(Puedes desactivar la comprobación automática de actualizaciones editando "APP_NAME".ini)",
- /* about_title */    L"Acerca de " APP_NAME,
- /* about */          APP_NAME " - " APP_VERSION "\n\
+ /* update_dialog  */ L"Hay una nueva versión disponible.\n¿Ir a la página web?\n\nPuedes desactivar la comprobación automática de actualizaciones editando "APP_NAME".ini.",
+ /* update_nonew   */ L"No update available.",
+ /* about_title    */ L"Acerca de " APP_NAME,
+ /* about          */ APP_NAME " - " APP_VERSION "\n\
 Por Stefan Sundin\n\
 Traducido por Fabrizio Ferri (algernon@gmail.com)\n\
 \n\
