@@ -4,11 +4,25 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2009-11-15T20:00:00Z</updated>
+	<updated>2009-12-25T22:00:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:1dbefaed-6e66-4c90-a008-1d859482ecda</id>
+		<title>TrayCD - lock.exe</title>
+		<link href="http://code.google.com/p/traycd/" />
+		<updated>2009-12-25T22:00:00Z</updated>
+		<content type="html">
+Uploaded a small console program, lock.exe, that can lock/unlock cd-rom drives. A locked cd-rom drive can't be ejected. Why would you need this? I do not know.&lt;br/>
+&lt;br/>
+&lt;a href="http://code.google.com/p/traycd/">&lt;img src="http://traycd.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://traycd.googlecode.com/files/lock.exe">&lt;img src="http://traycd.googlecode.com/svn/wiki/down.png"/> Download lock.exe&lt;/a>&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://traycd.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:36fe8f1d-ec94-4c31-81e6-e1c86176c707</id>
