@@ -2,19 +2,26 @@
 #labels Featured
 
 = What? =
-What SuperF4 basically does, is kill the process of the foreground window when you press Ctrl+Alt+F4.
-You might think, doesn't Alt+F4 do this? Well, it's a bit different. When you press Alt+F4, the program can refuse to quit. Windows essentially only asks the program to quit, and lets it decide for itself what to do (almost always it behaves just as if you would have pressed the × in the upper-right corner).
 
-You can also kill a process by pressing Win+F4 and then clicking the window with your mouse. You can press escape or the right mouse button to exit this mode without killing a program.
+What SuperF4 basically does, is kill the process of the foreground window when you press Ctrl+Alt+F4.
+You might think, doesn't Alt+F4 do this? Well, it's a bit different. When you press Alt+F4, the program can refuse to quit. Windows essentially only asks the program to quit, and lets it decide for itself what to do (it almost always behaves just as if you would have pressed the × in the upper-right corner).
+
+You can also kill a process by pressing Win+F4 and then clicking the window with your mouse. You can press escape or the right mouse button to exit this mode without killing a program. When in this mode, you will see the cursor changing to a skull and crossbones cursor.
+
+http://superf4.googlecode.com/svn/trunk/media/kill.png
 
 = Why? =
+
 You might have encountered a game that hung because of some stupid bug, then your computer gets all slow and you just can't get out of the game since it's fullscreen and nothing happens when you press Ctrl+Alt+Delete to bring up the task manager. You eventually give up and reboot the computer by pressing the power button. :(
 
 This has happened to me quite a few times and I got tired of it, so I made SuperF4. Now I can just press Ctrl+Alt+F4 and get back to the desktop within a few seconds. :)
 
+This does of course work just as well with normal programs, and not only games.
+
 = More =
+
 SuperF4 should be able to kill all kinds of processes, whether they are hung or not.
-Beware though, SuperF4 effectively kills the program and doesn't give it a chance to save unsaved work.
+Use with care though, since SuperF4 effectively kills the program and doesn't give it any chance to save unsaved work.
 
 When started, you can enable or disable SuperF4 by clicking the tray icon. You can set it to autostart in the tray menu. SuperF4 will automatically check for updates when you start the program, but you can disable that in SuperF4.ini.
 
