@@ -71,6 +71,7 @@ DWORD WINAPI _CheckForUpdate(LPVOID arg) {
 	//Make sure the server returned 200
 	if (wcscmp(code,L"200")) {
 		if (verbose) {
+			wchar_t txt[1000];
 			swprintf(txt, L"Server returned %s error when checking for update.\nPlease check for update manually at "APP_URL, code);
 			MessageBox(NULL, txt, APP_NAME, MB_ICONWARNING|MB_OK);
 		}
@@ -81,13 +82,13 @@ DWORD WINAPI _CheckForUpdate(LPVOID arg) {
 	if (strcmp(data,APP_VERSION) > 0) {
 		update = 1;
 		if (verbose) {
-			SendMessage(traydata.hWnd, WM_COMMAND, SWM_UPDATE, 0);
+			SendMessage(tray.hWnd, WM_COMMAND, SWM_UPDATE, 0);
 		}
 		else {
-			wcsncpy(traydata.szInfo, l10n->update_balloon, sizeof(traydata.szInfo)/sizeof(wchar_t));
-			traydata.uFlags |= NIF_INFO;
+			wcsncpy(tray.szInfo, l10n->update_balloon, sizeof(tray.szInfo)/sizeof(wchar_t));
+			tray.uFlags |= NIF_INFO;
 			UpdateTray();
-			traydata.uFlags ^= NIF_INFO;
+			tray.uFlags ^= NIF_INFO;
 		}
 	}
 	else {

@@ -32,3 +32,5 @@ struct {
 	{L"gl-ES", &gl_ES},
 	{NULL},
 };
+
+struct strings *l10n = &en_US;
