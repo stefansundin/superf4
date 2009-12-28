@@ -82,7 +82,7 @@ DWORD WINAPI _CheckForUpdate(LPVOID arg) {
 	if (strcmp(data,APP_VERSION) > 0) {
 		update = 1;
 		if (verbose) {
-			SendMessage(tray.hWnd, WM_COMMAND, SWM_UPDATE, 0);
+			SendMessage(g_hwnd, WM_COMMAND, SWM_UPDATE, 0);
 		}
 		else {
 			wcsncpy(tray.szInfo, l10n->update_balloon, sizeof(tray.szInfo)/sizeof(wchar_t));

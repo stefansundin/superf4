@@ -2,30 +2,27 @@ SuperF4
 Made by Stefan Sundin
 
 Press Ctrl+Alt+F4 to kill the foreground program.
-The effect is the same as when you kill the process from the task manager.
+The effect is the same as if you would have killed the process from the task manager.
+This is very useful when fullscreen games hang, and often saves you from having to reboot.
 
-You can also kill a process by pressing [the windows key]+F4 and then clicking the window with the mouse.
+You can also kill a process by pressing Win+F4 and then clicking the window with the mouse.
 You can press escape or the right mouse button to exit this mode without killing a program.
-
-SuperF4 will automatically check for updates.
-You can disable this in SuperF4.ini.
-
-You can use -hide as a parameter to hide the tray icon.
+SuperF4 will automatically check for updates. You can disable this in SuperF4.ini.
 
 Visit the website at http://superf4.googlecode.com/
 Send feedback to recover89@gmail.com
+SuperF4 is open source, licensed under GPL.
 
 If this program is useful for you, please consider donating money.
 You can find out how to donate on the website.
-
-SuperF4 is open source, licensed under GPL.
 
 Changelog
 ---------
 1.2:
 Added 64-bit executable. The installer will automatically install the correct executable.
-Added xkill to tray menu.
-Fixed Shell_NotifyIcon error that appeared for some when SuperF4 was on autostart.
+Added xkill to the tray menu (Win+F4).
+Added manual update check to the tray menu.
+Fixed the Shell_NotifyIcon error that appeared for some when SuperF4 was on autostart.
 
 1.1 - 2009-08-19:
 Fixed mouse cursor not changing when pressing [the windows key]+F4 if Aero was disabled in Vista.

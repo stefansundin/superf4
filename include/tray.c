@@ -9,8 +9,35 @@
 */
 
 NOTIFYICONDATA tray;
+HICON icon[2];
 int tray_added = 0;
 int hide = 0;
+
+int InitTray(int xmas) {
+	//Load icons
+	icon[0] = LoadImage(g_hinst, (xmas?L"tray_xmas_disabled":L"tray_disabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
+	icon[1] = LoadImage(g_hinst, (xmas?L"tray_xmas_enabled":L"tray_enabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
+	if (icon[0] == NULL || icon[1] == NULL) {
+		Error(L"LoadImage('tray_*')", L"Could not load tray icons.", GetLastError(), TEXT(__FILE__), __LINE__);
+		return 1;
+	}
+	
+	//Create icondata
+	tray.cbSize = sizeof(NOTIFYICONDATA);
+	tray.uID = 0;
+	tray.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP;
+	tray.hWnd = g_hwnd;
+	tray.uCallbackMessage = WM_TRAY;
+	//Balloon tooltip
+	tray.uTimeout = 10000;
+	wcsncpy(tray.szInfoTitle, APP_NAME, sizeof(tray.szInfoTitle)/sizeof(wchar_t));
+	tray.dwInfoFlags = NIIF_USER;
+	
+	//Register TaskbarCreated so we can re-add the tray icon if (when) explorer.exe crashes
+	WM_TASKBARCREATED = RegisterWindowMessage(L"TaskbarCreated");
+	
+	return 0;
+}
 
 int UpdateTray() {
 	wcsncpy(tray.szTip, (enabled()?l10n->tray_enabled:l10n->tray_disabled), sizeof(tray.szTip)/sizeof(wchar_t));

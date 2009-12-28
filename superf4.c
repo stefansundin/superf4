@@ -50,17 +50,16 @@
 
 //Boring stuff
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
-HICON icon[2];
+HINSTANCE g_hinst = NULL;
+HWND g_hwnd = NULL;
 UINT WM_TASKBARCREATED = 0;
 UINT WM_UPDATESETTINGS = 0;
 UINT WM_ADDTRAY = 0;
 UINT WM_HIDETRAY = 0;
 
 //Cool stuff
-HINSTANCE hinstDLL = NULL;
 HHOOK keyhook = NULL;
 HHOOK mousehook = NULL;
-HWND cursorwnd = NULL;
 int ctrl = 0;
 int alt = 0;
 int win = 0;
@@ -75,6 +74,8 @@ int superkill = 0;
 
 //Entry point
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, int iCmdShow) {
+	g_hinst = hInst;
+	
 	//Check command line
 	if (!strcmp(szCmdLine,"-hide")) {
 		hide = 1;
@@ -87,12 +88,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	HWND previnst = FindWindow(APP_NAME,NULL);
 	if (previnst != NULL) {
 		PostMessage(previnst, WM_UPDATESETTINGS, 0, 0);
-		if (hide) {
-			PostMessage(previnst, WM_HIDETRAY, 0, 0);
-		}
-		else {
-			PostMessage(previnst, WM_ADDTRAY, 0, 0);
-		}
+		PostMessage(previnst, (hide?WM_HIDETRAY:WM_ADDTRAY), 0, 0);
 		return 0;
 	}
 	
@@ -107,7 +103,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
 	int i;
 	for (i=0; languages[i].code != NULL; i++) {
-		if (!wcscmp(txt,languages[i].code)) {
+		if (!wcsicmp(txt,languages[i].code)) {
 			l10n = languages[i].strings;
 			break;
 		}
@@ -126,14 +122,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		}
 	}
 	
-	//Load icons
-	icon[0] = LoadImage(hInst, (xmas?L"tray_xmas_disabled":L"tray_disabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
-	icon[1] = LoadImage(hInst, (xmas?L"tray_xmas_enabled":L"tray_enabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
-	if (icon[0] == NULL || icon[1] == NULL) {
-		Error(L"LoadImage('tray_*')", L"Could not load tray icons.", GetLastError(), TEXT(__FILE__), __LINE__);
-		return 1;
-	}
-	
 	//Create window class
 	WNDCLASSEX wnd;
 	wnd.cbSize = sizeof(WNDCLASSEX);
@@ -148,26 +136,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	wnd.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
 	wnd.lpszMenuName = NULL;
 	wnd.lpszClassName = APP_NAME;
-	
-	//Register class
 	RegisterClassEx(&wnd);
-	
 	//Create window
-	cursorwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
+	g_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
 	
-	//Create icondata
-	tray.cbSize = sizeof(NOTIFYICONDATA);
-	tray.uID = 0;
-	tray.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP;
-	tray.hWnd = cursorwnd;
-	tray.uCallbackMessage = WM_TRAY;
-	//Balloon tooltip
-	tray.uTimeout = 10000;
-	wcsncpy(tray.szInfoTitle, APP_NAME, sizeof(tray.szInfoTitle)/sizeof(wchar_t));
-	tray.dwInfoFlags = NIIF_USER;
-	
-	//Register TaskbarCreated so we can re-add the tray icon if explorer.exe crashes
-	WM_TASKBARCREATED = RegisterWindowMessage(L"TaskbarCreated");
+	//Init tray icon
+	InitTray(xmas);
 	
 	//Update tray icon
 	UpdateTray();
@@ -377,9 +351,9 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 		if (wParam == WM_LBUTTONDOWN && superkill) {
 			POINT pt = ((PMSLLHOOKSTRUCT)lParam)->pt;
 			
-			//Make sure cursorwnd isn't in the way
-			ShowWindow(cursorwnd, SW_HIDE);
-			SetWindowLongPtr(cursorwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
+			//Make sure the cursor window isn't in the way
+			ShowWindow(g_hwnd, SW_HIDE);
+			SetWindowLongPtr(g_hwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 			
 			//Get hwnd
 			HWND hwnd = WindowFromPoint(pt);
@@ -424,7 +398,7 @@ int HookMouse() {
 	}
 	
 	//Set up the mouse hook
-	mousehook = SetWindowsHookEx(WH_MOUSE_LL, LowLevelMouseProc, hinstDLL, 0);
+	mousehook = SetWindowsHookEx(WH_MOUSE_LL, LowLevelMouseProc, g_hinst, 0);
 	if (mousehook == NULL) {
 		#ifdef DEBUG
 		Error(L"SetWindowsHookEx(WH_MOUSE_LL)", L"HookMouse()", GetLastError(), TEXT(__FILE__), __LINE__);
@@ -437,10 +411,10 @@ int HookMouse() {
 	int top = GetSystemMetrics(SM_YVIRTUALSCREEN);
 	int width = GetSystemMetrics(SM_CXVIRTUALSCREEN);
 	int height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
-	MoveWindow(cursorwnd, left, top, width, height, FALSE);
-	SetWindowLongPtr(cursorwnd, GWL_EXSTYLE, WS_EX_LAYERED|WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
-	SetLayeredWindowAttributes(cursorwnd, 0, 1, LWA_ALPHA); //Almost transparent
-	ShowWindowAsync(cursorwnd, SW_SHOWNA);
+	MoveWindow(g_hwnd, left, top, width, height, FALSE);
+	SetWindowLongPtr(g_hwnd, GWL_EXSTYLE, WS_EX_LAYERED|WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
+	SetLayeredWindowAttributes(g_hwnd, 0, 1, LWA_ALPHA); //Almost transparent
+	ShowWindowAsync(g_hwnd, SW_SHOWNA);
 	
 	//Success
 	superkill = 1;
@@ -485,8 +459,8 @@ int DisableMouse() {
 	superkill = 0;
 	
 	//Hide cursor
-	ShowWindow(cursorwnd, SW_HIDE);
-	SetWindowLongPtr(cursorwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
+	ShowWindow(g_hwnd, SW_HIDE);
+	SetWindowLongPtr(g_hwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 	return 0;
 }
 
@@ -497,28 +471,25 @@ int HookKeyboard() {
 	}
 	
 	//Update settings
-	SendMessage(tray.hWnd, WM_UPDATESETTINGS, 0, 0);
-	
-	//Get handle to exe
-	hinstDLL = GetModuleHandle(NULL);
+	SendMessage(g_hwnd, WM_UPDATESETTINGS, 0, 0);
 	
 	//Name decoration
-	//This is really an ugly hack to make both MinGW and mingw-w64 use their respective name decorations
+	//This is really an ugly hack to make both MinGW/mingw-w32 and mingw-w64 use their respective name decorations
 	#ifdef _WIN64
 	#define KeyhookNameDecoration ""    //mingw-w64
 	#else
-	#define KeyhookNameDecoration "@12" //MinGW
+	#define KeyhookNameDecoration "@12" //MinGW/mingw-w32
 	#endif
 	
-	//Get address to keyboard hook (beware name decoration)
-	HOOKPROC procaddr = (HOOKPROC)GetProcAddress(hinstDLL, "LowLevelKeyboardProc"KeyhookNameDecoration);
+	//Get address to keyboard hook
+	HOOKPROC procaddr = (HOOKPROC)GetProcAddress(g_hinst, "LowLevelKeyboardProc"KeyhookNameDecoration);
 	if (procaddr == NULL) {
 		Error(L"GetProcAddress('LowLevelKeyboardProc"KeyhookNameDecoration"')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
 	//Set up the hook
-	keyhook = SetWindowsHookEx(WH_KEYBOARD_LL, procaddr, hinstDLL, 0);
+	keyhook = SetWindowsHookEx(WH_KEYBOARD_LL, procaddr, g_hinst, 0);
 	if (keyhook == NULL) {
 		Error(L"SetWindowsHookEx(WH_KEYBOARD_LL)", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
@@ -595,7 +566,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
 		int i;
 		for (i=0; languages[i].code != NULL; i++) {
-			if (!wcscmp(txt,languages[i].code)) {
+			if (!wcsicmp(txt,languages[i].code)) {
 				l10n = languages[i].strings;
 				break;
 			}
