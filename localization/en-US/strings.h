@@ -24,8 +24,8 @@ struct strings en_US = {
  /* menu_exit      */ L"Exit",
  /* tray_enabled   */ APP_NAME " (enabled)",
  /* tray_disabled  */ APP_NAME " (disabled)",
- /* update_balloon */ L"New version found!",
- /* update_dialog  */ L"A new version is available.\nGo to website?\n\nYou can disable automatic update checking in the ini file.",
+ /* update_balloon */ L"New version available!",
+ /* update_dialog  */ L"A new version is available.\nGo to website?\n\nYou can disable automatic update checking in the settings.",
  /* update_nonew   */ L"No update available.",
  /* about_title    */ L"About " APP_NAME,
  /* about          */ APP_NAME " - " APP_VERSION "\n\
@@ -34,7 +34,7 @@ Made by Stefan Sundin\n\
 Press Ctrl+Alt+F4 to kill the foreground program. \
 The effect is the same as when you kill the process from the task manager.\n\
 \n\
-You can also kill a process by pressing [the windows key]+F4 and then clicking the window with the mouse. \
+You can also kill a process by pressing Win+F4 and then clicking the window with the mouse. \
 You can press escape or the right mouse button to exit this mode without killing a program.\n\
 \n\
 Visit the website at "APP_URL"\n\

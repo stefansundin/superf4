@@ -19,10 +19,11 @@
 #include <shlwapi.h>
 
 //App
-#define APP_NAME      L"SuperF4"
-#define APP_VERSION   "1.2"
-#define APP_URL       L"http://superf4.googlecode.com/"
-#define APP_UPDATEURL L"http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
+#define APP_NAME            L"SuperF4"
+#define APP_VERSION         "1.2"
+#define APP_URL             L"http://code.google.com/p/superf4/"
+#define APP_UPDATE_STABLE   L"http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
+#define APP_UPDATE_UNSTABLE L"http://superf4.googlecode.com/svn/wiki/latest-unstable.txt"
 
 //Messages
 #define WM_TRAY                WM_USER+1
@@ -98,8 +99,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	PathRemoveFileSpec(path);
 	wcscat(path, L"\\"APP_NAME".ini");
 	wchar_t txt[10];
-	GetPrivateProfileString(L"Update", L"CheckForUpdate", L"0", txt, sizeof(txt)/sizeof(wchar_t), path);
-	int checkforupdate = _wtoi(txt);
 	GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
 	int i;
 	for (i=0; languages[i].code != NULL; i++) {
@@ -110,7 +109,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	}
 	
 	//Xmas - don't talk about this, it's a surprise :)
-	//A little late for 2009, but it will be there for next year and later years.
 	//Remove with Xmas=0 in ini file, force with Xmas=1.
 	GetPrivateProfileString(APP_NAME, L"Xmas", L"2", txt, sizeof(txt)/sizeof(wchar_t), path);
 	int xmas = _wtoi(txt);
@@ -122,7 +120,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		}
 	}
 	
-	//Create window class
+	//Create window
 	WNDCLASSEX wnd;
 	wnd.cbSize = sizeof(WNDCLASSEX);
 	wnd.style = 0;
@@ -137,7 +135,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	wnd.lpszMenuName = NULL;
 	wnd.lpszClassName = APP_NAME;
 	RegisterClassEx(&wnd);
-	//Create window
 	g_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
 	
 	//Init tray icon
@@ -156,6 +153,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	}
 	
 	//Check for update
+	GetPrivateProfileString(L"Update", L"CheckOnStartup", L"0", txt, sizeof(txt)/sizeof(wchar_t), path);
+	int checkforupdate = _wtoi(txt);
 	if (checkforupdate) {
 		CheckForUpdate(0);
 	}

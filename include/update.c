@@ -16,6 +16,15 @@ DWORD WINAPI _CheckForUpdate(LPVOID arg) {
 	int verbose = *(int*)arg;
 	free(arg);
 	
+	//Check if we should check for beta
+	wchar_t path[MAX_PATH];
+	GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
+	PathRemoveFileSpec(path);
+	wcscat(path, L"\\"APP_NAME".ini");
+	wchar_t txt[10];
+	GetPrivateProfileString(L"Update", L"Beta", L"0", txt, sizeof(txt)/sizeof(wchar_t), path);
+	int beta = _wtoi(txt);
+	
 	//Check if we are connected to the internet
 	DWORD flags; //Not really used
 	int tries = 0; //Try at least ten times, sleep one second between each attempt
@@ -40,7 +49,7 @@ DWORD WINAPI _CheckForUpdate(LPVOID arg) {
 		}
 		return 1;
 	}
-	HINTERNET file = InternetOpenUrl(http, APP_UPDATEURL, NULL, 0, INTERNET_FLAG_RELOAD|INTERNET_FLAG_NO_CACHE_WRITE|INTERNET_FLAG_NO_AUTH|INTERNET_FLAG_NO_AUTO_REDIRECT|INTERNET_FLAG_NO_COOKIES|INTERNET_FLAG_NO_UI, 0);
+	HINTERNET file = InternetOpenUrl(http, (beta?APP_UPDATE_UNSTABLE:APP_UPDATE_STABLE), NULL, 0, INTERNET_FLAG_RELOAD|INTERNET_FLAG_NO_CACHE_WRITE|INTERNET_FLAG_NO_AUTH|INTERNET_FLAG_NO_AUTO_REDIRECT|INTERNET_FLAG_NO_COOKIES|INTERNET_FLAG_NO_UI, 0);
 	if (file == NULL) {
 		if (verbose) {
 			Error(L"InternetOpenUrl()", L"Could not establish connection.\nPlease check for update manually at "APP_URL, GetLastError(), TEXT(__FILE__), __LINE__);
