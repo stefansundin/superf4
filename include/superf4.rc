@@ -9,9 +9,9 @@ tray_xmas_enabled ICON "media/tray-xmas-enabled.ico"
 #define CREATEPROCESS_MANIFEST_RESOURCE_ID 1
 #define RT_MANIFEST 24
 #ifdef _WIN64
-CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "SuperF4_x64.exe.manifest"
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "include/SuperF4_x64.exe.manifest"
 #else
-CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "SuperF4.exe.manifest"
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "include/SuperF4.exe.manifest"
 #endif
 
 #define VS_VERSION_INFO 1
@@ -33,7 +33,7 @@ BEGIN
 			VALUE "InternalName", "superf4"
 			VALUE "OriginalFilename", "SuperF4.exe"
 			VALUE "CompanyName", "Stefan Sundin"
-			VALUE "LegalCopyright", "© Stefan Sundin 2009"
+			VALUE "LegalCopyright", "© Stefan Sundin 2010"
 		END
 	END
 	BLOCK "VarFileInfo"

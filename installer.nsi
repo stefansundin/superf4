@@ -175,7 +175,7 @@ Section "$(L10N_UPDATE_SECTION)" sec_update
 	done:
 SectionEnd
 
-Section "${APP_NAME} (${APP_VERSION})" sec_app
+Section "${APP_NAME}" sec_app
 	SectionIn RO
 	
 	;Close app if running
@@ -246,6 +246,7 @@ Function .onInit
 	!ifdef x64
 	${If} ${RunningX64}
 		StrCpy $INSTDIR "$PROGRAMFILES64\${APP_NAME}"
+		SectionSetText ${sec_app} "${APP_NAME} (x64)"
 	${EndIf}
 	!endif
 	;Display language selection and add tray if program is running

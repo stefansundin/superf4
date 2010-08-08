@@ -39,6 +39,7 @@
 #define SWM_XKILL              WM_APP+10
 #define SWM_ABOUT              WM_APP+11
 #define SWM_EXIT               WM_APP+12
+#define CHECKTIMER             WM_APP+13
 
 //Stuff missing in MinGW
 #ifndef NIIF_USER
@@ -65,6 +66,8 @@ int ctrl = 0;
 int alt = 0;
 int win = 0;
 int superkill = 0;
+#define CHECKINTERVAL 100
+int killing = 0; //Variable to prevent overkill
 
 //Include stuff
 #include "localization/strings.h"
@@ -159,6 +162,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		CheckForUpdate(0);
 	}
 	
+	//TimerCheck
+	GetPrivateProfileString(APP_NAME, L"TimerCheck", L"0", txt, sizeof(txt)/sizeof(wchar_t), path);
+	int timercheck = _wtoi(txt);
+	if (timercheck) {
+		SetTimer(g_hwnd, CHECKTIMER, CHECKINTERVAL, NULL);
+	}
+	
 	//Message loop
 	MSG msg;
 	while (GetMessage(&msg,NULL,0,0)) {
@@ -215,6 +225,9 @@ void ShowContextMenu(HWND hwnd) {
 
 //Hooks
 void Kill(HWND hwnd) {
+	//Ctrl+Alt+F4 is depressed
+	killing = 1;
+	
 	//Get process id of hwnd
 	DWORD pid;
 	GetWindowThreadProcessId(hwnd, &pid);
@@ -527,6 +540,7 @@ int enabled() {
 void ToggleState() {
 	if (enabled()) {
 		UnhookKeyboard();
+		KillTimer(g_hwnd, CHECKTIMER);
 	}
 	else {
 		HookKeyboard();
@@ -560,8 +574,15 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
 		PathRemoveFileSpec(path);
 		wcscat(path, L"\\"APP_NAME".ini");
-		//Language
 		wchar_t txt[10];
+		//TimerCheck
+		KillTimer(g_hwnd, CHECKTIMER);
+		GetPrivateProfileString(APP_NAME, L"TimerCheck", L"0", txt, sizeof(txt)/sizeof(wchar_t), path);
+		int timercheck = _wtoi(txt);
+		if (timercheck) {
+			SetTimer(g_hwnd, CHECKTIMER, CHECKINTERVAL, NULL);
+		}
+		//Language
 		GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
 		int i;
 		for (i=0; languages[i].code != NULL; i++) {
@@ -643,6 +664,24 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		SetWindowLongPtr(hwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 		//Since we take away the skull, make sure we can't kill anything
 		UnhookMouse();
+	}
+	else if (msg == WM_TIMER && enabled()) {
+		if (GetAsyncKeyState(VK_LCONTROL)&0x8000
+		 && GetAsyncKeyState(VK_LMENU)&0x8000
+		 && GetAsyncKeyState(VK_F4)&0x8000
+		 && !killing) {
+			//Get hwnd of foreground window
+			HWND hwnd = GetForegroundWindow();
+			if (hwnd == NULL) {
+				return DefWindowProc(hwnd, msg, wParam, lParam);
+			}
+
+			//Kill it!
+			Kill(hwnd);
+		}
+		else {
+			killing = 0;
+		}
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
