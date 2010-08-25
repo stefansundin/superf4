@@ -11,9 +11,8 @@ taskkill /IM SuperF4.exe
 
 if not exist build. mkdir build
 
-%prefix32%windres -o build\superf4.o include\superf4.rc
-
 if "%1" == "all" (
+	%prefix32%windres -o build\superf4.o include\superf4.rc
 	%prefix32%gcc -o build\ini.exe include\ini.c -lshlwapi -march=pentium2
 	
 	@echo.
@@ -56,6 +55,7 @@ if "%1" == "all" (
 	%prefix64%windres -o build\superf4_x64.o include\superf4.rc
 	%prefix64%gcc -o SuperF4.exe superf4.c build\superf4_x64.o -mwindows -lshlwapi -lwininet -g -DDEBUG
 ) else (
+	%prefix32%windres -o build\superf4.o include\superf4.rc
 	%prefix32%gcc -o SuperF4.exe superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -march=pentium2 -g -DDEBUG
 	
 	if "%1" == "run" (
