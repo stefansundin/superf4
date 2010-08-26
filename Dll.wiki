@@ -1,5 +1,5 @@
-#summary Why hooks.dll is (was) necessary
-#labels Phase-Implementation
+#summary Why hooks.dll was necessary
+#labels Phase-Implementation,Deprecated
 
 = Introduction =
 
