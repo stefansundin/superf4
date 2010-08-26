@@ -5,20 +5,16 @@ Traducido por Alexander De Sousa
 Preme Ctrl+Alt+F4 para matar o programa actual.
 O efecto é o mesmo que cando matas o proceso no Xestor de Tarefas.
 
-Tamén podes matar un proceso premendo [A tecla de Windows]+F4 e facendo clic na ventá co rato.
+Tamén podes matar un proceso premendo Win+F4 e facendo clic na ventá co rato.
 Podes premer escape ou o botón dereito do rato para saír dese modo sen matar ningún programa.
-
 SuperF4 ha comprobar automaticamente se hai actualizacións.
 Pódelo desactivar editando SuperF4.ini, poñendo CheckForUpdate=0 no apartado [Update].
 
-Podes usar -hide como parámetro para esconder a icona na bandexa do sistema.
-
-Visita a páxina web en http://superf4.googlecode.com/
+Visita a páxina web en http://code.google.com/p/superf4/
 Envía a túa opinión ou comentarios (en inglés ou senón poñendo "Galician" ó comezo) a recover89@gmail.com
 
 Se este programa é útil para ti, considera doar diñeiro por favor.
 Podes atopar como doar na páxina web.
-
 SuperF4 é un programa de código fonte aberto, baixo a licencia GPL.
 
 Listaxe de Cambios:

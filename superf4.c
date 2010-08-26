@@ -1,6 +1,5 @@
 /*
-	SuperF4 - Force kill programs with Ctrl+Alt+F4
-	Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
+	Copyright (C) 2010  Stefan Sundin (recover89@gmail.com)
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -66,7 +65,7 @@ int ctrl = 0;
 int alt = 0;
 int win = 0;
 int superkill = 0;
-#define CHECKINTERVAL 100
+#define CHECKINTERVAL 50
 int killing = 0; //Variable to prevent overkill
 
 //Include stuff
@@ -225,7 +224,7 @@ void ShowContextMenu(HWND hwnd) {
 
 //Hooks
 void Kill(HWND hwnd) {
-	//Ctrl+Alt+F4 is depressed
+	//A program is about to DIE!
 	killing = 1;
 	
 	//Get process id of hwnd
@@ -237,6 +236,7 @@ void Kill(HWND hwnd) {
 	HANDLE hToken;
 	TOKEN_PRIVILEGES tkp;
 	if (OpenProcessToken(GetCurrentProcess(),TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,&hToken) == 0) {
+		//Could not elevate privileges, so we try without elevated privileges.
 		#ifdef DEBUG
 		Error(L"OpenProcessToken()", L"Kill()", GetLastError(), TEXT(__FILE__), __LINE__);
 		#endif
@@ -496,14 +496,14 @@ int HookKeyboard() {
 	//Get address to keyboard hook
 	HOOKPROC procaddr = (HOOKPROC)GetProcAddress(g_hinst, "LowLevelKeyboardProc"KeyhookNameDecoration);
 	if (procaddr == NULL) {
-		Error(L"GetProcAddress('LowLevelKeyboardProc"KeyhookNameDecoration"')", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
+		Error(L"GetProcAddress('LowLevelKeyboardProc"KeyhookNameDecoration"')", L"Could not find hook function. Try restarting "APP_NAME".", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
 	//Set up the hook
 	keyhook = SetWindowsHookEx(WH_KEYBOARD_LL, procaddr, g_hinst, 0);
 	if (keyhook == NULL) {
-		Error(L"SetWindowsHookEx(WH_KEYBOARD_LL)", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
+		Error(L"SetWindowsHookEx(WH_KEYBOARD_LL)", L"Could not hook keyboard. Another program might be interfering.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
@@ -520,7 +520,7 @@ int UnhookKeyboard() {
 	
 	//Remove keyboard hook
 	if (UnhookWindowsHookEx(keyhook) == 0) {
-		Error(L"UnhookWindowsHookEx(keyhook)", L"Check the "APP_NAME" website if there is an update, if the latest version doesn't fix this, please report it.", GetLastError(), TEXT(__FILE__), __LINE__);
+		Error(L"UnhookWindowsHookEx(keyhook)", L"Could not unhook keyboard. Try restarting "APP_NAME".", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
 	}
 	
@@ -668,8 +668,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	else if (msg == WM_TIMER && enabled()) {
 		if (GetAsyncKeyState(VK_LCONTROL)&0x8000
 		 && GetAsyncKeyState(VK_LMENU)&0x8000
-		 && GetAsyncKeyState(VK_F4)&0x8000
-		 && !killing) {
+		 && GetAsyncKeyState(VK_F4)&0x8000) {
+			//Do not attempt to kill again if the user has not released the keys yet
+			if (killing) {
+				return DefWindowProc(hwnd, msg, wParam, lParam);
+			}
+			
 			//Get hwnd of foreground window
 			HWND hwnd = GetForegroundWindow();
 			if (hwnd == NULL) {
@@ -680,6 +684,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			Kill(hwnd);
 		}
 		else {
+			//Reset when the user has released the keys
 			killing = 0;
 		}
 	}

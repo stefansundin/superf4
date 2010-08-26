@@ -1,6 +1,6 @@
 /*
 	Tray functions.
-	Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
+	Copyright (C) 2010  Stefan Sundin (recover89@gmail.com)
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -45,13 +45,8 @@ int UpdateTray() {
 	
 	//Only add or modify if not hidden or if balloon will be displayed
 	if (!hide || tray.uFlags&NIF_INFO) {
-		int tries = 0; //Try at least a hundred times, sleep 100 ms between each attempt
+		//Try until it succeeds, sleep 100 ms between each attempt
 		while (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&tray) == FALSE) {
-			tries++;
-			if (tries >= 100) {
-				Error(L"Shell_NotifyIcon(NIM_ADD/NIM_MODIFY)", L"Failed to add/update tray icon.", GetLastError(), TEXT(__FILE__), __LINE__);
-				return 1;
-			}
 			Sleep(100);
 		}
 		

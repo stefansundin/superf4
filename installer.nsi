@@ -1,6 +1,4 @@
-;SuperF4 installer
-;
-;Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
+;Copyright (C) 2010  Stefan Sundin (recover89@gmail.com)
 ;
 ;This program is free software: you can redistribute it and/or modify
 ;it under the terms of the GNU General Public License as published by
@@ -10,7 +8,7 @@
 
 !define APP_NAME      "SuperF4"
 !define APP_VERSION   "1.2"
-!define APP_URL       "http://superf4.googlecode.com/"
+!define APP_URL       "http://code.google.com/p/superf4/"
 !define APP_UPDATEURL "http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
 !define L10N_VERSION  2
 

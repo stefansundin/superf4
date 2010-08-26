@@ -5,17 +5,17 @@ Press Ctrl+Alt+F4 to kill the foreground program.
 The effect is the same as if you would have killed the process from the task manager.
 This is very useful when fullscreen games hang, and often saves you from having to reboot.
 
-You can also kill a process by pressing Win+F4 and then clicking the window with the mouse.
+You can also kill a process by pressing Win+F4 and then clicking the window with your mouse.
 You can press escape or the right mouse button to exit this mode without killing a program.
 If you accidentally kill explorer.exe, you can start it again by opening Task Manager (Ctrl+Shift+Esc).
 SuperF4 will automatically check for updates. You can disable this in SuperF4.ini.
 
-Visit the website at http://superf4.googlecode.com/
-Send feedback to recover89@gmail.com
-SuperF4 is open source, licensed under GPL.
+Visit the website at http://code.google.com/p/superf4/
+Visit the authors website at http://stefansundin.com/
 
 If this program is useful for you, please consider donating money.
 You can find out how to donate on the website.
+SuperF4 is open source, licensed under GPL.
 
 Changelog
 ---------

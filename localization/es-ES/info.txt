@@ -7,18 +7,13 @@ El efecto es el mismo que si mataras el proceso desde el Administrador de tareas
 
 También puedes terminar un proceso pulsando la tecla Windows+F4 y luego pulsando la ventana con el ratón.
 Pulsa Escape o el botón derecho para salir del modo sin terminar ningún programa.
+SuperF4 buscará automáticamente las actualizaciones. Puedes desactivar esto en el fichero SuperF4.ini.
 
-SuperF4 buscará automáticamente las actualizaciones.
-Puedes desactivar esto en el fichero SuperF4.ini.
-
-Puedes usar el parámetro -hide para ocultar el icono del área de notificación.
-
-Visita la página web en http://altdrag.googlecode.com/
+Visita la página web en http://code.google.com/p/superf4/
 Envía comentarios a recover89@gmail.com
 
 Si opinas que este programa es útil, por favor, toma en consideración realizar un donativo. 
 Encontrarás las instrucciones en la página web.
-
 SuperF4 es un programa de código abierto bajo licencia GPL.
 
 Historial de cambios

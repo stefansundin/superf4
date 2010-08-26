@@ -1,9 +1,7 @@
 /*
 	SuperF4 - en-US localization by Stefan Sundin (recover89@gmail.com)
 	Do not localize APP_NAME, it will be automatically replaced.
-	Keep this file in UTF–8
-	
-	Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
+	Keep this file encoded as UTF–8.
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -38,5 +36,5 @@ You can also kill a process by pressing Win+F4 and then clicking the window with
 You can press escape or the right mouse button to exit this mode without killing a program.\n\
 \n\
 Visit the website at "APP_URL"\n\
-Send feedback to recover89@gmail.com"
+Visit the authors website at http://stefansundin.com/"
 };

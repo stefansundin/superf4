@@ -1,9 +1,7 @@
 /*
 	SuperF4 - es-ES localization by Fabrizio Ferri (algernon@gmail.com)
 	Do not localize APP_NAME, it will be automatically replaced.
-	Keep this file in UTF–8
-	
-	Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
+	Keep this file encoded as UTF–8.
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
