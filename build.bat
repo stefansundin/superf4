@@ -39,7 +39,8 @@ if "%1" == "all" (
 		if "%2" == "x64" (
 			if not exist "build\x64\%%f\SuperF4". mkdir "build\x64\%%f\SuperF4"
 			copy "build\x64\SuperF4.exe" "build\x64\%%f\SuperF4"
-			copy "build\%%f\SuperF4\SuperF4.ini" "build\x64\%%f\SuperF4\SuperF4.ini"
+			copy "build\%%f\SuperF4\info.txt" "build\x64\%%f\SuperF4"
+			copy "build\%%f\SuperF4\SuperF4.ini" "build\x64\%%f\SuperF4"
 		)
 	)
 	

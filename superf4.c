@@ -224,7 +224,10 @@ void ShowContextMenu(HWND hwnd) {
 
 //Hooks
 void Kill(HWND hwnd) {
-	//A program is about to DIE!
+	//To prevent overkill
+	if (killing) {
+		return;
+	}
 	killing = 1;
 	
 	//Get process id of hwnd
@@ -343,6 +346,7 @@ __declspec(dllexport) LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wP
 			}
 		}
 		else if (wParam == WM_KEYUP || wParam == WM_SYSKEYUP) {
+			killing = 0;
 			if (vkey == VK_LCONTROL) {
 				ctrl = 0;
 			}
@@ -669,11 +673,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		if (GetAsyncKeyState(VK_LCONTROL)&0x8000
 		 && GetAsyncKeyState(VK_LMENU)&0x8000
 		 && GetAsyncKeyState(VK_F4)&0x8000) {
-			//Do not attempt to kill again if the user has not released the keys yet
-			if (killing) {
-				return DefWindowProc(hwnd, msg, wParam, lParam);
-			}
-			
 			//Get hwnd of foreground window
 			HWND hwnd = GetForegroundWindow();
 			if (hwnd == NULL) {
