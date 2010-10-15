@@ -11,7 +11,7 @@ If you accidentally kill explorer.exe, you can start it again by opening Task Ma
 SuperF4 will automatically check for updates. You can disable this in SuperF4.ini.
 
 Visit the website at http://code.google.com/p/superf4/
-Visit the authors website at http://stefansundin.com/
+Visit the author's website at http://stefansundin.com/
 
 If this program is useful for you, please consider donating money.
 You can find out how to donate on the website.
@@ -21,6 +21,7 @@ Changelog
 ---------
 1.2:
 Added 64-bit executable. The installer will automatically install the correct executable.
+Added support for alternative Ctrl+Alt+F4 detection (see SuperF4.ini). Enables this to make SuperF4 work in StarCraft II.
 Added xkill to the tray menu (Win+F4).
 Added manual update check to the tray menu.
 Fixed the Shell_NotifyIcon error that appeared for some when SuperF4 was on autostart.
