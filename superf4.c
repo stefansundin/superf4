@@ -473,6 +473,7 @@ int UnhookMouse() {
 int DisableMouse() {
 	//Disable
 	superkill = 0;
+	killing = 0;
 	
 	//Hide cursor
 	ShowWindow(g_hwnd, SW_HIDE);

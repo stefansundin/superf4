@@ -18,7 +18,7 @@ if "%1" == "all" (
 	
 	@echo.
 	echo Building binaries
-	%prefix32%gcc -o "build\SuperF4.exe" superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -march=pentium2 -O2 -s
+	%prefix32%gcc -o "build\SuperF4.exe" superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -O2 -s
 	if not exist "build\SuperF4.exe". exit /b
 	
 	if "%2" == "x64" (
@@ -56,7 +56,7 @@ if "%1" == "all" (
 	%prefix64%gcc -o SuperF4.exe superf4.c build\superf4_x64.o -mwindows -lshlwapi -lwininet -g -DDEBUG
 ) else (
 	%prefix32%windres -o build\superf4.o include\superf4.rc
-	%prefix32%gcc -o SuperF4.exe superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -march=pentium2 -g -DDEBUG
+	%prefix32%gcc -o SuperF4.exe superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -g -DDEBUG
 	
 	if "%1" == "run" (
 		start SuperF4.exe
