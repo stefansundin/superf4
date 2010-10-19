@@ -37,5 +37,5 @@ Tamén podes matar un proceso premendo [A tecla de Windows]+F4 e facendo clic na
 Podes premer escape ou o botón dereito do rato para saír dese modo sen matar ningún programa.\n\
 \n\
 Visita a páxina web en "APP_URL"\n\
-Visita a web dos autores en http://stefansundin.com/"
+Visita a web do autor en http://stefansundin.com/"
 };

@@ -36,5 +36,5 @@ You can also kill a process by pressing Win+F4 and then clicking the window with
 You can press escape or the right mouse button to exit this mode without killing a program.\n\
 \n\
 Visit the website at "APP_URL"\n\
-Visit the authors website at http://stefansundin.com/"
+Visit the author's website at http://stefansundin.com/"
 };
