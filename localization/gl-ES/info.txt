@@ -4,6 +4,7 @@ Traducido por Alexander De Sousa
 
 Preme Ctrl+Alt+F4 para matar o programa actual.
 O efecto é o mesmo que cando matas o proceso no Xestor de Tarefas.
+Isto é útil cando xogos a pantalla completa se bloquean e xeralmente aforra ter que reiniciar.
 
 Tamén podes matar un proceso premendo Win+F4 e facendo clic na ventá co rato.
 Podes premer escape ou o botón dereito do rato para saír dese modo sen matar ningún programa.
@@ -11,14 +12,21 @@ SuperF4 ha comprobar automaticamente se hai actualizacións.
 Pódelo desactivar editando SuperF4.ini, poñendo CheckForUpdate=0 no apartado [Update].
 
 Visita a páxina web en http://code.google.com/p/superf4/
+Visita a páxina web do autor en http://stefansundin.com/
 Envía a túa opinión ou comentarios (en inglés ou senón poñendo "Galician" ó comezo) a recover89@gmail.com
 
 Se este programa é útil para ti, considera doar diñeiro por favor.
-Podes atopar como doar na páxina web.
+Podes descubrir como doar na páxina web.
 SuperF4 é un programa de código fonte aberto, baixo a licencia GPL.
 
 Listaxe de Cambios:
 -------------------
+1.2:
+Engadiuse un executable de 64-bits. O instalador escollerá a versión correcta automáticamente.
+Engadiuse unha detección alternativa de Ctrl+Alt+F4 (ve SuperF4.ini). Por exemplo permite usar SuperF4 co StarCraft II.
+Engadiuse xkill no menú da bandexa do sistema.
+Arranxouse o erro Shell_NotifyIcon que aparecía as veces ó autoiniciar SuperF4.
+
 1.1 - 2009-08-19:
 Corrixido que non cambiase o cursor cando se preme [A Tecla de Windows]+F4 se Aero estaba desactivado en Vista.
 O cursor do rato agora abarca varios monitores de estaren presentes.

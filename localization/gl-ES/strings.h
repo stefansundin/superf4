@@ -16,18 +16,18 @@ struct strings gl_ES = {
  /* menu_options   */ L"Preferencias",
  /* menu_autostart */ L"Arrancar ó inicio",
  /* menu_settings  */ L"Abrir configuración",
- /* menu_chkupdate */ L"Check for update",
- /* menu_update    */ L"Actualización dispoñibel",
+ /* menu_chkupdate */ L"Comprobar actualizacións",
+ /* menu_update    */ L"Actualización dispoñíbel",
  /* menu_about     */ L"Acerca de",
  /* menu_exit      */ L"Saír",
  /* tray_enabled   */ APP_NAME " (activado)",
  /* tray_disabled  */ APP_NAME " (desactivado)",
  /* update_balloon */ L"Nova versión dispoñíbel!",
- /* update_dialog  */ L"Unha nova versión está dispoñíbel.\nQueres ir á páxina web?\n\nPodes desactivar a comprobación de actualizacións en "APP_NAME".ini.",
- /* update_nonew   */ L"No update available.",
+ /* update_dialog  */ L"Unha nova versión está dispoñíbel.\nQueres ir á páxina web?\n\nPodes desactivar a comprobación de actualizacións na configuración.",
+ /* update_nonew   */ L"Non hai actualizacións.",
  /* about_title    */ L"Acerca de " APP_NAME,
  /* about          */ APP_NAME " - " APP_VERSION "\n\
-Feito por Stefan Sundin\n\
+Escrito por Stefan Sundin\n\
 Traducido por Alexander De Sousa\n\
 \n\
 Preme Ctrl+Alt+F4 para matar o proceso do programa actual. \
@@ -37,5 +37,5 @@ Tamén podes matar un proceso premendo [A tecla de Windows]+F4 e facendo clic na
 Podes premer escape ou o botón dereito do rato para saír dese modo sen matar ningún programa.\n\
 \n\
 Visita a páxina web en "APP_URL"\n\
-Envía a túa opinión ou comentarios (en inglés ou senón poñendo \"Galician\" ó comezo) a recover89@gmail.com"
+Visita a web dos autores en http://stefansundin.com/"
 };
