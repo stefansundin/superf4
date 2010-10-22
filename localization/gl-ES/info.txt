@@ -8,6 +8,7 @@ Isto é útil cando xogos a pantalla completa se bloquean e xeralmente aforra ter 
 
 Tamén podes matar un proceso premendo Win+F4 e facendo clic na ventá co rato.
 Podes premer escape ou o botón dereito do rato para saír dese modo sen matar ningún programa.
+Se matas accidentalmente explorer.exe pódelo arrancar de novo dende o Xestor de Tarefas (Ctrl+Shift+Esc).
 SuperF4 ha comprobar automaticamente se hai actualizacións.
 Pódelo desactivar editando SuperF4.ini, poñendo CheckForUpdate=0 no apartado [Update].
 

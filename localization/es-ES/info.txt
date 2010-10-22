@@ -4,13 +4,15 @@ Traducido por Fabrizio Ferri (algernon@gmail.com)
 
 Presiona Control+Alt+F4 para terminar el proceso de la ventana seleccionada.
 El efecto es el mismo que si mataras el proceso desde el Administrador de tareas.
+Esto resulta muy útil en juegos a pantalla completa, y generalmente evita tener que reiniciar.
 
 También puedes terminar un proceso pulsando la tecla Windows+F4 y luego pulsando la ventana con el ratón.
 Pulsa Escape o el botón derecho para salir del modo sin terminar ningún programa.
+Si matas a explorer.exe accidentalmente puedes volver a arrancarlo desde el Administrador de Tareas (Ctrl+Alt+Esc).
 SuperF4 buscará automáticamente las actualizaciones. Puedes desactivar esto en el fichero SuperF4.ini.
 
 Visita la página web en http://code.google.com/p/superf4/
-Envía comentarios a recover89@gmail.com
+Visita la página web del autor en http://stefansundin.com/
 
 Si opinas que este programa es útil, por favor, toma en consideración realizar un donativo. 
 Encontrarás las instrucciones en la página web.
@@ -18,6 +20,13 @@ SuperF4 es un programa de código abierto bajo licencia GPL.
 
 Historial de cambios
 --------------------
+1.2:
+Se añadió un ejecutable de 64-bits, el programa de instalación seleccionará el correcto.
+Se añadió un modo de detección de Ctrl+Alt+F4 alternativo (ver SuperF4.ini). Actívalo para que SuperF4 funcione con StarCraft II por ejemplo.
+Se añadió xkill al menú de la bandeja del sistema (Win+F4).
+Se añadió una opción para comprobación de actualizaciones manual al menú de la bandeja del sistema.
+Se arregló el error Shell_NotifyIcon que aparecía para algunas personas al iniciar SuperF4 con el sitema.
+
 1.1 - 2009-08-19:
 Arreglado fallo del puntero del ratón que no cambiaba al pulsar Win+F4 con Aero desactivado en Vista.
 El cursor del ratón puede moverse ahora entre múltiples pantallas.
