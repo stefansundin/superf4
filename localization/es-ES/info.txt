@@ -20,7 +20,7 @@ SuperF4 es un programa de código abierto bajo licencia GPL.
 
 Historial de cambios
 --------------------
-1.2:
+1.2 - 2010-10-23:
 Se añadió un ejecutable de 64-bits, el programa de instalación seleccionará el correcto.
 Se añadió un modo de detección de Ctrl+Alt+F4 alternativo (ver SuperF4.ini). Actívalo para que SuperF4 funcione con StarCraft II por ejemplo.
 Se añadió xkill al menú de la bandeja del sistema (Win+F4).

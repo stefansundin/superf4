@@ -19,7 +19,7 @@ SuperF4 is open source, licensed under GPL.
 
 Changelog
 ---------
-1.2:
+1.2 - 2010-10-23:
 Added 64-bit executable. The installer will automatically install the correct executable.
 Added support for alternative Ctrl+Alt+F4 detection (see SuperF4.ini). Enables this to make SuperF4 work in StarCraft II.
 Added xkill to the tray menu (Win+F4).

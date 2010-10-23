@@ -1,8 +1,6 @@
 ;SuperF4 - gl-ES localization by Alexander De Sousa (xandy.lua@gmail.com)
 ;This file is ANSI encoded.
 ;
-;Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
-;
 ;This program is free software: you can redistribute it and/or modify
 ;it under the terms of the GNU General Public License as published by
 ;the Free Software Foundation, either version 3 of the License, or

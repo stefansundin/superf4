@@ -10,11 +10,10 @@ Tamén podes matar un proceso premendo Win+F4 e facendo clic na ventá co rato.
 Podes premer escape ou o botón dereito do rato para saír dese modo sen matar ningún programa.
 Se matas accidentalmente explorer.exe pódelo arrancar de novo dende o Xestor de Tarefas (Ctrl+Shift+Esc).
 SuperF4 ha comprobar automaticamente se hai actualizacións.
-Pódelo desactivar editando SuperF4.ini, poñendo CheckForUpdate=0 no apartado [Update].
+Pódelo desactivar editando SuperF4.ini, poñendo CheckOnStartup=0 no apartado [Update].
 
 Visita a páxina web en http://code.google.com/p/superf4/
 Visita a páxina web do autor en http://stefansundin.com/
-Envía a túa opinión ou comentarios (en inglés ou senón poñendo "Galician" ó comezo) a recover89@gmail.com
 
 Se este programa é útil para ti, considera doar diñeiro por favor.
 Podes descubrir como doar na páxina web.
@@ -22,7 +21,7 @@ SuperF4 é un programa de código fonte aberto, baixo a licencia GPL.
 
 Listaxe de Cambios:
 -------------------
-1.2:
+1.2 - 2010-10-23:
 Engadiuse un executable de 64-bits. O instalador escollerá a versión correcta automáticamente.
 Engadiuse unha detección alternativa de Ctrl+Alt+F4 (ve SuperF4.ini). Por exemplo permite usar SuperF4 co StarCraft II.
 Engadiuse xkill no menú da bandexa do sistema.

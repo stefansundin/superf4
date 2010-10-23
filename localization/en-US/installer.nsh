@@ -1,8 +1,6 @@
 ;SuperF4 - en-US localization by Stefan Sundin (recover89@gmail.com)
 ;Do not localize APP_NAME, it will be automatically replaced.
 ;
-;Copyright (C) 2009  Stefan Sundin (recover89@gmail.com)
-;
 ;This program is free software: you can redistribute it and/or modify
 ;it under the terms of the GNU General Public License as published by
 ;the Free Software Foundation, either version 3 of the License, or
