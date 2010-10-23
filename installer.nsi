@@ -243,8 +243,11 @@ Function .onInit
 	;Detect x64
 	!ifdef x64
 	${If} ${RunningX64}
-		StrCpy $INSTDIR "$PROGRAMFILES64\${APP_NAME}"
 		SectionSetText ${sec_app} "${APP_NAME} (x64)"
+		;Only set x64 installation dir if not already installed
+		ReadRegStr $0 HKCU "Software\${APP_NAME}" "Install_Dir"
+		IfFileExists $0 +2
+			StrCpy $INSTDIR "$PROGRAMFILES64\${APP_NAME}"
 	${EndIf}
 	!endif
 	;Display language selection and add tray if program is running

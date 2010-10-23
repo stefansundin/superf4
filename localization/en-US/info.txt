@@ -21,7 +21,7 @@ Changelog
 ---------
 1.2 - 2010-10-23:
 Added 64-bit executable. The installer will automatically install the correct executable.
-Added support for alternative Ctrl+Alt+F4 detection (see SuperF4.ini). Enables this to make SuperF4 work in StarCraft II.
+Added support for alternative Ctrl+Alt+F4 detection (see SuperF4.ini). Enable this to make SuperF4 work in StarCraft II.
 Added xkill to the tray menu (Win+F4).
 Added manual update check to the tray menu.
 Fixed the Shell_NotifyIcon error that appeared for some when SuperF4 was on autostart.
