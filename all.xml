@@ -4,11 +4,41 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2009-12-25T22:00:00Z</updated>
+	<updated>2010-10-23T20:20:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
+		<uri>http://stefansundin.com/</uri>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:d438c045-f840-4358-8c85-fab460729e6a</id>
+		<title>SuperF4 - 1.2</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2010-10-23T20:20:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+Released 1.2.&lt;br/>
+This update mainly brings support to StarCraft II and a few bug fixes. Another new thing is a native 64-bit executable (the installer will automatically install the correct executable). For more details, see the changelog below.&lt;br/>
+&lt;br/>
+&lt;u>Changelog:&lt;/u>
+&lt;ul>
+&lt;li>Added 64-bit executable. The installer will automatically install the correct executable.&lt;/li>
+&lt;li>Added support for alternative Ctrl+Alt+F4 detection (see &lt;tt>SuperF4.ini&lt;/tt>). Enable this to make SuperF4 work in StarCraft II.&lt;/li>
+&lt;li>Added xkill to the tray menu (Win+F4).&lt;/li>
+&lt;li>Added manual update check to the tray menu.&lt;/li>
+&lt;li>Fixed the &lt;tt>Shell_NotifyIcon&lt;/tt> error that appeared for some when SuperF4 was on autostart. &lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/superf4/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2.exe">&lt;img src="http://superf4.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a>
+ - Archive: &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2.7z">English&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Spanish%29.7z">Spanish&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Spanish%2C%20x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Galician%29.7z">Galician&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Galician%2C%20x64%29.7z">x64&lt;/a>)&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="https://spreadsheets.google.com/viewform?formkey=dDJfZGVCcnFkdjlTOVhBTW9Kb1FyT3c6MQ">&lt;img src="http://spreadsheet.google.com/images/forms/favicon.ico"/> Send feedback&lt;/a>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>&lt;br/>
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:1dbefaed-6e66-4c90-a008-1d859482ecda</id>
