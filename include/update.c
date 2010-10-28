@@ -69,20 +69,20 @@ DWORD WINAPI _CheckForUpdate(LPVOID arg) {
 		return 1;
 	}
 	data[numread] = '\0';
-	//Get error code
-	wchar_t code[4];
+	//Get error code and mime type
+	wchar_t code[4], mime[12];
 	DWORD len = sizeof(code);
 	HttpQueryInfo(file, HTTP_QUERY_STATUS_CODE, &code, &len, NULL);
+	len = sizeof(mime);
+	HttpQueryInfo(file, HTTP_QUERY_CONTENT_TYPE, &mime, &len, NULL);
 	//Close connection
 	InternetCloseHandle(file);
 	InternetCloseHandle(http);
 	
-	//Make sure the server returned 200
-	if (wcscmp(code,L"200")) {
+	//Make sure the server returned code 200 and mime text/plain
+	if (wcscmp(code,L"200") || wcscmp(mime,L"text/plain")) {
 		if (verbose) {
-			wchar_t txt[1000];
-			swprintf(txt, L"Server returned %s error when checking for update.\nPlease check for update manually at "APP_URL, code);
-			MessageBox(NULL, txt, APP_NAME, MB_ICONWARNING|MB_OK);
+			MessageBox(NULL, L"Could not determine if an update is available.\n\nPlease check for update manually at "APP_URL, APP_NAME, MB_ICONWARNING|MB_OK);
 		}
 		return 2;
 	}
