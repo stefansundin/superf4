@@ -10,7 +10,6 @@
 !define APP_VERSION   "1.2"
 !define APP_URL       "http://code.google.com/p/superf4/"
 !define APP_UPDATEURL "http://superf4.googlecode.com/svn/wiki/latest-stable.txt"
-!define L10N_VERSION  2
 
 ; Libraries
 
@@ -41,7 +40,6 @@ SetCompressor /SOLID lzma
 !define MUI_COMPONENTSPAGE_NODESC
 
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
-;!define MUI_FINISHPAGE_SHOWREADME_TEXT "Read info.txt"
 !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\info.txt"
 !define MUI_FINISHPAGE_RUN
 !define MUI_FINISHPAGE_RUN_FUNCTION "Launch"
@@ -121,6 +119,7 @@ FunctionEnd
 ; Detect previous installation
 
 Var Upgradebox
+Var Uninstallbox
 
 Function PageUpgrade
 	ReadRegStr $0 HKCU "Software\${APP_NAME}" "Install_Dir"
@@ -138,6 +137,9 @@ Function PageUpgrade
 	${NSD_CreateRadioButton} 0 95 100% 10u "$(L10N_UPGRADE_INSTALL)"
 	Pop $0
 	
+	${NSD_CreateRadioButton} 0 130 100% 10u "$(L10N_UPGRADE_UNINSTALL)"
+	Pop $Uninstallbox
+	
 	;Check the correct button when going back to this page
 	${If} $UpgradeState == ${BST_UNCHECKED}
 		${NSD_Check} $0
@@ -150,6 +152,11 @@ FunctionEnd
 
 Function PageUpgradeLeave
 	${NSD_GetState} $Upgradebox $UpgradeState
+	${NSD_GetState} $Uninstallbox $0
+	${If} $0 == ${BST_CHECKED}
+		Exec "$INSTDIR\Uninstall.exe"
+		Quit
+	${EndIf}
 FunctionEnd
 
 ; Installer
@@ -254,9 +261,8 @@ Function .onInit
 	!insertmacro MUI_LANGDLL_DISPLAY
 	Call AddTray
 	;If silent, deselect check for update
-	IfSilent 0 autostart_check
+	IfSilent 0 +2
 		!insertmacro UnselectSection ${sec_update}
-	autostart_check:
 	;Determine current autostart setting
 	StrCpy $AutostartSectionState 0
 	ReadRegStr $0 HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}"

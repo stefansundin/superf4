@@ -1,12 +1,9 @@
 ;SuperF4 - es-ES localization by Fabrizio Ferri (algernon@gmail.com)
-;Do not localize APP_NAME, it will be automatically replaced.
 ;
 ;This program is free software: you can redistribute it and/or modify
 ;it under the terms of the GNU General Public License as published by
 ;the Free Software Foundation, either version 3 of the License, or
 ;(at your option) any later version.
-
-!if ${L10N_VERSION} == 2
 
 !insertmacro MUI_LANGUAGE "Spanish"
 !define LANG ${LANG_SPANISH}
@@ -17,6 +14,7 @@ LangString L10N_UPGRADE_HEADER    ${LANG} "${APP_NAME} ya se encuentra instalado
 LangString L10N_UPGRADE_UPGRADE   ${LANG} "&Actualiza ${APP_NAME} a la versión ${APP_VERSION}."
 LangString L10N_UPGRADE_INI       ${LANG} "Se creará una copia de la configuración actual en ${APP_NAME}-old.ini."
 LangString L10N_UPGRADE_INSTALL   ${LANG} "&Instalar en otra ubicación"
+LangString L10N_UPGRADE_UNINSTALL ${LANG} "&Uninstall ${APP_NAME}."
 LangString L10N_UPDATE_SECTION    ${LANG} "Comprobar actualizaciones antes de instalar"
 LangString L10N_UPDATE_DIALOG     ${LANG} "Una nueva versión está disponible.$\n¿Anular instalación y visitar la página de descarga?"
 LangString L10N_RUNNING           ${LANG} "${APP_NAME} se está ejecutando. ¿Desea cerrarlo?"
@@ -26,7 +24,3 @@ LangString L10N_AUTOSTART         ${LANG} "Iniciar con Windows"
 LangString L10N_AUTOSTART_HIDE    ${LANG} "Ocultar icono"
 
 !undef LANG
-
-!else
-!warning "Localization out of date!" ;Don't localize this
-!endif

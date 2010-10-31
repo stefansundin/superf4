@@ -14,7 +14,7 @@ if not exist build. mkdir build
 
 if "%1" == "all" (
 	%prefix32%windres -o build\superf4.o include\superf4.rc
-	%prefix32%gcc -o build\ini.exe include\ini.c -lshlwapi -march=pentium2
+	%prefix32%gcc -o build\ini.exe include\ini.c -lshlwapi
 	
 	@echo.
 	echo Building binaries
@@ -22,9 +22,9 @@ if "%1" == "all" (
 	if not exist "build\SuperF4.exe". exit /b
 	
 	if "%2" == "x64" (
-		%prefix64%windres -o build\superf4_x64.o include\superf4.rc
 		if not exist "build\x64". mkdir "build\x64"
-		%prefix64%gcc -o "build\x64\SuperF4.exe" superf4.c build\superf4_x64.o -mwindows -lshlwapi -lwininet -O2 -s
+		%prefix64%windres -o build\x64\superf4.o include\superf4.rc
+		%prefix64%gcc -o "build\x64\SuperF4.exe" superf4.c build\x64\superf4.o -mwindows -lshlwapi -lwininet -O2 -s
 		if not exist "build\x64\SuperF4.exe". exit /b
 	)
 	
@@ -34,7 +34,7 @@ if "%1" == "all" (
 		if not exist "build\%%f\SuperF4". mkdir "build\%%f\SuperF4"
 		copy "build\SuperF4.exe" "build\%%f\SuperF4"
 		copy "localization\%%f\info.txt" "build\%%f\SuperF4"
-		copy SuperF4.ini "build\%%f\SuperF4"
+		copy "SuperF4.ini" "build\%%f\SuperF4"
 		"build\ini.exe" "build\%%f\SuperF4\SuperF4.ini" SuperF4 Language %%f
 		if "%2" == "x64" (
 			if not exist "build\x64\%%f\SuperF4". mkdir "build\x64\%%f\SuperF4"
@@ -52,8 +52,9 @@ if "%1" == "all" (
 		makensis /V2 installer.nsi
 	)
 ) else if "%1" == "x64" (
-	%prefix64%windres -o build\superf4_x64.o include\superf4.rc
-	%prefix64%gcc -o SuperF4.exe superf4.c build\superf4_x64.o -mwindows -lshlwapi -lwininet -g -DDEBUG
+	if not exist "build\x64". mkdir "build\x64"
+	%prefix64%windres -o build\x64\superf4.o include\superf4.rc
+	%prefix64%gcc -o SuperF4.exe superf4.c build\x64\superf4.o -mwindows -lshlwapi -lwininet -g -DDEBUG
 ) else (
 	%prefix32%windres -o build\superf4.o include\superf4.rc
 	%prefix32%gcc -o SuperF4.exe superf4.c build\superf4.o -mwindows -lshlwapi -lwininet -g -DDEBUG

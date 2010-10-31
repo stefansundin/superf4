@@ -71,8 +71,8 @@ int killing = 0; //Variable to prevent overkill
 //Include stuff
 #include "localization/strings.h"
 #include "include/error.c"
-#include "include/tray.c"
 #include "include/autostart.c"
+#include "include/tray.c"
 #include "include/update.c"
 
 //Entry point
@@ -139,10 +139,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	RegisterClassEx(&wnd);
 	g_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
 	
-	//Init tray icon
+	//Tray icon
 	InitTray(xmas);
-	
-	//Update tray icon
 	UpdateTray();
 	
 	//Hook keyboard
@@ -175,51 +173,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		DispatchMessage(&msg);
 	}
 	return msg.wParam;
-}
-
-void ShowContextMenu(HWND hwnd) {
-	POINT pt;
-	GetCursorPos(&pt);
-	HMENU menu = CreatePopupMenu();
-	
-	//Toggle
-	InsertMenu(menu, -1, MF_BYPOSITION, SWM_TOGGLE, (enabled()?l10n->menu_disable:l10n->menu_enable));
-	
-	//Hide
-	InsertMenu(menu, -1, MF_BYPOSITION, SWM_HIDE, l10n->menu_hide);
-	
-	//Check autostart
-	int autostart=0, hidden=0;
-	CheckAutostart(&autostart, &hidden);
-	//Options
-	HMENU menu_options = CreatePopupMenu();
-	InsertMenu(menu_options, -1, MF_BYPOSITION|(autostart?MF_CHECKED:0), (autostart?SWM_AUTOSTART_OFF:SWM_AUTOSTART_ON), l10n->menu_autostart);
-	InsertMenu(menu_options, -1, MF_BYPOSITION|(hidden?MF_CHECKED:0), (hidden?SWM_AUTOSTART_HIDE_OFF:SWM_AUTOSTART_HIDE_ON), l10n->menu_hide);
-	InsertMenu(menu_options, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
-	InsertMenu(menu_options, -1, MF_BYPOSITION, SWM_SETTINGS, l10n->menu_settings);
-	InsertMenu(menu_options, -1, MF_BYPOSITION, SWM_CHECKFORUPDATE, l10n->menu_chkupdate);
-	InsertMenu(menu, -1, MF_BYPOSITION|MF_POPUP, (UINT_PTR)menu_options, l10n->menu_options);
-	InsertMenu(menu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
-	
-	//xkill
-	InsertMenu(menu, -1, MF_BYPOSITION, SWM_XKILL, L"xkill");
-	InsertMenu(menu, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
-	
-	//Update
-	if (update) {
-		InsertMenu(menu, -1, MF_BYPOSITION, SWM_UPDATE, l10n->menu_update);
-	}
-	
-	//About
-	InsertMenu(menu, -1, MF_BYPOSITION, SWM_ABOUT, l10n->menu_about);
-	
-	//Exit
-	InsertMenu(menu, -1, MF_BYPOSITION, SWM_EXIT, l10n->menu_exit);
-
-	//Track menu
-	SetForegroundWindow(hwnd);
-	TrackPopupMenu(menu, TPM_BOTTOMALIGN, pt.x, pt.y, 0, hwnd, NULL);
-	DestroyMenu(menu);
 }
 
 //Hooks
@@ -563,14 +516,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		else if (lParam == WM_RBUTTONDOWN) {
 			ShowContextMenu(hwnd);
 		}
+		else if (lParam == NIN_BALLOONUSERCLICK) {
+			hide = 0;
+			SendMessage(hwnd, WM_COMMAND, SWM_UPDATE, 0);
+		}
 		else if (lParam == NIN_BALLOONTIMEOUT) {
 			if (hide) {
 				RemoveTray();
 			}
-		}
-		else if (lParam == NIN_BALLOONUSERCLICK) {
-			hide = 0;
-			SendMessage(hwnd, WM_COMMAND, SWM_UPDATE, 0);
 		}
 	}
 	else if (msg == WM_UPDATESETTINGS) {
