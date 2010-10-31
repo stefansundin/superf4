@@ -14,7 +14,7 @@ LangString L10N_UPGRADE_HEADER    ${LANG} "${APP_NAME} xa está instalado no teu 
 LangString L10N_UPGRADE_UPGRADE   ${LANG} "&Actualizar ${APP_NAME} á versión ${APP_VERSION}."
 LangString L10N_UPGRADE_INI       ${LANG} "A configuración actual copiarase a ${APP_NAME}-old.ini."
 LangString L10N_UPGRADE_INSTALL   ${LANG} "&Instalar de novo."
-LangString L10N_UPGRADE_UNINSTALL ${LANG} "&Uninstall ${APP_NAME}."
+LangString L10N_UPGRADE_UNINSTALL ${LANG} "&Desinstalar ${APP_NAME}."
 LangString L10N_UPDATE_SECTION    ${LANG} "Comprobar actualizacións antes de instalar"
 LangString L10N_UPDATE_DIALOG     ${LANG} "Unha nova versión está dispoñible.$\nQueres abortar a instalación e ir á páxina web?"
 LangString L10N_RUNNING           ${LANG} "${APP_NAME} está en funcionamento. Quérelo pechar?"
