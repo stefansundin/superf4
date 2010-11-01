@@ -261,8 +261,9 @@ Function .onInit
 	!insertmacro MUI_LANGDLL_DISPLAY
 	Call AddTray
 	;If silent, deselect check for update
-	IfSilent 0 +2
+	IfSilent 0 autostart_check
 		!insertmacro UnselectSection ${sec_update}
+	autostart_check:
 	;Determine current autostart setting
 	StrCpy $AutostartSectionState 0
 	ReadRegStr $0 HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}"

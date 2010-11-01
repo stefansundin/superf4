@@ -31,7 +31,7 @@ Traducido por Alexander De Sousa\n\
 Preme Ctrl+Alt+F4 para matar o proceso do programa actual. \
 O efecto é o mesmo que cando matas o proceso no Xestor de Tarefas.\n\
 \n\
-Tamén podes matar un proceso premendo [A tecla de Windows]+F4 e facendo clic na ventá co rato. \
+Tamén podes matar un proceso premendo Win+F4 e facendo clic na ventá co rato. \
 Podes premer escape ou o botón dereito do rato para saír dese modo sen matar ningún programa.\n\
 \n\
 Visita a páxina web en "APP_URL"\n\

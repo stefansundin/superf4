@@ -88,7 +88,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	WM_UPDATESETTINGS = RegisterWindowMessage(L"UpdateSettings");
 	WM_ADDTRAY = RegisterWindowMessage(L"AddTray");
 	WM_HIDETRAY = RegisterWindowMessage(L"HideTray");
-	HWND previnst = FindWindow(APP_NAME,NULL);
+	HWND previnst = FindWindow(APP_NAME, NULL);
 	if (previnst != NULL) {
 		PostMessage(previnst, WM_UPDATESETTINGS, 0, 0);
 		PostMessage(previnst, (hide?WM_HIDETRAY:WM_ADDTRAY), 0, 0);
