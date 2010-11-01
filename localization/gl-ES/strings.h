@@ -1,7 +1,5 @@
 /*
 	SuperF4 - gl-ES localization by Alexander De Sousa (xandy.lua@gmail.com)
-	Do not localize APP_NAME, it will be automatically replaced.
-	Keep this file encoded as UTF–8.
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
