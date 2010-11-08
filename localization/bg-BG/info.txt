@@ -1,0 +1,74 @@
+SuperF4
+Направена от Стефан Сундин 
+Превод на български: Малин Желев (malinmarkov@gmail.com)
+
+Натисни Ctrl+Alt+F4 за да принудиш изключването на активната програма.
+Ефектът е същия като принудителното изключване на програма от диспечера на задачите.
+
+Това е много полезно когато игра на цял екран забие, често ви спасява от рестарт. 
+
+Също може да изключиш програма като натиснеш Win+F4 и кликнеш с мишката прозорецът й. 
+Може да натиснеш Еscape или дясното копче на мишката за да излезеш от този режим без да спираш програма. 
+
+Ако случайно изключите Explorer.exe, може да го стартирате чрез диспечара на задачите (Ctrl+Shift+Esc).
+
+SuperF4 ще проверява автоматично за обновления на програмата. Може да изключите това в SuperF4.ini
+
+Посетете саитът на програмата: http://code.google.com/p/superf4/
+Саит на автора: http://stefansundin.com/
+
+Ако тази програма ви помага, моля обмислете дарение.
+Може да разберете как да дарите пари на уебсаитът.
+SuperF4 е програма с отворен код, лицензирана под GPL
+
+Changelog
+---------
+1.2 - 2010-10-23:
+Added 64-bit executable. The installer will automatically install the correct executable.
+Added support for alternative Ctrl+Alt+F4 detection (see SuperF4.ini). Enable this to make SuperF4 work in StarCraft II.
+Added xkill to the tray menu (Win+F4).
+Added manual update check to the tray menu.
+Fixed the Shell_NotifyIcon error that appeared for some when SuperF4 was on autostart.
+
+1.1 - 2009-08-19:
+Fixed mouse cursor not changing when pressing [the windows key]+F4 if Aero was disabled in Vista.
+Mouse cursor now spans multiple monitors.
+Language can now be changed in SuperF4.ini.
+A lot of small bug fixes.
+
+1.0 - 2009-01-12:
+Requests SeDebugPrivilege in a more secure way.
+Merged hooks.dll into SuperF4.exe.
+The mouse cursor now changes when you press [the windows key]+F4.
+Removed log file.
+Added update checking.
+
+0.9 - 2008-10-12:
+Added [the windows key]+F4.
+Renamed keyhook.dll to hooks.dll.
+Renamed log file to superf4-log.txt.
+
+0.8 - 2008-09-16:
+Made the detection of Ctrl+Alt+F4 more secure, preventing faulty kills which could happen when SuperF4 didn't receive the keyup of the F4 key.
+Only one instance of SuperF4 can now be run. Starting SuperF4 again will make the first instance add its tray icon, if hidden.
+
+0.7 - 2008-05-11:
+keyhook now tries to get the SeDebugPrivilege privilege, allowing more programs to be killed.
+
+0.6 - 2008-03-15:
+Small fix to prevent the key pressed from being propagated to another window after terminating the process.
+
+0.5 - 2008-03-05:
+Fixed a rare case where SuperF4 would kill a program when the user pressed Alt+F4.
+
+0.4 - 2008-02-24:
+Option to autostart SuperF4. Can hide tray icon in current session.
+
+0.3 - 2008-02-14:
+The tray icon can be hidden with -hide as a parameter.
+
+0.2 - 2008-02-08:
+Tray icon is now re-added when explorer crashes.
+
+0.1 - 2008-02-08:
+Initial release.

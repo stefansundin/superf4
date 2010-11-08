@@ -208,9 +208,10 @@ Section "${APP_NAME}" sec_app
 	!endif
 	File "${APP_NAME}.ini"
 	
-	!insertmacro Lang ${LANG_ENGLISH}  en-US
-	!insertmacro Lang ${LANG_SPANISH}  es-ES
-	!insertmacro Lang ${LANG_GALICIAN} gl-ES
+	!insertmacro Lang ${LANG_ENGLISH}      en-US
+	!insertmacro Lang ${LANG_SPANISH}      es-ES
+	!insertmacro Lang ${LANG_GALICIAN}     gl-ES
+	!insertmacro Lang ${LANG_BULGARIAN}    bg-BG
 	
 	;Create uninstaller
 	WriteUninstaller "Uninstall.exe"
