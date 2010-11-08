@@ -112,5 +112,6 @@ DWORD WINAPI _CheckForUpdate(LPVOID arg) {
 void CheckForUpdate(int p_verbose) {
 	int *verbose = malloc(sizeof(p_verbose));
 	*verbose = p_verbose;
-	CreateThread(NULL, 0, _CheckForUpdate, verbose, 0, NULL);
+	HANDLE thread = CreateThread(NULL, 0, _CheckForUpdate, verbose, 0, NULL);
+	CloseHandle(thread);
 }

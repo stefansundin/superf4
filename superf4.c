@@ -205,6 +205,7 @@ void Kill(HWND hwnd) {
 		
 		//Enable SeDebugPrivilege
 		if (AdjustTokenPrivileges(hToken,FALSE,&tkp,0,NULL,0) == 0 || GetLastError() != ERROR_SUCCESS) {
+			CloseHandle(hToken);
 			#ifdef DEBUG
 			Error(L"AdjustTokenPrivileges()", L"Kill()", GetLastError(), TEXT(__FILE__), __LINE__);
 			#endif
@@ -232,10 +233,14 @@ void Kill(HWND hwnd) {
 		return;
 	}
 	
+	//Close handle
+	CloseHandle(process);
+	
 	//Disable SeDebugPrivilege
 	if (SeDebugPrivilege) {
 		tkp.Privileges[0].Attributes = 0;
 		AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, NULL, 0);
+		CloseHandle(hToken);
 	}
 }
 
@@ -417,7 +422,8 @@ int UnhookMouse() {
 	DisableMouse();
 	
 	//Unhook
-	CreateThread(NULL, 0, DelayedUnhookMouse, NULL, 0, NULL);
+	HANDLE thread = CreateThread(NULL, 0, DelayedUnhookMouse, NULL, 0, NULL);
+	CloseHandle(thread);
 	
 	//Success
 	return 0;
