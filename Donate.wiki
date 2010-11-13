@@ -8,7 +8,7 @@ My name is Stefan Sundin. I am a student in Sweden, programming my tools in my f
 
 Donations are a great motivation for me to keep updating my programs. They are perfect to get my attention if you want me to add some special feature, but you should probably send me an email first and ask if I can do it at all.
 
-You can get in touch with my sending an email to [mailto:recover89@gmail.com recover89@gmail.com]. You can also [http://stefansundin.com/ visit my website] to read a little more about me.
+You can get in touch with me by sending an email to [mailto:recover89@gmail.com recover89@gmail.com]. You can also [http://stefansundin.com/ visit my website] to read a little more about me.
 
 
 = Who have contributed =
