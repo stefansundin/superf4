@@ -95,33 +95,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 		return 0;
 	}
 	
-	//Load settings
-	wchar_t path[MAX_PATH];
-	GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
-	PathRemoveFileSpec(path);
-	wcscat(path, L"\\"APP_NAME".ini");
-	wchar_t txt[10];
-	GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
-	int i;
-	for (i=0; languages[i].code != NULL; i++) {
-		if (!wcsicmp(txt,languages[i].code)) {
-			l10n = languages[i].strings;
-			break;
-		}
-	}
-	
-	//Xmas - don't talk about this, it's a surprise :)
-	//Remove with Xmas=0 in ini file, force with Xmas=1.
-	GetPrivateProfileString(APP_NAME, L"Xmas", L"2", txt, sizeof(txt)/sizeof(wchar_t), path);
-	int xmas = _wtoi(txt);
-	if (xmas == 2) {
-		SYSTEMTIME time;
-		GetSystemTime(&time);
-		if (time.wMonth != 12) {
-			xmas = 0;
-		}
-	}
-	
 	//Create window
 	WNDCLASSEX wnd;
 	wnd.cbSize = sizeof(WNDCLASSEX);
@@ -138,6 +111,32 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	wnd.lpszClassName = APP_NAME;
 	RegisterClassEx(&wnd);
 	g_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
+	
+	//Load settings
+	wchar_t path[MAX_PATH];
+	GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
+	PathRemoveFileSpec(path);
+	wcscat(path, L"\\"APP_NAME".ini");
+	wchar_t txt[10];
+	GetPrivateProfileString(APP_NAME, L"Language", L"en-US", txt, sizeof(txt)/sizeof(wchar_t), path);
+	int i;
+	for (i=0; languages[i].code != NULL; i++) {
+		if (!wcsicmp(txt,languages[i].code)) {
+			l10n = languages[i].strings;
+			break;
+		}
+	}
+	//Xmas - don't talk about this, it's a surprise :)
+	//Remove with Xmas=0 in ini file, force with Xmas=1.
+	GetPrivateProfileString(APP_NAME, L"Xmas", L"2", txt, sizeof(txt)/sizeof(wchar_t), path);
+	int xmas = _wtoi(txt);
+	if (xmas == 2) {
+		SYSTEMTIME time;
+		GetSystemTime(&time);
+		if (time.wMonth != 12) {
+			xmas = 0;
+		}
+	}
 	
 	//Tray icon
 	InitTray(xmas);
@@ -244,7 +243,7 @@ void Kill(HWND hwnd) {
 	}
 }
 
-__declspec(dllexport) LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
 	if (nCode == HC_ACTION) {
 		int vkey = ((PKBDLLHOOKSTRUCT)lParam)->vkCode;
 		
@@ -446,26 +445,8 @@ int HookKeyboard() {
 		return 1;
 	}
 	
-	//Update settings
-	SendMessage(g_hwnd, WM_UPDATESETTINGS, 0, 0);
-	
-	//Name decoration
-	//This is really an ugly hack to make both MinGW/mingw-w32 and mingw-w64 use their respective name decorations
-	#ifdef _WIN64
-	#define KeyhookNameDecoration ""    //mingw-w64
-	#else
-	#define KeyhookNameDecoration "@12" //MinGW/mingw-w32
-	#endif
-	
-	//Get address to keyboard hook
-	HOOKPROC procaddr = (HOOKPROC)GetProcAddress(g_hinst, "LowLevelKeyboardProc"KeyhookNameDecoration);
-	if (procaddr == NULL) {
-		Error(L"GetProcAddress('LowLevelKeyboardProc"KeyhookNameDecoration"')", L"Could not find hook function. Try restarting "APP_NAME".", GetLastError(), TEXT(__FILE__), __LINE__);
-		return 1;
-	}
-	
 	//Set up the hook
-	keyhook = SetWindowsHookEx(WH_KEYBOARD_LL, procaddr, g_hinst, 0);
+	keyhook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, g_hinst, 0);
 	if (keyhook == NULL) {
 		Error(L"SetWindowsHookEx(WH_KEYBOARD_LL)", L"Could not hook keyboard. Another program might be interfering.", GetLastError(), TEXT(__FILE__), __LINE__);
 		return 1;
@@ -507,6 +488,7 @@ void ToggleState() {
 		KillTimer(g_hwnd, CHECKTIMER);
 	}
 	else {
+		SendMessage(g_hwnd, WM_UPDATESETTINGS, 0, 0);
 		HookKeyboard();
 	}
 }

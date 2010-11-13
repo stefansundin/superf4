@@ -105,9 +105,9 @@ Function ${un}CloseApp
 		DetailPrint "Closing running ${APP_NAME}."
 		SendMessage $0 ${WM_CLOSE} 0 0
 		waitloop:
-		Sleep 10
-		FindWindow $0 "${APP_NAME}" ""
-		IntCmp $0 0 closed waitloop waitloop
+			Sleep 10
+			FindWindow $0 "${APP_NAME}" ""
+			IntCmp $0 0 closed waitloop waitloop
 	closed:
 	Sleep 100 ;Sleep 100ms extra to let Windows do its thing
 	done:
