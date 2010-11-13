@@ -4,12 +4,29 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2010-10-23T20:20:00Z</updated>
+	<updated>2010-11-13T15:20:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<uri>http://stefansundin.com/</uri>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:117f2f90-ef34-11df-98cf-0800200c9a66</id>
+		<title>SuperF4 - Bulgarian translation</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2010-11-13T15:20:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+Released Bulgarian translation of SuperF4.&lt;br/>
+This translation is right now only available as a separate archive in the download section. The translation will be included in the installer in the next version. Thanks to Malin Markov for submitting the translation!&lt;br/>
+&lt;br/>
+&lt;a href="http://code.google.com/p/superf4/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Bulgarian%29.7z">&lt;img src="http://superf4.googlecode.com/svn/wiki/down.png"/> Download bulgarian version&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Bulgarian%2C%20x64%29.7z">x64&lt;/a>)&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:d438c045-f840-4358-8c85-fab460729e6a</id>
@@ -168,211 +185,4 @@ This release fixes many small bugs. No major feature added. New language: Galici
 		</content>
 	</entry>
 
-	<entry>
-		<id>urn:uuid:3d3c95c4-2b27-4430-9a71-21bc47a0739c</id>
-		<title>SuperF4 - 1.1</title>
-		<link href="http://code.google.com/p/superf4/" />
-		<updated>2009-08-19T21:20:00Z</updated>
-		<content type="html">
-Released 1.1.&lt;br/>
-This release fixes many small bugs and updating is recommended. No major feature added. New language: Galician by Alexander De Sousa. Alexander has also helped me fix some bugs, thanks! :)&lt;br/>
-&lt;br/>
-&lt;u>Changelog:&lt;/u>
-&lt;ul>
-&lt;li>Fixed mouse cursor not changing when pressing Win+F4 if Aero was disabled in Vista.&lt;/li>
-&lt;li>Mouse cursor now spans multiple monitors.&lt;/li>
-&lt;li>Language can now be changed in SuperF4.ini.&lt;/li>
-&lt;li>A lot of small bug fixes.&lt;/li>
-&lt;/ul>
-&lt;a href="http://code.google.com/p/superf4/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
-&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1.exe">&lt;img src="http://superf4.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1.7z">English&lt;/a> - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1%20%28Galician%29.7z">Galician&lt;/a>&lt;br/>
-&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:1af49022-2266-4510-8907-7aba5d7763b8</id>
-		<title>AltDrag - 0.7</title>
-		<link href="http://code.google.com/p/altdrag/" />
-		<updated>2009-04-24T13:37:00Z</updated>
-		<content type="html">
-Released 0.7.&lt;br/>
-This version adds the ability to roll-up windows by double-clicking with the middle mouse button. I've also added a new feature called &lt;tt>StickyScreen&lt;/tt> which makes windows automatically stick to the screen borders without needing shift. This only works with the Alt button unless you enable &lt;tt>ExperimentalFeatures&lt;/tt>.&lt;br/>
-I have also fixed a few bugs with &lt;tt>ExperimentalFeatures&lt;/tt>, so it's working really well now, give it a try.&lt;br/>
-In addition to that I've fixed a couple of small bugs, including an error message that sometimes popped up if you had AltDrag on autostart.&lt;br/>
-I've also updated the installer, so upgrading should be a breeze.&lt;br/>
-&lt;br/>
-&lt;a href="http://code.google.com/p/altdrag/">&lt;img src="http://altdrag.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
-&lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.7.exe">&lt;img src="http://altdrag.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.7.7z">English&lt;/a> - &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.7%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.7%20%28Korean%29.7z">Korean&lt;/a>&lt;br/>
-&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://altdrag.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a>
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:c95e03e5-0c3e-446c-8d36-fd2ffc9404a8</id>
-		<title>AltDrag - 0.6</title>
-		<link href="http://code.google.com/p/altdrag/" />
-		<updated>2009-02-12T16:30:00Z</updated>
-		<content type="html">
-Released 0.6.&lt;br/>
-This version fixes some small bugs, most notably one which made AltDrag ignore the &lt;tt>-hide&lt;/tt> switch. It also adds the sticky behavior to resizing. There's a new language as well, Korean, thanks to 김장환 Jang-hwan Kim!&lt;br/>
-This version should no longer have any false positives on antivirus scanners since I no longer compress with upx.&lt;br/>
-I hope you find that the update checker was useful, let me know if you have feedback or questions, either &lt;a href="mailto:recover89@gmail.com">via email&lt;/a> or post &lt;a href="http://groups.google.com/group/recovers-tools">in the forum&lt;/a> (no registration required)!&lt;br/>
-You can use the installer to overwrite the old version, there is no need to uninstall the old version in advance.
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:58dbdb5e-93f9-4e88-8b6a-7ded14349ce4</id>
-		<title>SuperF4 1.0, AltDrag 0.5, KillKeys 1.0 and TrayCD 1.0</title>
-		<link href="http://code.google.com/p/superf4/" />
-		<updated>2009-01-12T23:00:00Z</updated>
-		<content type="html">
-I've released &lt;a href="http://code.google.com/p/superf4/">SuperF4 1.0&lt;/a>, &lt;a href="http://code.google.com/p/altdrag/">AltDrag 0.5&lt;/a>, &lt;a href="http://code.google.com/p/killkeys/">KillKeys 1.0&lt;/a> and &lt;a href="http://code.google.com/p/traycd/">TrayCD 1.0&lt;/a>. Read the notes on their respective sites.&lt;br/>
-All my applications are now available in Spanish thanks to Fabrizio Ferri.&lt;br/>
-I have also opened &lt;a href="http://groups.google.com/group/recovers-tools"> a forum&lt;/a> which I hope you'll use to discuss my tools, let me know what's good and what's bad.&lt;br/>
-I have also gotten some reports that my tools show up on some antivirus scanners, these are all false positives! I will try to report it to the antivirus vendors.&lt;br/>
-Finally, I would like to let you know that I have put donating details on the site, so if you feel one of my programs is useful, please consider &lt;a href="http://code.google.com/p/superf4/wiki/Donate">donating money&lt;/a>.
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:beda07ae-f772-475d-ac55-4173d7816c40</id>
-		<title>ShutdownGuard - 0.3</title>
-		<link href="http://code.google.com/p/shutdownguard/" />
-		<updated>2008-12-25T13:37:00Z</updated>
-		<content type="html">
-I've finally released ShutdownGuard 0.3 which addresses the problems that were introduced in the Unicode versions of 0.2. In addition to that I've implemented an update checker and the ability to configure the prevention message (example: &lt;i>Do not shut this server off!&lt;/i>). The update checker will only check for updates and notify you when one is available, you will have to download and install the update manually. I've also added a translation for Lithuanian (thanks p|b!). The 7z archives of the other languages are available if you go to the downloads section (all languages are included in the installer). I've also added instructions on how to donate, read the &lt;a href="http://code.google.com/p/shutdownguard/wiki/Donate">Donate page&lt;/a>. Merry Christmas everyone!
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:d0644db0-1acd-496f-b186-6b9c4f3a0012</id>
-		<title>ShutdownGuard localization and installer</title>
-		<link href="http://code.google.com/p/shutdownguard/" />
-		<updated>2008-11-30T13:17:00Z</updated>
-		<content type="html">
-I've just released a Spanish version of ShutdownGuard 0.2. Now it's easy to translate ShutdownGuard, so if you want to translate ShutdownGuard to your language, visit the &lt;a href="http://code.google.com/p/shutdownguard/wiki/Localize">Localize&lt;/a> wiki page to find some easy instructions on how to do just that. Thanks to Fabrizio Ferri for translating the Spanish version!&lt;br/>
-&lt;br/>
-I've also released &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.2%20%28Installer%29.exe">an installer&lt;/a> which contains both languages. Please report any problem you find.
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:9d1468ba-f909-4f7b-ab6a-d85ecb881fe1</id>
-		<title>TrayCD - 0.3</title>
-		<link href="http://code.google.com/p/traycd/downloads/detail?name=TrayCD-0.3.7z" />
-		<updated>2008-11-16T19:50:00Z</updated>
-		<content type="text">
-Changelog:
-* Can now manage multiple cdrom drives.
-* Use middle click on tray to open second drive.
-* New icons by Onyx Reyes, licensed under CC-BY-SA.
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:62811ece-16a4-421c-9948-3793202fd991</id>
-		<title>KillKeys - 0.3</title>
-		<link href="http://code.google.com/p/killkeys/downloads/detail?name=KillKeys-0.3.7z" />
-		<updated>2008-11-15T02:52:00Z</updated>
-		<content type="text">
-Note: Fixed a duplicate id so this entry might pop up as new, but it's OLD. Sorry!
-
-Changelog:
-* Added option to disable keys in fullscreen.
-* Removed restriction of 100 keys.
-* Renamed log-keyhook.txt to killkeys-log.txt
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:3f7e1873-cf11-4e49-ac97-a3234a8bd7dd</id>
-		<title>ShutdownGuard - 0.2</title>
-		<link href="http://code.google.com/p/shutdownguard/downloads/detail?name=ShutdownGuard-0.2.7z" />
-		<updated>2008-11-15T02:45:00Z</updated>
-		<content type="text">
-Changelog:
-* Compatible with Vista.
-* Reordered shutdown dialog buttons.
-* Middle click on tray brings up the shutdown dialog.
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:5bb9dd3a-4c5e-41b9-8a43-181b355b805b</id>
-		<title>SuperF4 - 0.9</title>
-		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.9.7z" />
-		<updated>2008-10-12T20:48:00Z</updated>
-		<content type="text">
-Changelog:
-* You can now kill a process by pressing [the windows key]+F4 and then clicking the window with your mouse. Note that the mouse cursor does not change to reflect that SuperF4 is in this mode. You can press escape or the right mouse button to exit this mode without killing a program. 
-* Renamed keyhook.dll to hooks.dll.
-* Renamed log file to superf4-log.txt.
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:1ea77644-d9c4-4a76-bfc9-3ae3b1e446bc</id>
-		<title>AltDrag</title>
-		<link href="http://altdrag.googlecode.com/svn/wiki/feed.xml" />
-		<updated>2008-09-24T14:40:00Z</updated>
-		<content type="html">
-I've added an RSS feed specifically for AltDrag.&lt;br/>
-You can subscribe to it &lt;a href="http://altdrag.googlecode.com/svn/wiki/feed.xml">here&lt;/a>.
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:dd98d389-4c39-426a-9f04-e0bd0df7669c</id>
-		<title>SuperF4 - 0.8b</title>
-		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.8b.7z" />
-		<updated>2008-09-16T21:15:00Z</updated>
-		<content type="text">
-Changelog:
-* Fixed a typo.
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:335989cc-664f-48ad-b93c-f9d1baff9178</id>
-		<title>SuperF4 - 0.8</title>
-		<link href="http://code.google.com/p/superf4/downloads/detail?name=SuperF4-0.8.7z" />
-		<updated>2008-09-16T18:15:00Z</updated>
-		<content type="text">
-Changelog:
-* Made the detection of Ctrl+Alt+F4 more secure, preventing faulty kills which could happen when SuperF4 didn't receive the keyup of the F4 key.
-* Only one instance of SuperF4 can now be run. Starting SuperF4 again will make the first instance add its tray icon if hidden.
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:39345b26-fc1a-49f3-9446-c07b43839851</id>
-		<title>AltDrag - 0.4</title>
-		<link href="http://code.google.com/p/altdrag/downloads/detail?name=AltDrag-0.4.7z" />
-		<updated>2008-09-14T15:00:00Z</updated>
-		<content type="text">
-Changelog:
-* You can now hold the shift key to make the window stick to other windows. 
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:29603097-0998-4054-b9b7-d66f1832ec7f</id>
-		<title>This feed</title>
-		<updated>2008-09-13T19:50:00Z</updated>
-		<content type="html">
-Hi everyone.&lt;br/>
-I will use this feed to notify you of updates to my tools and announce new tools.&lt;br/>
-These are all my tools right now:&lt;br/>
-&lt;ul>
-&lt;li>&lt;a href="http://code.google.com/p/superf4/">SuperF4&lt;/a>&lt;/li>
-&lt;li>&lt;a href="http://code.google.com/p/altdrag/">AltDrag&lt;/a>&lt;/li>
-&lt;li>&lt;a href="http://code.google.com/p/killkeys/">KillKeys&lt;/a>&lt;/li>
-&lt;li>&lt;a href="http://code.google.com/p/traycd/">TrayCD&lt;/a>&lt;/li>
-&lt;li>&lt;a href="http://code.google.com/p/shutdownguard/">ShutdownGuard&lt;/a>&lt;/li>
-&lt;/ul>
-You can view &lt;a href="http://code.google.com/u/recover89/">my Google Project Hosting profile&lt;/a>.
-		</content>
-	</entry>
 </feed>
