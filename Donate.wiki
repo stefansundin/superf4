@@ -14,8 +14,9 @@ You can get in touch with me by sending an email to [mailto:recover89@gmail.com 
 = Who have contributed =
 
 While I have done most of the work, here are some people who have contributed.
-  * [mailto:algernon@gmail.com Fabrizio Ferri]: Spanish translation
-  * [mailto:xandy.lua@gmail.com Alexander De Sousa]: Galician translation
+  * Fabrizio Ferri: Spanish translation
+  * Alexander De Sousa: Galician translation
+  * Malin Markov: Bulgarian translation
 
 Also thanks to everyone who have reported bugs.
 
