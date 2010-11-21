@@ -4,12 +4,38 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2010-11-13T15:20:00Z</updated>
+	<updated>2010-11-19T22:45:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<uri>http://stefansundin.com/</uri>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:a19a27be-05be-4e49-be9b-ec5ac578fd3e</id>
+		<title>TrayCD - 1.2</title>
+		<link href="http://code.google.com/p/traycd/" />
+		<updated>2010-11-19T22:45:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+Released 1.2.&lt;br/>
+This release fixes a couple of minor bugs. The new version is also available in 64-bit. The installer will automatically install the correct executable. New language: Farsi by Samad Alaamati. For more details, see the changelog below.&lt;br/>
+&lt;br/>
+&lt;u>Changelog:&lt;/u>
+&lt;ul>
+&lt;li>Added 64-bit executable. The installer will automatically install the correct executable.&lt;/li>
+&lt;li>Added manual update check to the tray menu.&lt;/li>
+&lt;li>Fixed the &lt;tt>Shell_NotifyIcon&lt;/tt> error that appeared for some when TrayCD was on autostart. &lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/traycd/">&lt;img src="http://traycd.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://traycd.googlecode.com/files/TrayCD-1.2.exe">&lt;img src="http://traycd.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a>
+ - Archive: &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.2.7z">English&lt;/a> (&lt;a href="http://traycd.googlecode.com/files/TrayCD-1.2%20%28x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.2%20%28Spanish%29.7z">Spanish&lt;/a> (&lt;a href="http://traycd.googlecode.com/files/TrayCD-1.2%20%28Spanish%2C%20x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.2%20%28Galician%29.7z">Galician&lt;/a> (&lt;a href="http://traycd.googlecode.com/files/TrayCD-1.2%20%28Galician%2C%20x64%29.7z">x64&lt;/a>) - &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.2%20%28Farsi%29.7z">Farsi&lt;/a> (&lt;a href="http://traycd.googlecode.com/files/TrayCD-1.2%20%28Farsi%2C%20x64%29.7z">x64&lt;/a>)&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://traycd.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://traycd.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:117f2f90-ef34-11df-98cf-0800200c9a66</id>
