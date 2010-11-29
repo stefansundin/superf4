@@ -4,12 +4,36 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2010-11-19T22:45:00Z</updated>
+	<updated>2010-11-29T15:45:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<uri>http://stefansundin.com/</uri>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:13490975-7ebf-4f17-85ea-d68a364ca89b</id>
+		<title>KillKeys - 1.2</title>
+		<link href="http://code.google.com/p/killkeys/" />
+		<updated>2010-11-29T15:45:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+&lt;p>Released 1.2. This release fixes a couple of minor bugs. The new version is also available in 64-bit. The installer will automatically install the correct executable. For more details, see the changelog below.&lt;/p>
+&lt;p>&lt;u>Changelog:&lt;/u>&lt;/p>
+&lt;ul>
+&lt;li>Added 64-bit executable. The installer will automatically install the correct executable.&lt;/li>
+&lt;li>Fixed an issue in Windows 7 where the desktop would be treated as a fullscreen window.&lt;/li>
+&lt;li>Fixed some minor bugs.&lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/killkeys/">&lt;img src="http://killkeys.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.2.exe">&lt;img src="http://killkeys.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a>
+ - Archive: &lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.2.7z">English&lt;/a> (&lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.2%20%28x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.2%20%28Spanish%29.7z">Spanish&lt;/a> (&lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.2%20%28Spanish%2C%20x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.2%20%28Galician%29.7z">Galician&lt;/a> (&lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.2%20%28Galician%2C%20x64%29.7z">x64&lt;/a>)&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://killkeys.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://killkeys.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>&lt;br/>
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:a19a27be-05be-4e49-be9b-ec5ac578fd3e</id>
