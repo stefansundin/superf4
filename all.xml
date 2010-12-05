@@ -4,12 +4,38 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2010-11-29T15:45:00Z</updated>
+	<updated>2010-12-05T17:20:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<uri>http://stefansundin.com/</uri>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:62f2ac40-008b-11e0-a976-0800200c9a66</id>
+		<title>ShutdownGuard - 1.0</title>
+		<link href="http://code.google.com/p/shutdownguard/" />
+		<updated>2010-12-05T17:20:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+&lt;p>Released 1.0. In this version I have removed &lt;tt>PatchApps&lt;/tt>. It has now been separated to a new program. The release also fixes a couple of minor bugs and is also available in 64-bit. The installer will automatically install the correct executable. I decided to bump the version number to 1.0 since I consider ShutdownGuard feature complete. For more details, see the changelog below.&lt;/p>
+&lt;p>&lt;u>Changelog:&lt;/u>&lt;/p>
+&lt;ul>
+&lt;li>Added 64-bit executable. The installer will automatically install the correct executable.&lt;/li>
+&lt;li>Removed &lt;tt>PatchApps&lt;/tt>. It has now been separated to a separate program. Read &lt;a href="http://code.google.com/p/shutdownguard/wiki/ShutdownPatcher">the wiki&lt;/a> for more information.&lt;/li>
+&lt;li>Fixed some minor bugs.&lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/shutdownguard/">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0.exe">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a>
+ - Archive: &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0.7z">English&lt;/a> (&lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0%20%28x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0%20%28Spanish%29.7z">Spanish&lt;/a> (&lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0%20%28Spanish%2C%20x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0%20%28Galician%29.7z">Galician&lt;/a> (&lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0%20%28Galician%2C%20x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0%20%28Nynorsk%29.7z">Nynorsk&lt;/a> (&lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0%20%28Nynorsk%2C%20x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0%20%28Dutch%29.7z">Dutch&lt;/a> (&lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-1.0%20%28Dutch%2C%20x64%29.7z">x64&lt;/a>)&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>&lt;br/>
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:13490975-7ebf-4f17-85ea-d68a364ca89b</id>
