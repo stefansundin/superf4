@@ -96,19 +96,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	}
 	
 	//Create window
-	WNDCLASSEX wnd;
-	wnd.cbSize = sizeof(WNDCLASSEX);
-	wnd.style = 0;
-	wnd.lpfnWndProc = WindowProc;
-	wnd.cbClsExtra = 0;
-	wnd.cbWndExtra = 0;
-	wnd.hInstance = hInst;
-	wnd.hIcon = NULL;
-	wnd.hIconSm = NULL;
+	WNDCLASSEX wnd = {sizeof(WNDCLASSEX), 0, WindowProc, 0, 0, hInst, NULL, NULL, NULL, NULL, APP_NAME, NULL};
 	wnd.hCursor = LoadImage(hInst, L"kill", IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
-	wnd.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
-	wnd.lpszMenuName = NULL;
-	wnd.lpszClassName = APP_NAME;
 	RegisterClassEx(&wnd);
 	g_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
 	
@@ -316,7 +305,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
 		}
 	}
 	
-    return CallNextHookEx(NULL, nCode, wParam, lParam);
+	return CallNextHookEx(NULL, nCode, wParam, lParam);
 }
 
 LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
@@ -620,7 +609,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			if (hwnd == NULL) {
 				return DefWindowProc(hwnd, msg, wParam, lParam);
 			}
-
+			
 			//Kill it!
 			Kill(hwnd);
 		}
