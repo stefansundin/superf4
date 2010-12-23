@@ -4,12 +4,36 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2010-12-05T17:20:00Z</updated>
+	<updated>2010-12-23T21:20:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<uri>http://stefansundin.com/</uri>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:1c626523-0bc5-4276-b1b0-514a70de4482</id>
+		<title>AltDrag - 0.9 beta 1</title>
+		<link href="http://code.google.com/p/altdrag/" />
+		<updated>2010-12-23T21:20:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+&lt;p>Released 0.9 beta. The biggest new feature is that AltDrag now can mimic the Aero Snap effect in Windows 7. This even works with Windows XP and should work perfectly with multiple monitors! For a complete list of changes, see the changelog below. I expect to release a proper version in January. In any case, I believe that this is the best version of AltDrag yet! The beta is only available as a 7z archive. &lt;b>Please report any bugs that you find!!&lt;/b>&lt;/p>
+&lt;p>&lt;u>Changelog:&lt;/u>&lt;/p>
+&lt;ul>
+&lt;li>Added &lt;tt>Aero&lt;/tt> option. Alt-drag windows to the left, right and top side of the screen. Corners work too!&lt;/li>
+&lt;li>Added new mouse actions: &lt;tt>AlwaysOnTop&lt;/tt> and &lt;tt>Close&lt;/tt>.&lt;/li>
+&lt;li>Replaced roll-up behavior with Aero behavior. Double-click with middle/right mouse button.&lt;/li>
+&lt;li>Renamed "stick" to "snap" as people seem to "get" that term better.&lt;/li>
+&lt;li>Fixed some bugs that prevented &lt;tt>HookWindows&lt;/tt> from working properly.&lt;/li>
+&lt;li>Tweaked the blacklist (see &lt;a href="http://code.google.com/p/altdrag/wiki/Blacklist">wiki&lt;/a>).&lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/altdrag/">&lt;img src="http://altdrag.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.9b1.7z">&lt;img src="http://altdrag.googlecode.com/svn/wiki/down.png"/> Download the beta&lt;/a>&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://altdrag.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://altdrag.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>&lt;br/>
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:62f2ac40-008b-11e0-a976-0800200c9a66</id>
@@ -128,7 +152,6 @@ This update mainly brings support to StarCraft II and a few bug fixes. Another n
  - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Spanish%29.7z">Spanish&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Spanish%2C%20x64%29.7z">x64&lt;/a>)
  - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Galician%29.7z">Galician&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Galician%2C%20x64%29.7z">x64&lt;/a>)&lt;br/>
 &lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
-&lt;a href="https://spreadsheets.google.com/viewform?formkey=dDJfZGVCcnFkdjlTOVhBTW9Kb1FyT3c6MQ">&lt;img src="http://spreadsheet.google.com/images/forms/favicon.ico"/> Send feedback&lt;/a>&lt;br/>
 &lt;a href="http://stefansundin.com/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>
 		</content>
 	</entry>
