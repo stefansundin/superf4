@@ -14,7 +14,24 @@ int tray_added = 0;
 int hide = 0;
 extern int update;
 
-int InitTray(int xmas) {
+int InitTray() {
+	//Xmas
+	wchar_t path[MAX_PATH];
+	GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
+	PathRemoveFileSpec(path);
+	wcscat(path, L"\\"APP_NAME".ini");
+	wchar_t txt[10];
+	//Remove with Xmas=0 in ini file, force with Xmas=1.
+	GetPrivateProfileString(APP_NAME, L"Xmas", L"2", txt, sizeof(txt)/sizeof(wchar_t), path);
+	int xmas = _wtoi(txt);
+	if (xmas == 2) {
+		SYSTEMTIME time;
+		GetSystemTime(&time);
+		if (time.wMonth != 12) {
+			xmas = 0;
+		}
+	}
+	
 	//Load icons
 	icon[0] = LoadImage(g_hinst, (xmas?L"tray_xmas_disabled":L"tray_disabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
 	icon[1] = LoadImage(g_hinst, (xmas?L"tray_xmas_enabled":L"tray_enabled"), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);

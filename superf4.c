@@ -99,7 +99,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 	WNDCLASSEX wnd = {sizeof(WNDCLASSEX), 0, WindowProc, 0, 0, hInst, NULL, NULL, (HBRUSH)(COLOR_WINDOW+1), NULL, APP_NAME, NULL};
 	wnd.hCursor = LoadImage(hInst, L"kill", IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
 	RegisterClassEx(&wnd);
-	g_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL); //WS_EX_LAYERED
+	g_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST|WS_EX_LAYERED, wnd.lpszClassName, APP_NAME, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	SetLayeredWindowAttributes(g_hwnd, 0, 1, LWA_ALPHA); //Almost transparent
 	
 	//Load settings
 	wchar_t path[MAX_PATH];
@@ -115,20 +116,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 			break;
 		}
 	}
-	//Xmas - don't talk about this, it's a surprise :)
-	//Remove with Xmas=0 in ini file, force with Xmas=1.
-	GetPrivateProfileString(APP_NAME, L"Xmas", L"2", txt, sizeof(txt)/sizeof(wchar_t), path);
-	int xmas = _wtoi(txt);
-	if (xmas == 2) {
-		SYSTEMTIME time;
-		GetSystemTime(&time);
-		if (time.wMonth != 12) {
-			xmas = 0;
-		}
-	}
 	
 	//Tray icon
-	InitTray(xmas);
+	InitTray();
 	UpdateTray();
 	
 	//Hook keyboard
@@ -315,7 +305,6 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 			
 			//Make sure the cursor window isn't in the way
 			ShowWindow(g_hwnd, SW_HIDE);
-			SetWindowLongPtr(g_hwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 			
 			//Get hwnd
 			HWND hwnd = WindowFromPoint(pt);
@@ -374,8 +363,6 @@ int HookMouse() {
 	int width = GetSystemMetrics(SM_CXVIRTUALSCREEN);
 	int height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
 	MoveWindow(g_hwnd, left, top, width, height, FALSE);
-	SetWindowLongPtr(g_hwnd, GWL_EXSTYLE, WS_EX_LAYERED|WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
-	SetLayeredWindowAttributes(g_hwnd, 0, 1, LWA_ALPHA); //Almost transparent
 	ShowWindowAsync(g_hwnd, SW_SHOWNA);
 	
 	//Success
@@ -424,7 +411,6 @@ int DisableMouse() {
 	
 	//Hide cursor
 	ShowWindow(g_hwnd, SW_HIDE);
-	SetWindowLongPtr(g_hwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 	return 0;
 }
 
@@ -596,7 +582,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	else if (msg == WM_LBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_RBUTTONDOWN) {
 		//Hide the window if clicked on, this might happen if it wasn't hidden by the hooks for some reason
 		ShowWindow(hwnd, SW_HIDE);
-		SetWindowLongPtr(hwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW); //Workaround for http://support.microsoft.com/kb/270624/
 		//Since we take away the skull, make sure we can't kill anything
 		UnhookMouse();
 	}
