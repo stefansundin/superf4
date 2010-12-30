@@ -4,12 +4,28 @@
 	<title>SuperF4</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/feed.xml" rel="self" />
 	<link href="http://code.google.com/p/superf4/" />
-	<updated>2010-11-13T15:20:00Z</updated>
+	<updated>2010-12-30T21:20:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<uri>http://stefansundin.com/</uri>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:242a3189-6873-4a13-be72-f8fe1cab5279</id>
+		<title>How to compile my programs</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2010-12-30T21:20:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+I have made a video explaining how to compile SuperF4. This might be of interest if you are learning programming and want to make your own modifications to SuperF4. The instructions also work just as well with my other programs. Go to the &lt;a href="http://code.google.com/p/superf4/wiki/Build">Build&lt;/a> wiki page to see it. &lt;b>P.S.&lt;/b> I bet all of you have noticed the Xmas tray icon. It will expire in January, but you can keep it by setting &lt;tt>Xmas=1&lt;/tt> in the ini file. :)&lt;br/>
+&lt;br/>
+&lt;a href="http://code.google.com/p/superf4/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://www.youtube.com/watch?v=4ENwQxSr_So">&lt;img src="http://www.youtube.com/favicon.ico"/> Watch the video on YouTube&lt;/a>&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:117f2f90-ef34-11df-98cf-0800200c9a66</id>
