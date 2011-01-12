@@ -44,6 +44,6 @@ To build the installer you need to run `build all`. If you want to build and inc
 
 If you don't get it working, it might help to watch [http://www.youtube.com/watch?v=4ENwQxSr_So this video] where I explain how to compile SuperF4.
 
-<wiki:gadget border="0" url="http://stefansundin.com/stuff/youtube-iframe.xml" up_id="4ENwQxSr_So" width="640" height="385" />
+<wiki:gadget border="0" url="http://stefansundin.com/stuff/youtube-iframe.xml" up_id="4ENwQxSr_So" up_args="rel=0" width="640" height="385" />
 
 Add a comment if you need help.
