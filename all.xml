@@ -4,12 +4,36 @@
 	<title>recover's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
 	<link href="http://code.google.com/u/recover89/" />
-	<updated>2010-12-30T21:20:00Z</updated>
+	<updated>2011-01-22T20:00:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<uri>http://stefansundin.com/</uri>
 		<email>recover89@gmail.com</email>
 	</author>
+
+	<entry>
+		<id>urn:uuid:c15d52ef-142a-4ca5-85cf-4eed24edc313</id>
+		<title>AltDrag - 0.9 release candidate 1</title>
+		<link href="http://code.google.com/p/altdrag/" />
+		<updated>2011-01-22T20:00:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+&lt;p>Released 0.9 release candidate. This update fixes a number of bugs that were present in the beta, including one major bug if you had the taskbar oriented at a non-default location. It also adds a new feature that allows you to use the mouse wheel to scroll inactive windows. You can enable it by setting &lt;tt>InactiveScroll=1&lt;/tt> in the settings. For a complete list of changes, see the changelog below. The release candidate is only available as a 7z archive.&lt;/p>
+&lt;p>&lt;b>I want those of you who have multiple monitors to see if there are any issues. Try obscure configurations.&lt;/b> I only own one monitor myself so you can understand that I have troubles testing multi-monitor setups.&lt;/p>
+&lt;p>&lt;u>Changelog:&lt;/u>&lt;/p>
+&lt;ul>
+&lt;li>Added &lt;tt>InactiveScroll&lt;/tt>. Enable it to scroll inactive windows.&lt;/li>
+&lt;li>Fixed major bug with custom taskbar locations (bug only present in the beta).&lt;/li>
+&lt;li>Expanded &lt;tt>Aero&lt;/tt> option.&lt;/li>
+&lt;li>Expanded &lt;tt>AutoRemaximized&lt;/tt> option.&lt;/li>
+&lt;li>It is now possible to toggle the maximized state with a resize button while dragging.&lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/altdrag/">&lt;img src="http://altdrag.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.9rc1.7z">&lt;img src="http://altdrag.googlecode.com/svn/wiki/down.png"/> Download the release candidate&lt;/a>&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://altdrag.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://altdrag.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>&lt;br/>
+		</content>
+	</entry>
 
 	<entry>
 		<id>urn:uuid:242a3189-6873-4a13-be72-f8fe1cab5279</id>
@@ -169,134 +193,6 @@ This update mainly brings support to StarCraft II and a few bug fixes. Another n
  - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Galician%29.7z">Galician&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Galician%2C%20x64%29.7z">x64&lt;/a>)&lt;br/>
 &lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
 &lt;a href="http://stefansundin.com/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:1dbefaed-6e66-4c90-a008-1d859482ecda</id>
-		<title>TrayCD - lock.exe</title>
-		<link href="http://code.google.com/p/traycd/" />
-		<updated>2009-12-25T22:00:00Z</updated>
-		<content type="html">
-Uploaded a small console program, lock.exe, that can lock/unlock cd-rom drives. A locked cd-rom drive can't be ejected. Why would you need this? I do not know.&lt;br/>
-&lt;br/>
-&lt;a href="http://code.google.com/p/traycd/">&lt;img src="http://traycd.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
-&lt;a href="http://traycd.googlecode.com/files/lock.exe">&lt;img src="http://traycd.googlecode.com/svn/wiki/down.png"/> Download lock.exe&lt;/a>&lt;br/>
-&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://traycd.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:36fe8f1d-ec94-4c31-81e6-e1c86176c707</id>
-		<title>AltDrag - 0.8</title>
-		<link href="http://code.google.com/p/altdrag/" />
-		<updated>2009-11-15T20:00:00Z</updated>
-		<content type="html">
-Released 0.8.&lt;br/>
-The new things since the beta are 64-bit support for &lt;tt>HookWindows&lt;/tt>, the ability to configure what keys trigger the alt dragging, the ability to reconfigure what the mouse buttons do. I have fixed a few bugs, most notable: the alt key will no longer trigger the window menu! New language: Russian by Gluek. If you are updating from 0.7, there are a few more things as well, which were described in the last update.&lt;br/>
-&lt;br/>
-&lt;u>Changelog:&lt;/u>
-&lt;ul>
-&lt;li>Added &lt;tt>AutoStick&lt;/tt>, enable it to make windows always stick without needing to press shift. This replaces &lt;tt>StickyScreen&lt;/tt>.&lt;/li>
-&lt;li>Renamed &lt;tt>ExperimentalFeatures&lt;/tt> to &lt;tt>HookWindows&lt;/tt>, also improved it so resizing is now supported and windows should no longer flicker. 64-bit programs also work now. I no longer consider it experimental!&lt;/li>
-&lt;li>The alt key will no longer activate the window menu!&lt;/li>
-&lt;li>Added the ability to configure what keys should trigger the dragging, resizing, etc.&lt;/li>
-&lt;li>Added the ability to configure what the mouse buttons do. New actions: minimize and center.&lt;/li>
-&lt;li>Improved multi-monitor support a lot.&lt;/li>
-&lt;li>Tweaked the blacklist (see &lt;a href="http://code.google.com/p/altdrag/wiki/Blacklist">wiki&lt;/a>).&lt;/li>
-&lt;/ul>
-&lt;a href="http://code.google.com/p/altdrag/">&lt;img src="http://altdrag.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
-&lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8.exe">&lt;img src="http://altdrag.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8.7z">English&lt;/a> - &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8%20%28Galician%29.7z">Galician&lt;/a> - &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8%20%28Korean%29.7z">Korean&lt;/a> - &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8%20%28Russian%29.7z">Russian&lt;/a>&lt;br/>
-&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://altdrag.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:84b9d61f-4a48-4bf7-afef-02bd8943591d</id>
-		<title>AltDrag - 0.8 beta 2</title>
-		<link href="http://code.google.com/p/altdrag/" />
-		<updated>2009-09-07T21:00:00Z</updated>
-		<content type="html">
-Released 0.8 beta 2.&lt;br/>
-I am releasing this as a beta but it is still the most recommended version available. I have made some major changes and fixes, not to mention a few new features. First of all, I have completely redone the feature previously called &lt;tt>ExperimentalFeatures&lt;/tt>. I renamed it to &lt;tt>HookWindows&lt;/tt> since I no longer consider it experimental and I encourage you to try it out. A few other new things are &lt;tt>AutoStick&lt;/tt>, an improved version of &lt;tt>StickyScreen&lt;/tt>, and &lt;tt>RMBMinimize&lt;/tt> which makes your right mouse button minimize windows. I have also done a lot of fixes to multi-monitor support. New language: Galician by Alexander De Sousa. Users of 0.7 and 0.8b1 won't be automatically notified of this version. I plan to support 64-bit windows with &lt;tt>HookWindows&lt;/tt> for the stable 0.8. &lt;br/>
-&lt;br/>
-&lt;u>Changelog:&lt;/u>
-&lt;ul>
-&lt;li>Added &lt;tt>AutoStick&lt;/tt>, enable it to make windows always stick without needing to press shift. This replaces &lt;tt>StickyScreen&lt;/tt>.&lt;/li>
-&lt;li>Renamed &lt;tt>ExperimentalFeatures&lt;/tt> to &lt;tt>HookWindows&lt;/tt>, also improved it so resizing is now supported and windows should no longer flicker. I no longer consider it experimental.&lt;/li>
-&lt;li>Added &lt;tt>RMBMinimize&lt;/tt>, enable it to minimize windows with the right mouse button.&lt;/li>
-&lt;li>Improved multi-monitor support a lot.&lt;/li>
-&lt;li>Tweaked the blacklist (see &lt;a href="http://code.google.com/p/altdrag/wiki/Blacklist">wiki&lt;/a>).&lt;/li>
-&lt;/ul>
-&lt;a href="http://code.google.com/p/altdrag/">&lt;img src="http://altdrag.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
-&lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8b2.exe">&lt;img src="http://altdrag.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8b2.7z">English&lt;/a> - &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8b2%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8b2%20%28Galician%29.7z">Galician&lt;/a> - &lt;a href="http://altdrag.googlecode.com/files/AltDrag-0.8b2%20%28Korean%29.7z">Korean&lt;/a>&lt;br/>
-&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://altdrag.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:e6d231a9-ccfb-4a55-ad35-8eaf384dcb7c</id>
-		<title>ShutdownGuard - 0.4</title>
-		<link href="http://code.google.com/p/shutdownguard/" />
-		<updated>2009-09-05T17:00:00Z</updated>
-		<content type="html">
-Released 0.4.&lt;br/>
-I finally got around to work some on ShutdownGuard. The biggest new feature is the ability to patch programs to prevent them from forcing the computer from shutting down. This is &lt;b>experimental&lt;/b> (and disabled by default), read more &lt;a href="http://code.google.com/p/shutdownguard/wiki/PatchApps">on the wiki&lt;/a>.&lt;br/>
-Another nice thing is that I have added a Reboot button to the shutdown dialog.&lt;br/>
-New language: Galician by Alexander De Sousa.&lt;br/>
-&lt;br/>
-&lt;u>Changelog:&lt;/u>
-&lt;ul>
-&lt;li>Added the ability to patch apps (see &lt;a href="http://code.google.com/p/shutdownguard/wiki/PatchApps">wiki&lt;/a>).&lt;/li>
-&lt;li>Added reboot button to the shutdown dialog.&lt;/li>
-&lt;li>Added Silent option.&lt;/li>
-&lt;li>Added HelpUrl option.&lt;/li>
-&lt;li>Language can now be changed in ShutdownGuard.ini.&lt;/li>
-&lt;/ul>
-&lt;a href="http://code.google.com/p/shutdownguard/">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
-&lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4.exe">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4.7z">English&lt;/a> - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4%20%28Galician%29.7z">Galician&lt;/a> - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4%20%28Lithuanian%29.7z">Lithuanian&lt;/a> - &lt;a href="http://shutdownguard.googlecode.com/files/ShutdownGuard-0.4%20%28Nynorsk%29.7z">Nynorsk&lt;/a>&lt;br/>
-&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://shutdownguard.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:0892fc44-c622-4456-ab9a-09ce1816106b</id>
-		<title>KillKeys - 1.1</title>
-		<link href="http://code.google.com/p/superf4/" />
-		<updated>2009-08-30T20:00:00Z</updated>
-		<content type="html">
-Released 1.1.&lt;br/>
-This release fixes a crash that prevented the use of both Keys and Keys_Fullscreen at the same time. It also fixes many small bugs. No major feature added. New language: Galician by Alexander De Sousa.&lt;br/>
-&lt;br/>
-&lt;u>Changelog:&lt;/u>
-&lt;ul>
-&lt;li>Fixed crash when using both Keys and Keys_Fullscreen.&lt;/li>
-&lt;li>Language can now be changed in KillKeys.ini.&lt;/li>
-&lt;li>A lot of small bug fixes.&lt;/li>
-&lt;/ul>
-&lt;a href="http://code.google.com/p/killkeys/">&lt;img src="http://killkeys.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
-&lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.1.exe">&lt;img src="http://killkeys.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.1.7z">English&lt;/a> - &lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.1%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://killkeys.googlecode.com/files/KillKeys-1.1%20%28Galician%29.7z">Galician&lt;/a>&lt;br/>
-&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://killkeys.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
-		</content>
-	</entry>
-
-	<entry>
-		<id>urn:uuid:820b0be7-bb73-4321-b9a0-96c96325bf7b</id>
-		<title>TrayCD - 1.1</title>
-		<link href="http://code.google.com/p/traycd/" />
-		<updated>2009-08-23T22:00:00Z</updated>
-		<content type="html">
-Released 1.1.&lt;br/>
-This release fixes many small bugs. No major feature added. New language: Galician by Alexander De Sousa. Alexander has also helped me fix some bugs, thanks! :)&lt;br/>
-&lt;br/>
-&lt;u>Changelog:&lt;/u>
-&lt;ul>
-&lt;li>Language can now be changed in TrayCD.ini.&lt;/li>
-&lt;li>A lot of small bug fixes.&lt;/li>
-&lt;/ul>
-&lt;a href="http://code.google.com/p/traycd/">&lt;img src="http://traycd.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
-&lt;a href="http://traycd.googlecode.com/files/TrayCD-1.1.exe">&lt;img src="http://traycd.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.1.7z">English&lt;/a> - &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.1%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://traycd.googlecode.com/files/TrayCD-1.1%20%28Galician%29.7z">Galician&lt;/a>&lt;br/>
-&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://traycd.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
 		</content>
 	</entry>
 
