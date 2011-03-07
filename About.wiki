@@ -1,4 +1,4 @@
-#summary What SuperF4 does and why
+#summary A more in-depth introduction
 #labels Featured
 
 = Introduction =
