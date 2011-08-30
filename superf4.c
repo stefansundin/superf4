@@ -454,7 +454,7 @@ int UnhookKeyboard() {
 }
 
 int enabled() {
-	return keyhook != NULL;
+	return (keyhook != NULL);
 }
 
 void ToggleState() {

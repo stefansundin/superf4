@@ -13,6 +13,7 @@ struct strings gl_ES = {
  /* menu_hide      */ L"Esconder a icona",
  /* menu_options   */ L"Preferencias",
  /* menu_autostart */ L"Arrancar ó inicio",
+ /* menu_autohide  */ L"Esconder a icona",
  /* menu_settings  */ L"Abrir configuración",
  /* menu_chkupdate */ L"Comprobar actualizacións",
  /* menu_update    */ L"Actualización dispoñíbel",

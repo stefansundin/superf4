@@ -69,7 +69,7 @@ Var AutostartSectionState ;Helps keep track of the autostart checkboxes
 
 !macro Lang id lang
 ${If} $LANGUAGE == ${id}
-	File "build\${lang}\${APP_NAME}\info.txt"
+	File /nonfatal "build\${lang}\${APP_NAME}\info.txt"
 	WriteINIStr "$INSTDIR\${APP_NAME}.ini" "${APP_NAME}" "Language" "${lang}"
 ${EndIf}
 !macroend
@@ -211,6 +211,7 @@ Section "${APP_NAME}" sec_app
 	!insertmacro Lang ${LANG_SPANISH}      es-ES
 	!insertmacro Lang ${LANG_GALICIAN}     gl-ES
 	!insertmacro Lang ${LANG_BULGARIAN}    bg-BG
+	!insertmacro Lang ${LANG_POLISH}       pl-PL
 	
 	;Create uninstaller
 	WriteUninstaller "Uninstall.exe"

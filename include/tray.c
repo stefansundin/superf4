@@ -107,7 +107,7 @@ void ShowContextMenu(HWND hwnd) {
 	//Options
 	HMENU menu_options = CreatePopupMenu();
 	InsertMenu(menu_options, -1, MF_BYPOSITION|(autostart?MF_CHECKED:0), (autostart?SWM_AUTOSTART_OFF:SWM_AUTOSTART_ON), l10n->menu_autostart);
-	InsertMenu(menu_options, -1, MF_BYPOSITION|(hidden?MF_CHECKED:0), (hidden?SWM_AUTOSTART_HIDE_OFF:SWM_AUTOSTART_HIDE_ON), l10n->menu_hide);
+	InsertMenu(menu_options, -1, MF_BYPOSITION|(hidden?MF_CHECKED:0), (hidden?SWM_AUTOSTART_HIDE_OFF:SWM_AUTOSTART_HIDE_ON), l10n->menu_autohide);
 	InsertMenu(menu_options, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
 	InsertMenu(menu_options, -1, MF_BYPOSITION, SWM_SETTINGS, l10n->menu_settings);
 	InsertMenu(menu_options, -1, MF_BYPOSITION, SWM_CHECKFORUPDATE, l10n->menu_chkupdate);

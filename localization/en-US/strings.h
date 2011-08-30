@@ -13,6 +13,7 @@ struct strings en_US = {
  /* menu_hide      */ L"Hide tray",
  /* menu_options   */ L"Options",
  /* menu_autostart */ L"Autostart",
+ /* menu_autohide  */ L"Hide tray",
  /* menu_settings  */ L"Open settings",
  /* menu_chkupdate */ L"Check for update",
  /* menu_update    */ L"Update available!",

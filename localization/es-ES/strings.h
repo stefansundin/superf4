@@ -13,6 +13,7 @@ struct strings es_ES = {
  /* menu_hide      */ L"Ocultar icono",
  /* menu_options   */ L"Opciones",
  /* menu_autostart */ L"Iniciar con Windows",
+ /* menu_autohide  */ L"Ocultar icono",
  /* menu_settings  */ L"Abrir configuración",
  /* menu_chkupdate */ L"Comprobar actualizaciones",
  /* menu_update    */ L"¡Actualización disponible!",

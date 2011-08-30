@@ -11,6 +11,7 @@ struct strings bg_BG = {
  /* menu_hide      */ L"Скрии иконката",
  /* menu_options   */ L"Настройки ",
  /* menu_autostart */ L"Автоматично стартиране",
+ /* menu_autohide  */ L"Скрии иконката",
  /* menu_settings  */ L"Отвори настройките",
  /* menu_chkupdate */ L"Провери за нова версия",
  /* menu_update    */ L"Има нова версия!",
