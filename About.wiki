@@ -22,6 +22,11 @@ SuperF4 does of course work just as well with normal programs, and not only game
 SuperF4 should be able to kill all kinds of processes, whether they are hung or not.
 Use with care though, since SuperF4 effectively kills the program and doesn't give it any chance to save unsaved work.
 
+== Video review ==
+SuperF4 has been featured in [http://revision3.com/tekzilla Tekzilla], so you can watch [http://www.youtube.com/watch?v=LLtxSkoWKfc this video] to see how SuperF4 works before downloading it.
+
+<wiki:gadget border="0" url="http://stefansundin.com/stuff/youtube-iframe.xml" up_id="LLtxSkoWKfc" up_args="start=8&rel=0" width="640" height="390" />
+
 
 = Configuration =
 
