@@ -53,7 +53,9 @@ Remember that you can monitor [http://superf4.googlecode.com/svn/wiki/feed.xml t
 
 = UAC =
 
-SuperF4 does not require administrator privileges. The only case it needs administrator privileges is when you are trying to kill an elevated program. If you installed SuperF4 in `C:\Program Files\`, then you need administrator privileges to edit `SuperF4.ini`. The easiest way to fix this is by right clicking on `SuperF4.ini`, click _Properties_, then go to the _Security_ tab and give the _Users_ group _Full control_ to the file.
+SuperF4 does not require administrator privileges. The only case it needs administrator privileges is when you are trying to kill an elevated program. This means that, if SuperF4 is not run with administrator privileges, then you will not be able to use Ctrl+Alt+F4 or Win+F4 if the foreground window is running elevated.
+
+If you installed SuperF4 in `C:\Program Files\`, then you need administrator privileges to edit `SuperF4.ini`. The easiest way to fix this is by right clicking on `SuperF4.ini`, click _Properties_, then go to the _Security_ tab and give the _Users_ group _Full control_ to the file.
 
 If you want SuperF4 to launch with administrator privileges on startup, then you have to configure the task scheduler to launch SuperF4 on log in. Read [http://botsikas.blogspot.com/2010/05/autostart-application-that-requires-uac.html this blog post] for a tutorial. There is one caveat though, you need to configure *a delay of 30 seconds* before the task is started. Otherwise the tray icon won't be added properly and SuperF4 will not work. You must also disable the autostart option in the tray menu. Successfully configuring a task like this will allow SuperF4 to be launched on startup with administrator privileges without a UAC prompt.
 
