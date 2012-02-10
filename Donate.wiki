@@ -1,7 +1,7 @@
 #summary If SuperF4 is useful to you, please consider donating money.
 #labels Featured
 
-My name is Stefan Sundin. I am a student in Sweden, programming my tools in my free time. My programs will always remain free and open source, even if I receive no donations.
+My name is Stefan Sundin. I am a university student in Sweden, programming my tools in my free time.
 
 Donations are a great motivation for me to keep updating my programs. They are also perfect to get my attention, especially if you want me to add some special feature.
 
