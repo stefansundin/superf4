@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>urn:uuid:efa8d6a0-dc7b-4ffc-9e78-af04d3ed0044</id>
-	<title>recover's tools</title>
+	<title>Stefan's tools</title>
 	<link href="http://superf4.googlecode.com/svn/wiki/all.xml" rel="self" />
-	<link href="http://code.google.com/u/recover89/" />
+	<link href="http://code.google.com/hosting/search?q=label:stefansundin" />
 	<updated>2013-04-20T19:00:00Z</updated>
 	<author>
 		<name>Stefan Sundin</name>
 		<uri>http://stefansundin.com/</uri>
-		<email>recover89@gmail.com</email>
 	</author>
 
 	<entry>
