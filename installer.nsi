@@ -33,14 +33,12 @@ SetCompressor /SOLID lzma
 
 ; Interface
 
-!define MUI_LANGDLL_REGISTRY_ROOT "HKCU" 
-!define MUI_LANGDLL_REGISTRY_KEY "Software\${APP_NAME}" 
+!define MUI_LANGDLL_REGISTRY_ROOT "HKCU"
+!define MUI_LANGDLL_REGISTRY_KEY "Software\${APP_NAME}"
 !define MUI_LANGDLL_REGISTRY_VALUENAME "Language"
 
 !define MUI_COMPONENTSPAGE_NODESC
 
-!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
-!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\info.txt"
 !define MUI_FINISHPAGE_RUN
 !define MUI_FINISHPAGE_RUN_FUNCTION "Launch"
 
@@ -69,7 +67,6 @@ Var AutostartSectionState ;Helps keep track of the autostart checkboxes
 
 !macro Lang id lang
 ${If} $LANGUAGE == ${id}
-	File /nonfatal "build\${lang}\${APP_NAME}\info.txt"
 	WriteINIStr "$INSTDIR\${APP_NAME}.ini" "${APP_NAME}" "Language" "${lang}"
 ${EndIf}
 !macroend
@@ -125,28 +122,28 @@ Function PageUpgrade
 	ReadRegStr $0 HKCU "Software\${APP_NAME}" "Install_Dir"
 	IfFileExists $0 +2
 		Abort
-	
+
 	nsDialogs::Create 1018
 	!insertmacro MUI_HEADER_TEXT "$(L10N_UPGRADE_TITLE)" "$(L10N_UPGRADE_SUBTITLE)"
 	${NSD_CreateLabel} 0 0 100% 20u "$(L10N_UPGRADE_HEADER)"
-	
+
 	${NSD_CreateRadioButton} 0 45 100% 10u "$(L10N_UPGRADE_UPGRADE)"
 	Pop $Upgradebox
 	${NSD_CreateLabel} 16 60 100% 20u "$(L10N_UPGRADE_INI)"
-	
+
 	${NSD_CreateRadioButton} 0 95 100% 10u "$(L10N_UPGRADE_INSTALL)"
 	Pop $0
-	
+
 	${NSD_CreateRadioButton} 0 130 100% 10u "$(L10N_UPGRADE_UNINSTALL)"
 	Pop $Uninstallbox
-	
+
 	;Check the correct button when going back to this page
 	${If} $UpgradeState == ${BST_UNCHECKED}
 		${NSD_Check} $0
 	${Else}
 		${NSD_Check} $Upgradebox
 	${EndIf}
-	
+
 	nsDialogs::Show
 FunctionEnd
 
@@ -181,20 +178,23 @@ SectionEnd
 
 Section "${APP_NAME}" sec_app
 	SectionIn RO
-	
+
 	;Close app if running
 	Call CloseApp
-	
+
 	SetOutPath "$INSTDIR"
-	
+
 	;Store directory and version
 	WriteRegStr HKCU "Software\${APP_NAME}" "Install_Dir" "$INSTDIR"
 	WriteRegStr HKCU "Software\${APP_NAME}" "Version" "${APP_VERSION}"
-	
+
 	;Rename old ini file if it exists
 	IfFileExists "${APP_NAME}.ini" 0 +2
 		Rename "${APP_NAME}.ini" "${APP_NAME}-old.ini"
-	
+
+	;Delete files that existed in earlier versions
+	Delete /REBOOTOK "$INSTDIR\info.txt" ;existed in <= 1.2
+
 	;Install files
 	!ifdef x64
 	${If} ${RunningX64}
@@ -206,13 +206,14 @@ Section "${APP_NAME}" sec_app
 	File "build\${APP_NAME}.exe"
 	!endif
 	File "${APP_NAME}.ini"
-	
+
 	!insertmacro Lang ${LANG_ENGLISH}      en-US
 	!insertmacro Lang ${LANG_SPANISH}      es-ES
 	!insertmacro Lang ${LANG_GALICIAN}     gl-ES
 	!insertmacro Lang ${LANG_BULGARIAN}    bg-BG
 	!insertmacro Lang ${LANG_POLISH}       pl-PL
-	
+	!insertmacro Lang ${LANG_ITALIAN}      it-IT
+
 	;Create uninstaller
 	WriteUninstaller "Uninstall.exe"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}" "UninstallString" '"$INSTDIR\Uninstall.exe"'
@@ -316,16 +317,15 @@ FunctionEnd
 
 Section "Uninstall"
 	Call un.CloseApp
-	
+
 	Delete /REBOOTOK "$INSTDIR\${APP_NAME}.exe"
 	Delete /REBOOTOK "$INSTDIR\${APP_NAME}.ini"
 	Delete /REBOOTOK "$INSTDIR\${APP_NAME}-old.ini"
-	Delete /REBOOTOK "$INSTDIR\info.txt"
 	Delete /REBOOTOK "$INSTDIR\Uninstall.exe"
 	RMDir  /REBOOTOK "$INSTDIR"
-	
+
 	Delete /REBOOTOK "$SMPROGRAMS\${APP_NAME}.lnk"
-	
+
 	DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${APP_NAME}"
 	DeleteRegKey /ifempty HKCU "Software\${APP_NAME}"
 	DeleteRegKey /ifempty HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_NAME}"

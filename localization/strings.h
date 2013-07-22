@@ -25,6 +25,7 @@ struct strings {
 #include "gl-ES/strings.h"
 #include "bg-BG/strings.h"
 #include "pl-PL/strings.h"
+#include "it-IT/strings.h"
 
 struct {
 	wchar_t *code;
@@ -35,6 +36,7 @@ struct {
 	{L"gl-ES", &gl_ES},
 	{L"bg-BG", &bg_BG},
 	{L"pl-PL", &pl_PL},
+	{L"it-IT", &it_IT},
 	{NULL},
 };
 
