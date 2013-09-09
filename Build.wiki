@@ -5,6 +5,8 @@
 
 First you need to download the SuperF4 source code, [http://code.google.com/p/superf4/source/checkout instructions here].
 
+The cursor file was created with [http://www.softpedia.com/get/Multimedia/Graphic/Graphic-Editors/AniFX.shtml AniFX].
+
 
 = Compiler =
 
