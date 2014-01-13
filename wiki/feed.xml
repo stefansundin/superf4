@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<id>urn:uuid:41aca343-a995-42b8-9213-dc4b84fe45c7</id>
+	<title>SuperF4</title>
+	<link href="http://superf4.googlecode.com/svn/wiki/feed.xml" rel="self" />
+	<link href="http://code.google.com/p/superf4/" />
+	<updated>2010-12-30T21:20:00Z</updated>
+	<author>
+		<name>Stefan Sundin</name>
+		<uri>http://stefansundin.com/</uri>
+	</author>
+
+	<entry>
+		<id>urn:uuid:242a3189-6873-4a13-be72-f8fe1cab5279</id>
+		<title>How to compile my programs</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2010-12-30T21:20:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+I have made a video explaining how to compile SuperF4. This might be of interest if you are learning programming and want to make your own modifications to SuperF4. The instructions also work just as well with my other programs. Go to the &lt;a href="http://code.google.com/p/superf4/wiki/Build">Build&lt;/a> wiki page to see it. &lt;b>P.S.&lt;/b> I bet all of you have noticed the Xmas tray icon. It will expire in January, but you can keep it by setting &lt;tt>Xmas=1&lt;/tt> in the ini file. :)&lt;br/>
+&lt;br/>
+&lt;a href="http://code.google.com/p/superf4/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://www.youtube.com/watch?v=4ENwQxSr_So">&lt;img src="http://www.youtube.com/favicon.ico"/> Watch the video on YouTube&lt;/a>&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>
+		</content>
+	</entry>
+
+	<entry>
+		<id>urn:uuid:117f2f90-ef34-11df-98cf-0800200c9a66</id>
+		<title>SuperF4 - Bulgarian translation</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2010-11-13T15:20:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+Released Bulgarian translation of SuperF4.&lt;br/>
+This translation is right now only available as a separate archive in the download section. The translation will be included in the installer in the next version. Thanks to Malin Markov for submitting the translation!&lt;br/>
+&lt;br/>
+&lt;a href="http://code.google.com/p/superf4/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Bulgarian%29.7z">&lt;img src="http://superf4.googlecode.com/svn/wiki/down.png"/> Download bulgarian version&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Bulgarian%2C%20x64%29.7z">x64&lt;/a>)&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>
+		</content>
+	</entry>
+
+	<entry>
+		<id>urn:uuid:d438c045-f840-4358-8c85-fab460729e6a</id>
+		<title>SuperF4 - 1.2</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2010-10-23T20:20:00Z</updated>
+		<author><name>Stefan Sundin</name></author>
+		<content type="html">
+Released 1.2.&lt;br/>
+This update mainly brings support to StarCraft II and a few bug fixes. Another new thing is a native 64-bit executable (the installer will automatically install the correct executable). For more details, see the changelog below.&lt;br/>
+&lt;br/>
+&lt;u>Changelog:&lt;/u>
+&lt;ul>
+&lt;li>Added 64-bit executable. The installer will automatically install the correct executable.&lt;/li>
+&lt;li>Added support for alternative Ctrl+Alt+F4 detection (see &lt;tt>SuperF4.ini&lt;/tt>). Enable this to make SuperF4 work in StarCraft II.&lt;/li>
+&lt;li>Added xkill to the tray menu (Win+F4).&lt;/li>
+&lt;li>Added manual update check to the tray menu.&lt;/li>
+&lt;li>Fixed the &lt;tt>Shell_NotifyIcon&lt;/tt> error that appeared for some when SuperF4 was on autostart. &lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/superf4/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2.exe">&lt;img src="http://superf4.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a>
+ - Archive: &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2.7z">English&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Spanish%29.7z">Spanish&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Spanish%2C%20x64%29.7z">x64&lt;/a>)
+ - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Galician%29.7z">Galician&lt;/a> (&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.2%20%28Galician%2C%20x64%29.7z">x64&lt;/a>)&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)&lt;br/>
+&lt;a href="http://stefansundin.com/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the author's website&lt;/a>
+		</content>
+	</entry>
+
+	<entry>
+		<id>urn:uuid:b65951fb-8a4a-4d9b-ae15-0bd663131a27</id>
+		<title>SuperF4 - 1.1</title>
+		<link href="http://code.google.com/p/superf4/" />
+		<updated>2009-08-19T21:20:00Z</updated>
+		<content type="html">
+Released 1.1.&lt;br/>
+This release fixes many small bugs and updating is recommended. No major feature added. New language: Galician by Alexander De Sousa. Alexander has also helped me fix some bugs, thanks! :)&lt;br/>
+&lt;br/>
+&lt;u>Changelog:&lt;/u>
+&lt;ul>
+&lt;li>Fixed mouse cursor not changing when pressing Win+F4 if Aero was disabled in Vista.&lt;/li>
+&lt;li>Mouse cursor now spans multiple monitors.&lt;/li>
+&lt;li>Language can now be changed in SuperF4.ini.&lt;/li>
+&lt;li>A lot of small bug fixes.&lt;/li>
+&lt;/ul>
+&lt;a href="http://code.google.com/p/superf4/">&lt;img src="http://superf4.googlecode.com/svn/wiki/website.png"/> Visit the website&lt;/a>&lt;br/>
+&lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1.exe">&lt;img src="http://superf4.googlecode.com/svn/wiki/down.png"/> Download installer&lt;/a> - Archive: &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1.7z">English&lt;/a> - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1%20%28Spanish%29.7z">Spanish&lt;/a> - &lt;a href="http://superf4.googlecode.com/files/SuperF4-1.1%20%28Galician%29.7z">Galician&lt;/a>&lt;br/>
+&lt;a href="http://groups.google.com/group/recovers-tools">&lt;img src="http://superf4.googlecode.com/svn/wiki/groups.png"/> Discuss in the forum&lt;/a> (no registration required)
+		</content>
+	</entry>
+
+</feed>

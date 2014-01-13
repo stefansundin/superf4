@@ -1,0 +1,14 @@
+#summary Why hooks.dll was necessary
+#labels Phase-Implementation,Deprecated
+
+= Introduction =
+
+Microsoft's [http://msdn.microsoft.com/en-us/library/ms644959(VS.85).aspx documentation] specifies that global hooks can only be made with the help of a dll file.
+
+When dynamically linking to a dll file you must know the address to the function you want to call. You look up the address with the function name. This name might not be what you put in your source file, since compilers often mangles the name. I use a freeware utility called [http://www.nirsoft.net/utils/dll_export_viewer.html DLL Export Viewer] to look up the correct name. In the mangled function name, the number after the `@` sign indicates how many bytes are passed as parameters.
+
+= Update =
+
+SuperF4 no longer includes a dll file since I found out that it's possible to do global keyboard and mouse hooks with the exe file doubling as a dll file as well. Also, since the functions now are in the exe file, there is no need to use `LoadLibrary()`, since the exe file is already memory-mapped. Instead we can just use `GetModuleHandle(NULL)` to get a handle to the exe file.
+
+Additionally, since Vista, the exe file doesn't even have to contain dll declarations for the hook functions, and we don't need to use `GetModuleHandle()` or `GetProcAddress()`. However, SuperF4 still does that to maintain compatibility with Windows XP.

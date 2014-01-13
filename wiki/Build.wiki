@@ -1,0 +1,51 @@
+#summary How to compile SuperF4
+#labels Featured,Phase-Implementation
+
+= Introduction =
+
+First you need to download the SuperF4 source code, [http://code.google.com/p/superf4/source/checkout instructions here].
+
+The cursor file was created with [http://www.softpedia.com/get/Multimedia/Graphic/Graphic-Editors/AniFX.shtml AniFX].
+
+
+= Compiler =
+
+I use [http://mingw-w64.sourceforge.net/ mingw-w64] to build SuperF4. Contrary to its name, there is also a 32-bit compiler available. You need the 32-bit toolchain to build 32-bit binaries, and the 64-bit toolchain to build 64-bit binaries. So if you want to build for both 32-bit and 64-bit, you will need to get both toolchains.
+
+The [http://sourceforge.net/projects/mingw-w64/files/ mingw-w64 file download] section is a mess, so to find the files you want, search for the prefix `mingw-w32-1.0-bin_i686-mingw` to get the correct 32-bit download and `mingw-w64-1.0-bin_i686-mingw` for the 64-bit download.
+
+It doesn't matter where you extract them, but I usually use `C:\mingw-w32` and `C:\mingw-w64`.
+
+I previously used the normal [http://www.mingw.org/ MinGW] to build SuperF4, but moved from it because they never update it anymore. Note that you should still be able to build SuperF4 with it, but you must modify `build.bat`. You do need mingw-w64 if you want to compile 64-bit binaries.
+
+Note that the mingw-w32 and mingw-w64 toolchains have prefixed binaries, e.g. the name of `gcc` for mingw-w32 is `i686-w64-mingw32-gcc` and for mingw-w64 is `x86_64-w64-mingw32-gcc`. The normal MinGW binaries does not have any prefixes. This means that you can have MinGW, mingw-w32 and mingw-w64 installed and all three in PATH without any conflicts. It does make it a bit annoying to type manually though, but I have a build script that will make it easier.
+
+
+= Configure PATH =
+
+After downloading the compilers, you need to add them to the PATH variable so the build script can use the them. Do this by _right clicking_ on the _Computer_ desktop icon, go to the _Advanced_ tab, press the _Environment variables_ button, locate the PATH variable and add _<mingw path>\bin_ to the list, and press ok on all the dialogs. If you want to build both 32-bit and 64-bit, add both to PATH.
+
+Here is an example of my PATH variable: `C:\mingw-w32\bin;C:\mingw-w64\bin`
+
+If you had the terminal open when you changed the PATH variable, you must restart it.
+
+
+= Build it =
+
+Now everything should hopefully work when you run `build.bat`. It's more comfortable to run it in a terminal so you can see all the output. You can also run `build run` to automatically run SuperF4 after it has been built. To build the 64-bit binary run `build x64`.
+
+
+= Installer =
+
+If you want to build the installer you need [http://www.scratchpaper.com/ NSIS Unicode] (regular [http://nsis.sourceforge.net/ NSIS] should work too). Put it in PATH as well.
+
+To build the installer you need to run `build all`. If you want to build and include the 64-bit binary then you need to run `build all x64`. Note that this will also try to build the 32-bit version, and will fail if that doesn't compile. The installer will bundle both the 32-bit and 64-bit binary and install the appropriate file during install. The installer will always be a 32-bit binary.
+
+
+= Video walkthrough =
+
+If you don't get it working, it might help to watch [http://www.youtube.com/watch?v=4ENwQxSr_So this video] where I explain how to compile SuperF4.
+
+<wiki:gadget border="0" url="http://stefansundin.com/stuff/youtube-iframe.xml" up_id="4ENwQxSr_So" up_args="rel=0" width="640" height="390" />
+
+Add a comment if you need help.
