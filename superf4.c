@@ -259,12 +259,12 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
 				return 1;
 			}
 			//Check for [the windows key]+F4
-			else if (vkey == VK_LWIN) {
+			else if (vkey == VK_LWIN || vkey == VK_RWIN) {
 				win = 1;
 			}
 			else if (win && vkey == VK_F4) {
 				//Double check that the windows button is being pressed
-				if (!(GetAsyncKeyState(VK_LWIN)&0x8000)) {
+				if (!(GetAsyncKeyState(VK_LWIN)&0x8000) && !(GetAsyncKeyState(VK_RWIN)&0x8000)) {
 					win = 0;
 					return CallNextHookEx(NULL, nCode, wParam, lParam);
 				}
@@ -289,7 +289,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
 			else if (vkey == VK_LMENU) {
 				alt = 0;
 			}
-			else if (vkey == VK_LWIN) {
+			else if (vkey == VK_LWIN || vkey == VK_RWIN) {
 				win = 0;
 			}
 		}
