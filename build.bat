@@ -6,7 +6,7 @@
 
 set prefix32=i686-w64-mingw32-
 set prefix64=x86_64-w64-mingw32-
-set l10n=en-US es-ES gl-ES bg-BG pl-PL it-IT
+set l10n=en-US es-ES gl-ES bg-BG pl-PL it-IT nl-NL
 
 taskkill /IM SuperF4.exe
 

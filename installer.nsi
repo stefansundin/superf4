@@ -213,6 +213,7 @@ Section "${APP_NAME}" sec_app
 	!insertmacro Lang ${LANG_BULGARIAN}    bg-BG
 	!insertmacro Lang ${LANG_POLISH}       pl-PL
 	!insertmacro Lang ${LANG_ITALIAN}      it-IT
+	!insertmacro Lang ${LANG_DUTCH}        nl-NL
 
 	;Create uninstaller
 	WriteUninstaller "Uninstall.exe"
