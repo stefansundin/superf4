@@ -1,0 +1,86 @@
+---
+---
+@charset "utf-8";
+
+body {
+  margin-bottom: 100px;
+}
+body.pad {
+  padding: 0 15px;
+}
+
+.container {
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+
+header {
+  margin-top: 25px;
+  text-align: center;
+}
+
+hgroup h1 {
+  font-size: 4em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+hgroup h2 {
+  border: none;
+  margin-top: 1em;
+  font-size: 1.5em;
+  font-weight: 400;
+}
+
+h2 {
+  border-bottom: 1px solid #ccc;
+  margin-top: 1.5em;
+  padding-bottom: 0.125em;
+}
+
+a {
+  cursor: pointer;
+}
+
+.topbar {
+  margin: 2em auto 0;
+  text-align: center;
+}
+
+.buttons .btn {
+  margin: 4px 3px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.expander {
+  display: none;
+}
+
+.post-body {
+  padding-left: 1em;
+  border-left: 4px solid #e8e8e8;
+}
+
+table th, table code {
+  white-space: nowrap;
+}
+
+footer {
+  text-align: center;
+  margin: 40px 0;
+}
+
+
+
+@import
+  "jekyll",
+  "syntax-highlighting"
+;

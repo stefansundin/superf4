@@ -1,0 +1,29 @@
+---
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>{{ site.url }}{{ site.baseurl }}/feed.xml</id>
+  <title>{{ site.title | xml_escape }}</title>
+  <icon>{{ site.url }}{{ site.baseurl }}/img/icon32.png</icon>
+  <link href="{{ site.url }}{{ site.baseurl }}/feed.xml" rel="self" />
+  <link href="{{ site.url }}{{ site.baseurl }}/" rel="alternate" />
+  <link href="{{ site.url }}{{ site.baseurl }}/releases.atom" rel="related" />
+  <link href="{{ site.url }}{{ site.baseurl }}/tags.atom" rel="related" />
+  <link href="https://github.com/{{ site.github_username }}/commits/master.atom" rel="related" />
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  <author>
+    <name>Stefan Sundin</name>
+    <uri>https://stefansundin.com/</uri>
+  </author>
+
+  {% for post in site.posts limit:10 %}
+  <entry>
+    <id>{{ site.url }}{{ site.baseurl }}/news/#{{ post.date | date: "%Y-%m-%d" }}</id>
+    <title>{{ post.title | xml_escape }}</title>
+    <link href="{{ site.url }}{{ site.baseurl }}/news/#{{ post.date | date: "%Y-%m-%d" }}" />
+    <updated>{{ post.date | date_to_xmlschema }}</updated>
+    <author><name>Stefan Sundin</name></author>
+    <content type="html">{{ post.content | xml_escape }}</content>
+  </entry>
+  {% endfor %}
+</feed>

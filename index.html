@@ -1,0 +1,104 @@
+---
+---
+<!DOCTYPE html>
+<html>
+{% include head.html %}
+<body class="pad">
+  <header>
+    <img src="img/icon128.png" width="128" height="128" alt="{{ site.title }} Icon" itemprop="image">
+    <hgroup>
+      <h1 itemprop="name">{{ site.title }}</h1>
+      <h2 itemprop="description">{{ site.description }}</h2>
+    </hgroup>
+  </header>
+
+  <div class="text-center hidden" id="os-warning">
+    <h3><strong>Note:</strong> {{ site.title }} is a Windows only application!</h3>
+  </div>
+  <script src="js/os-warning.js"></script>
+
+
+  <div class="topbar buttons btn-group-lg">
+    <a class="btn btn-primary" href="https://github.com/{{ site.github_repo }}/releases/download/v1.3/SuperF4-1.3.exe" track="download"><span class="glyphicon glyphicon-download-alt"></span> Download v1.3</a>
+    <a class="btn btn-default" href="https://github.com/{{ site.github_repo }}/releases/download/v1.3/SuperF4-1.3.zip" track="download"><span class="glyphicon glyphicon-send"></span> Portable 64-bit</a>
+    <a class="btn btn-default" href="https://github.com/{{ site.github_repo }}/releases/download/v1.3/SuperF4-1.3.zip" track="download"><span class="glyphicon glyphicon-send"></span> Portable 32-bit</a>
+    <a target="_blank" class="btn btn-default" href="https://github.com/{{ site.github_repo }}/releases"><span class="glyphicon glyphicon-list"></span> Changelog</a>
+  </div>
+
+  <div class="container">
+    <h2 id="donate">Donate</h2>
+
+    <p>{{ site.title }} is free software and a one-man endeavor. If you find it useful, please make a donation. I greatly appreciate any support!</p>
+
+    <form method="post" action="https://www.paypal.com/cgi-bin/webscr" track="donate" target="_blank">
+      <input type="hidden" name="cmd" value="_xclick">
+      <input type="hidden" name="business" value="KYMVEK692RF5Q">
+      <input type="hidden" name="item_number" value="{{ site.title }} v1.1b1">
+      <input type="hidden" name="return" value="https://stefansundin.github.io/thx">
+      <input type="hidden" name="cbt" value="Learn why you just became awesome">
+      <div class="input-group col-sm-5">
+        <input class="form-control" type="text" name="amount" id="amount" value="$5.00" placeholder="Amount">
+        <span class="input-group-btn">
+          <input class="btn btn-success" type="submit" value="Donate with PayPal">
+        </span>
+      </div>
+    </form>
+
+    <p><small><a class="expander" expand="donation-options">Show other donation options: Bitcoin, Square Cash.</a></small></p>
+    <div id="donation-options">
+      <p>Other donation options:</p>
+      <ul>
+        <li>Bitcoin: <tt>1EhDUbc5MjC6JavC6idKiTCxnqSxY2sbTX</tt> (<a target="_blank" href="img/btc-qr.png">QR code</a>)</li>
+        <li>Square Cash: <a target="_blank" href="https://cash.me/$StefanSundin">$StefanSundin</a></li>
+        <li>Email me if you want to send money another way: <a target="_blank" fubar>stefaNStefansundinCom</a></li>
+      </ul>
+    </div>
+
+
+    <h2 id="intro">What is {{ site.title }}?</h2>
+
+    <p>{{ site.title }} kills the foreground program when you press Ctrl+Alt+F4. This is different from when you press Alt+F4. When you press Alt+F4, the program can refuse to quit. Windows essentially only asks the program to quit, and lets it decide for itself what to do.</p>
+
+    <p>You can also kill a program by pressing Win+F4 and then clicking the window with your mouse cursor. When you press Win+F4, the cursor will change to a skull and crossbones cursor, and the next window you click will be killed. You can press escape or the right mouse button to exit this mode without killing a program.</p>
+
+    <p>Some games have anti-keylogger protection (such as StarCraft II). These may prevent SuperF4 from working (it can't detect when you press Ctrl+Alt+F4). You can enable <tt>TimerCheck</tt> in <tt>SuperF4.ini</tt> to enable an alternate detection method.</p>
+
+
+    <h2 id="news">News <a target="_blank" href="feed.xml"><img src="img/feed.png" alt="RSS feed"></a></h2>
+
+    {% for post in site.posts %}
+    <p><strong>{{ post.date | date: "%Y-%m-%d" }} - {{ post.title }}</strong></p>
+    <div class="post-body">{{ post.content }}</div>
+    {% endfor %}
+
+    <p>For an RSS feed with only new releases, use <a target="_blank" href="https://github.com/{{ site.github_repo }}/releases.atom">the GitHub release feed</a>.</p>
+
+
+    <h2 id="support">Support</h2>
+
+    <p>Before reporting a bug, look through the <a target="_blank" href="https://github.com/{{ site.github_repo }}/issues">list of issues</a> on GitHub.</p>
+
+    <p>When reporting a bug, please specify what version of Windows you are using, and be sure to include any error message you might see.</p>
+
+
+    <h2 id="license">License</h2>
+
+    <p>{{ site.title }} is free software and licensed under <a target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL v3</a>. Get <a target="_blank" href="https://github.com/{{ site.github_repo }}">the source code</a> on GitHub.</p>
+
+    <p>You may redistribute {{ site.title }} on your own website, but please provide a link to this website on the same page. Please do not bundle {{ site.title }} together with toolbars or other annoying adware, or otherwise degrade the experience.</p>
+
+
+    <h2 id="credits">Credits</h2>
+
+    <p>Made by Stefan Sundin.</p>
+
+    <p>You can <a target="_blank" href="https://stefansundin.github.io/">browse my other projects</a>, or <a target="_blank" href="https://stefansundin.com/">visit my personal website</a>.</p>
+  </div>
+
+  <script src="js/analytics.js"></script>
+  <script src="js/fubar.js"></script>
+  <script src="js/expander.js"></script>
+
+{% include footer.html %}
+</body>
+</html>
