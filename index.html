@@ -20,8 +20,8 @@
 
   <div class="topbar buttons btn-group-lg">
     <a class="btn btn-primary" href="https://github.com/{{ site.github_repo }}/releases/download/v1.3/SuperF4-1.3.exe" track="download"><span class="glyphicon glyphicon-download-alt"></span> Download v1.3</a>
-    <a class="btn btn-default" href="https://github.com/{{ site.github_repo }}/releases/download/v1.3/SuperF4-1.3.zip" track="download"><span class="glyphicon glyphicon-send"></span> Portable 64-bit</a>
-    <a class="btn btn-default" href="https://github.com/{{ site.github_repo }}/releases/download/v1.3/SuperF4-1.3.zip" track="download"><span class="glyphicon glyphicon-send"></span> Portable 32-bit</a>
+    <a class="btn btn-default" href="https://github.com/{{ site.github_repo }}/releases/download/v1.3/SuperF4-1.3-64bit.zip" track="download"><span class="glyphicon glyphicon-send"></span> Portable 64-bit</a>
+    <a class="btn btn-default" href="https://github.com/{{ site.github_repo }}/releases/download/v1.3/SuperF4-1.3-32bit.zip" track="download"><span class="glyphicon glyphicon-send"></span> Portable 32-bit</a>
     <a target="_blank" class="btn btn-default" href="https://github.com/{{ site.github_repo }}/releases"><span class="glyphicon glyphicon-list"></span> Changelog</a>
   </div>
 
@@ -33,7 +33,7 @@
     <form method="post" action="https://www.paypal.com/cgi-bin/webscr" track="donate" target="_blank">
       <input type="hidden" name="cmd" value="_xclick">
       <input type="hidden" name="business" value="KYMVEK692RF5Q">
-      <input type="hidden" name="item_number" value="{{ site.title }} v1.1b1">
+      <input type="hidden" name="item_number" value="{{ site.title }} v1.3">
       <input type="hidden" name="return" value="https://stefansundin.github.io/thx">
       <input type="hidden" name="cbt" value="Learn why you just became awesome">
       <div class="input-group col-sm-5">
@@ -57,11 +57,11 @@
 
     <h2 id="intro">What is {{ site.title }}?</h2>
 
-    <p>{{ site.title }} kills the foreground program when you press Ctrl+Alt+F4. This is different from when you press Alt+F4. When you press Alt+F4, the program can refuse to quit. Windows essentially only asks the program to quit, and lets it decide for itself what to do.</p>
+    <p>{{ site.title }} kills the foreground program when you press Ctrl+Alt+F4. This is different from when you press Alt+F4. When you press Alt+F4, the program can refuse to quit. Windows only asks the program to quit, and lets it decide for itself what to do.</p>
 
-    <p>You can also kill a program by pressing Win+F4 and then clicking the window with your mouse cursor. When you press Win+F4, the cursor will change to a skull and crossbones cursor, and the next window you click will be killed. You can press escape or the right mouse button to exit this mode without killing a program.</p>
+    <p>You can also kill a program by pressing Win+F4 and then clicking the window with your mouse cursor. You can press escape or the right mouse button to exit this mode without killing a program.</p>
 
-    <p>Some games have anti-keylogger protection (such as StarCraft II). These may prevent SuperF4 from working (it can't detect when you press Ctrl+Alt+F4). You can enable <tt>TimerCheck</tt> in <tt>SuperF4.ini</tt> to enable an alternate detection method.</p>
+    <p>Some games have anti-keylogger protection, which may prevent SuperF4 from working (it can't detect when you press Ctrl+Alt+F4). You can enable <tt>TimerCheck</tt> to enable an alternate detection method.</p>
 
 
     <h2 id="news">News <a target="_blank" href="feed.xml"><img src="img/feed.png" alt="RSS feed"></a></h2>
