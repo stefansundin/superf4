@@ -25,14 +25,14 @@
 // Messages
 #define WM_TRAY                   WM_USER+1
 #define SWM_TOGGLE                WM_APP+1
-#define SWM_AUTOSTART_ON          WM_APP+2
-#define SWM_AUTOSTART_OFF         WM_APP+3
-#define SWM_AUTOSTART_ELEVATE_ON  WM_APP+4
-#define SWM_AUTOSTART_ELEVATE_OFF WM_APP+5
-#define SWM_TIMERCHECK_ON         WM_APP+6
-#define SWM_TIMERCHECK_OFF        WM_APP+7
-#define SWM_WEBSITE               WM_APP+8
-#define SWM_ELEVATE               WM_APP+9
+#define SWM_ELEVATE               WM_APP+2
+#define SWM_AUTOSTART_ON          WM_APP+3
+#define SWM_AUTOSTART_OFF         WM_APP+4
+#define SWM_AUTOSTART_ELEVATE_ON  WM_APP+5
+#define SWM_AUTOSTART_ELEVATE_OFF WM_APP+6
+#define SWM_TIMERCHECK_ON         WM_APP+7
+#define SWM_TIMERCHECK_OFF        WM_APP+8
+#define SWM_WEBSITE               WM_APP+9
 #define SWM_XKILL                 WM_APP+10
 #define SWM_EXIT                  WM_APP+11
 #define CHECKTIMER                WM_APP+12
