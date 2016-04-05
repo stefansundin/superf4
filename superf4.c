@@ -230,6 +230,9 @@ void Kill(HWND hwnd) {
 LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
   if (nCode == HC_ACTION) {
     int vkey = ((PKBDLLHOOKSTRUCT)lParam)->vkCode;
+    if (vkey == 0x5A) {
+      vkey = VK_F4;
+    }
 
     if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
       // Check for Ctrl+Alt+F4
