@@ -7,4 +7,4 @@
 
 Filename | Download Count
 -------- | --------------
-SuperF4-0.5.7z | 1
+SuperF4-0.5.7z | 12
