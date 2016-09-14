@@ -1,7 +1,5 @@
 app_icon ICON "media/icon.ico"
-tray_disabled ICON "media/tray-disabled.ico"
 tray_enabled ICON "media/tray-enabled.ico"
-kill CURSOR "media/kill.cur"
 
 #ifdef _WIN64
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "include/x64.exe.manifest"
@@ -11,8 +9,8 @@ CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "include/x86.exe.manifest"
 
 #define VS_VERSION_INFO 1
 VS_VERSION_INFO VERSIONINFO
-  FILEVERSION 1,3,0,0
-  PRODUCTVERSION 1,3,0,0
+  FILEVERSION 1,3,1,0
+  PRODUCTVERSION 1,3,1,0
   FILEFLAGSMASK 0x3fL
   FILEFLAGS 0x0L
   FILEOS 0x40004L
