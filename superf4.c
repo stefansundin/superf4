@@ -47,6 +47,10 @@ HWND g_hwnd = NULL;
 UINT WM_TASKBARCREATED = 0;
 UINT WM_UPDATESETTINGS = 0;
 wchar_t inipath[MAX_PATH];
+int HookKeyboard();
+int HookMouse();
+int UnhookMouse();
+int DisableMouse();
 
 // Cool stuff
 HHOOK keyhook = NULL;
@@ -560,22 +564,24 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     // Since we take away the skull, make sure we can't kill anything
     UnhookMouse();
   }
-  else if (msg == WM_TIMER && ENABLED()) {
-    if (GetAsyncKeyState(VK_LCONTROL)&0x8000
-     && GetAsyncKeyState(VK_LMENU)&0x8000
-     && GetAsyncKeyState(VK_F4)&0x8000) {
-      // Get hwnd of foreground window
-      HWND hwnd = GetForegroundWindow();
-      if (hwnd == NULL) {
-        return DefWindowProc(hwnd, msg, wParam, lParam);
-      }
+  else if (msg == WM_TIMER) {
+    if (wParam == CHECKTIMER && ENABLED()) {
+      if (GetAsyncKeyState(VK_LCONTROL)&0x8000
+       && GetAsyncKeyState(VK_LMENU)&0x8000
+       && GetAsyncKeyState(VK_F4)&0x8000) {
+        // Get hwnd of foreground window
+        HWND hwnd = GetForegroundWindow();
+        if (hwnd == NULL) {
+          return DefWindowProc(hwnd, msg, wParam, lParam);
+        }
 
-      // Kill it!
-      Kill(hwnd);
-    }
-    else {
-      // Reset when the user has released the keys
-      killing = 0;
+        // Kill it!
+        Kill(hwnd);
+      }
+      else {
+        // Reset when the user has released the keys
+        killing = 0;
+      }
     }
   }
   return DefWindowProc(hwnd, msg, wParam, lParam);

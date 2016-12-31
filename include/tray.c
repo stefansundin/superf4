@@ -38,12 +38,10 @@ int UpdateTray() {
   wcsncpy(tray.szTip, (ENABLED() && elevated?l10n.tray_elevated:ENABLED()?l10n.tray_enabled:l10n.tray_disabled), ARRAY_SIZE(tray.szTip));
   tray.hIcon = icon[ENABLED()?1:0];
 
-  // Try once. If it doesn't succeed, try again when UpdateTray is called.
-  // Keep in mind that this function shouldn't block or else the keyboard hook
-  // will have very poor response time due to event timeouts.
-  int success = Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&tray);
-  tray_added = success ? 1 : tray_added;
-  return success ? 1 : 0;
+  if (Shell_NotifyIcon((tray_added?NIM_MODIFY:NIM_ADD),&tray)) {
+    tray_added = 1;
+  }
+  return 0;
 }
 
 int RemoveTray() {
