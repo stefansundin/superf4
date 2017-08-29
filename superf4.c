@@ -271,10 +271,15 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
       else if (vkey == VK_LWIN) {
         win = 1;
       }
-      else if (win && vkey == VK_F4) {
+      else if (!ctrl && win && vkey == VK_F4) {
         // Double check that the windows button is being pressed
         if (!(GetAsyncKeyState(VK_LWIN)&0x8000)) {
           win = 0;
+          return CallNextHookEx(NULL, nCode, wParam, lParam);
+        }
+        // Double check that the ctrl button is not being pressed
+        if (GetAsyncKeyState(VK_LCONTROL)&0x8000) {
+          ctrl = 1;
           return CallNextHookEx(NULL, nCode, wParam, lParam);
         }
 
