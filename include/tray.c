@@ -83,6 +83,7 @@ void ShowContextMenu(HWND hwnd) {
   InsertMenu(menu_options, -1, MF_BYPOSITION|(autostart_elevate?MF_CHECKED:0)|(!vista?MF_DISABLED|MF_GRAYED:0), (autostart_elevate?SWM_AUTOSTART_ELEVATE_OFF:SWM_AUTOSTART_ELEVATE_ON), l10n.menu.autostart_elevate);
   InsertMenu(menu_options, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
   InsertMenu(menu_options, -1, MF_BYPOSITION|(timercheck?MF_CHECKED:0), (timercheck?SWM_TIMERCHECK_OFF:SWM_TIMERCHECK_ON), l10n.menu.timercheck);
+  InsertMenu(menu_options, -1, MF_BYPOSITION, SWM_SETTINGS, l10n.menu.open_ini);
   InsertMenu(menu_options, -1, MF_BYPOSITION|MF_SEPARATOR, 0, NULL);
   InsertMenu(menu_options, -1, MF_BYPOSITION, SWM_WEBSITE, l10n.menu.website);
   InsertMenu(menu_options, -1, MF_BYPOSITION|MF_DISABLED|MF_GRAYED, 0, l10n.menu.version);

@@ -33,10 +33,11 @@
 #define SWM_AUTOSTART_ELEVATE_OFF WM_APP+6
 #define SWM_TIMERCHECK_ON         WM_APP+7
 #define SWM_TIMERCHECK_OFF        WM_APP+8
-#define SWM_WEBSITE               WM_APP+9
-#define SWM_XKILL                 WM_APP+10
-#define SWM_EXIT                  WM_APP+11
-#define CHECKTIMER                WM_APP+12
+#define SWM_SETTINGS              WM_APP+9
+#define SWM_WEBSITE               WM_APP+10
+#define SWM_XKILL                 WM_APP+11
+#define SWM_EXIT                  WM_APP+12
+#define CHECKTIMER                WM_APP+13
 
 
 // Boring stuff
@@ -603,6 +604,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     else if (wmId == SWM_TIMERCHECK_OFF) {
       WritePrivateProfileString(L"General", L"TimerCheck", L"0", inipath);
       SendMessage(g_hwnd, WM_UPDATESETTINGS, 0, 0);
+    }
+    else if (wmId == SWM_SETTINGS) {
+      wchar_t path[MAX_PATH];
+      GetModuleFileName(NULL, path, sizeof(path)/sizeof(wchar_t));
+      PathRemoveFileSpec(path);
+      wcscat(path, L"\\"APP_NAME".ini");
+      ShellExecute(NULL, L"open", path, NULL, NULL, SW_SHOWNORMAL);
     }
     else if (wmId == SWM_WEBSITE) {
       OpenUrl(APP_URL);

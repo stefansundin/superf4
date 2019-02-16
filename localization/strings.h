@@ -18,6 +18,7 @@ struct strings {
     wchar_t *autostart;
     wchar_t *autostart_elevate;
     wchar_t *timercheck;
+    wchar_t *open_ini;
     wchar_t *website;
     wchar_t *version;
     wchar_t *elevate;
@@ -38,6 +39,7 @@ struct strings {
     L"Autostart",
     L"Elevate on autostart",
     L"TimerCheck",
+    L"Open ini file",
     L"Open website",
     L"Version " APP_VERSION,
     L"Elevate",
