@@ -3,13 +3,15 @@ url: https://stefansundin.github.io
 baseurl: /superf4
 description: Kill programs instantly with Ctrl+Alt+F4.
 author: Stefan Sundin
+latest_version: 1.4
 
 # posts
 permalink: /news/:year-:month-:day-:title.html
 
 # build
-gems:
+plugins:
 - jekyll-github-metadata
 markdown: kramdown
 kramdown:
   input: GFM
+future: true
