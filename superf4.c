@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <shlwapi.h>
+#include <psapi.h>
 
 // App
 #define APP_NAME            L"SuperF4"
@@ -64,6 +65,13 @@ int killing = 0; // Variable to prevent overkill
 int vista = 0;
 int elevated = 0;
 
+struct blacklist {
+  wchar_t *data;
+  wchar_t **items;
+  int length;
+};
+struct blacklist ProcessBlacklist = {NULL, NULL, 0};
+
 // Include stuff
 #include "localization/strings.h"
 #include "include/error.c"
@@ -78,7 +86,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
   GetModuleFileName(NULL, inipath, ARRAY_SIZE(inipath));
   PathRemoveFileSpec(inipath);
   wcscat(inipath, L"\\"APP_NAME".ini");
-  wchar_t txt[10];
+  wchar_t txt[1000];
 
   // Convert szCmdLine to argv and argc (max 10 arguments)
   char *argv[10];
@@ -134,6 +142,33 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
     }
   }
 
+  // ProcessBlacklist
+  GetPrivateProfileString(L"General", L"ProcessBlacklist", L"", txt, ARRAY_SIZE(txt), inipath);
+  int blacklist_alloc = 0;
+  ProcessBlacklist.data = malloc((wcslen(txt)+1)*sizeof(wchar_t));
+  wcscpy(ProcessBlacklist.data, txt);
+  wchar_t *pos = ProcessBlacklist.data;
+  while (pos != NULL) {
+    wchar_t *name = pos;
+    // Move pos to next item (if any)
+    pos = wcsstr(pos, L",");
+    if (pos != NULL) {
+      *pos = '\0';
+      pos++;
+    }
+    // Do not store item if it's empty
+    if (name != NULL && name[0] != '\0') {
+      // Make sure we have enough space
+      if (ProcessBlacklist.length == blacklist_alloc) {
+        blacklist_alloc += 15;
+        ProcessBlacklist.items = realloc(ProcessBlacklist.items, blacklist_alloc*sizeof(struct wchar**));
+      }
+      // Store item
+      ProcessBlacklist.items[ProcessBlacklist.length] = name;
+      ProcessBlacklist.length++;
+    }
+  }
+
   // Create window
   WNDCLASSEX wnd = { sizeof(WNDCLASSEX), 0, WindowProc, 0, 0, hInst, NULL, NULL, (HBRUSH)(COLOR_WINDOW+1), NULL, APP_NAME, NULL };
   wnd.hCursor = LoadImage(hInst, L"kill", IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
@@ -168,11 +203,32 @@ void Kill(HWND hwnd) {
   if (killing) {
     return;
   }
-  killing = 1;
 
   // Get process id of hwnd
   DWORD pid;
   GetWindowThreadProcessId(hwnd, &pid);
+
+  // Check if the process is blacklisted
+  HANDLE process = OpenProcess(vista?PROCESS_QUERY_LIMITED_INFORMATION:PROCESS_QUERY_INFORMATION, FALSE, pid);
+  wchar_t name[256];
+  DWORD ret = GetProcessImageFileName(process, name, ARRAY_SIZE(name));
+  CloseHandle(process);
+  if (ret == 0) {
+    #ifdef DEBUG
+    Error(L"GetProcessImageFileName()", L"Kill()", GetLastError());
+    #endif
+  }
+  else {
+    PathStripPath(name);
+    for (int i=0; i < ProcessBlacklist.length; i++) {
+      if (!wcsicmp(name,ProcessBlacklist.items[i])) {
+        return;
+      }
+    }
+  }
+
+  // Let's do this
+  killing = 1;
 
   int SeDebugPrivilege = 0;
   // Get process token
@@ -204,7 +260,7 @@ void Kill(HWND hwnd) {
   }
 
   // Open the process
-  HANDLE process = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
+  process = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
   if (process == NULL) {
     #ifdef DEBUG
     Error(L"OpenProcess()", L"Kill()", GetLastError());

@@ -17,12 +17,12 @@ if "%1" == "all" (
 
   echo.
   echo Building binaries
-  %prefix32%gcc -o "bin/SuperF4.exe" superf4.c bin/superf4.o -mwindows -lshlwapi -O2 -s
+  %prefix32%gcc -o "bin/SuperF4.exe" superf4.c bin/superf4.o -mwindows -lshlwapi -lpsapi -O2 -s
   if not exist "bin/SuperF4.exe". exit /b
 
   if "%2" == "x64" (
     %prefix64%windres -o bin/x64/superf4.o include/superf4.rc
-    %prefix64%gcc -o "bin/x64/SuperF4.exe" superf4.c bin/x64/superf4.o -mwindows -lshlwapi -O2 -s
+    %prefix64%gcc -o "bin/x64/SuperF4.exe" superf4.c bin/x64/superf4.o -mwindows -lshlwapi -lpsapi -O2 -s
     if not exist "bin/x64/SuperF4.exe". exit /b
   )
 
@@ -34,10 +34,10 @@ if "%1" == "all" (
   )
 ) else if "%1" == "x64" (
   %prefix64%windres -o bin/x64/superf4.o include/superf4.rc
-  %prefix64%gcc -o SuperF4.exe superf4.c bin/x64/superf4.o -mwindows -lshlwapi -g -DDEBUG
+  %prefix64%gcc -o SuperF4.exe superf4.c bin/x64/superf4.o -mwindows -lshlwapi -lpsapi -g -DDEBUG
 ) else (
   %prefix32%windres -o bin/superf4.o include/superf4.rc
-  %prefix32%gcc -o SuperF4.exe superf4.c bin/superf4.o -mwindows -lshlwapi -g -DDEBUG
+  %prefix32%gcc -o SuperF4.exe superf4.c bin/superf4.o -mwindows -lshlwapi -lpsapi -g -DDEBUG
 
   if "%1" == "run" (
     start SuperF4.exe
