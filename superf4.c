@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015  Stefan Sundin
+  Copyright (C) 2019  Stefan Sundin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 // App
 #define APP_NAME            L"SuperF4"
-#define APP_VERSION         "1.3"
+#define APP_VERSION         "1.4"
 #define APP_URL             L"https://stefansundin.github.io/superf4/"
 
 // Messages
@@ -326,10 +326,11 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
         // Prevent this keypress from being propagated
         return 1;
       }
-      // Check for [the windows key]+F4
+      // Check for Win+F4
       else if (vkey == VK_LWIN) {
         win = 1;
       }
+      // Note: Ctrl+Win+F4 is a shortcut to close virtual desktops
       else if (!ctrl && win && vkey == VK_F4) {
         // Double check that the windows button is being pressed
         if (!(GetAsyncKeyState(VK_LWIN)&0x8000)) {

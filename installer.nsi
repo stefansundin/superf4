@@ -1,4 +1,4 @@
-; Copyright (C) 2015  Stefan Sundin
+; Copyright (C) 2019  Stefan Sundin
 ;
 ; This program is free software: you can redistribute it and/or modify
 ; it under the terms of the GNU General Public License as published by
@@ -9,7 +9,7 @@
 
 
 !define APP_NAME      "SuperF4"
-!define APP_VERSION   "1.3"
+!define APP_VERSION   "1.4"
 !define APP_URL       "https://stefansundin.github.io/superf4/"
 
 
@@ -148,12 +148,12 @@ Section "" sec_app
   ; Install files
   !ifdef x64
   ${If} ${RunningX64}
-    File "bin\x64\${APP_NAME}.exe"
+    File "bin\64\${APP_NAME}.exe"
   ${Else}
-    File "bin\${APP_NAME}.exe"
+    File "bin\32\${APP_NAME}.exe"
   ${EndIf}
   !else
-  File "bin\${APP_NAME}.exe"
+  File "bin\32\${APP_NAME}.exe"
   !endif
   File "${APP_NAME}.ini"
 
