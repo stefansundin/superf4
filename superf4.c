@@ -80,113 +80,115 @@ struct blacklist ProcessBlacklist = {NULL, NULL, 0};
 
 // Entry point
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, int iCmdShow) {
-  g_hinst = hInst;
+  { // Keep the stack clean after initialization
+    g_hinst = hInst;
 
-  // Get ini path
-  GetModuleFileName(NULL, inipath, ARRAY_SIZE(inipath));
-  PathRemoveFileSpec(inipath);
-  wcscat(inipath, L"\\"APP_NAME".ini");
-  wchar_t txt[1000];
+    // Get ini path
+    GetModuleFileName(NULL, inipath, ARRAY_SIZE(inipath));
+    PathRemoveFileSpec(inipath);
+    wcscat(inipath, L"\\"APP_NAME".ini");
+    wchar_t txt[1000];
 
-  // Convert szCmdLine to argv and argc (max 10 arguments)
-  char *argv[10];
-  int argc = 1;
-  argv[0] = szCmdLine;
-  while ((argv[argc]=strchr(argv[argc-1],' ')) != NULL) {
-    *argv[argc] = '\0';
-    if (argc == ARRAY_SIZE(argv)) break;
-    argv[argc++]++;
-  }
-
-  // Check arguments
-  int i;
-  int elevate=0;
-  for (i=0; i < argc; i++) {
-    if (!strcmp(argv[i],"-elevate") || !strcmp(argv[i],"-e")) {
-      // -elevate = create a new instance with administrator privileges
-      elevate = 1;
+    // Convert szCmdLine to argv and argc (max 10 arguments)
+    char *argv[10];
+    int argc = 1;
+    argv[0] = szCmdLine;
+    while ((argv[argc]=strchr(argv[argc-1],' ')) != NULL) {
+      *argv[argc] = '\0';
+      if (argc == ARRAY_SIZE(argv)) break;
+      argv[argc++]++;
     }
-  }
 
-  // Check if elevated if in >= Vista
-  OSVERSIONINFO vi = { sizeof(OSVERSIONINFO) };
-  GetVersionEx(&vi);
-  vista = (vi.dwMajorVersion >= 6);
-  if (vista) {
-    HANDLE token;
-    TOKEN_ELEVATION elevation;
-    DWORD len;
-    if (OpenProcessToken(GetCurrentProcess(),TOKEN_READ,&token) && GetTokenInformation(token,TokenElevation,&elevation,sizeof(elevation),&len)) {
-      elevated = elevation.TokenIsElevated;
+    // Check arguments
+    int i;
+    int elevate=0;
+    for (i=0; i < argc; i++) {
+      if (!strcmp(argv[i],"-elevate") || !strcmp(argv[i],"-e")) {
+        // -elevate = create a new instance with administrator privileges
+        elevate = 1;
+      }
     }
-  }
 
-  // Register some messages
-  WM_UPDATESETTINGS = RegisterWindowMessage(L"UpdateSettings");
+    // Check if elevated if in >= Vista
+    OSVERSIONINFO vi = { sizeof(OSVERSIONINFO) };
+    GetVersionEx(&vi);
+    vista = (vi.dwMajorVersion >= 6);
+    if (vista) {
+      HANDLE token;
+      TOKEN_ELEVATION elevation;
+      DWORD len;
+      if (OpenProcessToken(GetCurrentProcess(),TOKEN_READ,&token) && GetTokenInformation(token,TokenElevation,&elevation,sizeof(elevation),&len)) {
+        elevated = elevation.TokenIsElevated;
+      }
+    }
 
-  // Check AlwaysElevate
-  if (!elevated) {
-    GetPrivateProfileString(L"Advanced", L"AlwaysElevate", L"0", txt, ARRAY_SIZE(txt), inipath);
+    // Register some messages
+    WM_UPDATESETTINGS = RegisterWindowMessage(L"UpdateSettings");
+
+    // Check AlwaysElevate
+    if (!elevated) {
+      GetPrivateProfileString(L"Advanced", L"AlwaysElevate", L"0", txt, ARRAY_SIZE(txt), inipath);
+      if (_wtoi(txt)) {
+        elevate = 1;
+      }
+
+      // Handle request to elevate to administrator privileges
+      if (elevate) {
+        wchar_t path[MAX_PATH];
+        GetModuleFileName(NULL, path, ARRAY_SIZE(path));
+        int ret = (INT_PTR) ShellExecute(NULL, L"runas", path, NULL, NULL, SW_SHOWNORMAL);
+        if (ret > 32) {
+          return 0;
+        }
+      }
+    }
+
+    // ProcessBlacklist
+    GetPrivateProfileString(L"General", L"ProcessBlacklist", L"", txt, ARRAY_SIZE(txt), inipath);
+    int blacklist_alloc = 0;
+    ProcessBlacklist.data = malloc((wcslen(txt)+1)*sizeof(wchar_t));
+    wcscpy(ProcessBlacklist.data, txt);
+    wchar_t *pos = ProcessBlacklist.data;
+    while (pos != NULL) {
+      wchar_t *name = pos;
+      // Move pos to next item (if any)
+      pos = wcsstr(pos, L",");
+      if (pos != NULL) {
+        *pos = '\0';
+        pos++;
+      }
+      // Do not store item if it's empty
+      if (name != NULL && name[0] != '\0') {
+        // Make sure we have enough space
+        if (ProcessBlacklist.length == blacklist_alloc) {
+          blacklist_alloc += 15;
+          ProcessBlacklist.items = realloc(ProcessBlacklist.items, blacklist_alloc*sizeof(struct wchar**));
+        }
+        // Store item
+        ProcessBlacklist.items[ProcessBlacklist.length] = name;
+        ProcessBlacklist.length++;
+      }
+    }
+
+    // Create window
+    WNDCLASSEX wnd = { sizeof(WNDCLASSEX), 0, WindowProc, 0, 0, hInst, NULL, NULL, (HBRUSH)(COLOR_WINDOW+1), NULL, APP_NAME, NULL };
+    wnd.hCursor = LoadImage(hInst, L"kill", IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
+    RegisterClassEx(&wnd);
+    g_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST|WS_EX_LAYERED, wnd.lpszClassName, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+    SetLayeredWindowAttributes(g_hwnd, 0, 1, LWA_ALPHA); // Almost transparent
+
+    // Tray icon
+    InitTray();
+    UpdateTray();
+
+    // Hook keyboard
+    HookKeyboard();
+
+    // TimerCheck
+    GetPrivateProfileString(L"General", L"TimerCheck", L"0", txt, ARRAY_SIZE(txt), inipath);
     if (_wtoi(txt)) {
-      elevate = 1;
+      SetTimer(g_hwnd, CHECKTIMER, CHECKINTERVAL, NULL);
     }
-
-    // Handle request to elevate to administrator privileges
-    if (elevate) {
-      wchar_t path[MAX_PATH];
-      GetModuleFileName(NULL, path, ARRAY_SIZE(path));
-      int ret = (INT_PTR) ShellExecute(NULL, L"runas", path, NULL, NULL, SW_SHOWNORMAL);
-      if (ret > 32) {
-        return 0;
-      }
-    }
-  }
-
-  // ProcessBlacklist
-  GetPrivateProfileString(L"General", L"ProcessBlacklist", L"", txt, ARRAY_SIZE(txt), inipath);
-  int blacklist_alloc = 0;
-  ProcessBlacklist.data = malloc((wcslen(txt)+1)*sizeof(wchar_t));
-  wcscpy(ProcessBlacklist.data, txt);
-  wchar_t *pos = ProcessBlacklist.data;
-  while (pos != NULL) {
-    wchar_t *name = pos;
-    // Move pos to next item (if any)
-    pos = wcsstr(pos, L",");
-    if (pos != NULL) {
-      *pos = '\0';
-      pos++;
-    }
-    // Do not store item if it's empty
-    if (name != NULL && name[0] != '\0') {
-      // Make sure we have enough space
-      if (ProcessBlacklist.length == blacklist_alloc) {
-        blacklist_alloc += 15;
-        ProcessBlacklist.items = realloc(ProcessBlacklist.items, blacklist_alloc*sizeof(struct wchar**));
-      }
-      // Store item
-      ProcessBlacklist.items[ProcessBlacklist.length] = name;
-      ProcessBlacklist.length++;
-    }
-  }
-
-  // Create window
-  WNDCLASSEX wnd = { sizeof(WNDCLASSEX), 0, WindowProc, 0, 0, hInst, NULL, NULL, (HBRUSH)(COLOR_WINDOW+1), NULL, APP_NAME, NULL };
-  wnd.hCursor = LoadImage(hInst, L"kill", IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
-  RegisterClassEx(&wnd);
-  g_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW|WS_EX_TOPMOST|WS_EX_LAYERED, wnd.lpszClassName, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
-  SetLayeredWindowAttributes(g_hwnd, 0, 1, LWA_ALPHA); // Almost transparent
-
-  // Tray icon
-  InitTray();
-  UpdateTray();
-
-  // Hook keyboard
-  HookKeyboard();
-
-  // TimerCheck
-  GetPrivateProfileString(L"General", L"TimerCheck", L"0", txt, ARRAY_SIZE(txt), inipath);
-  if (_wtoi(txt)) {
-    SetTimer(g_hwnd, CHECKTIMER, CHECKINTERVAL, NULL);
   }
 
   // Message loop
