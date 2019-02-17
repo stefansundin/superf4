@@ -18,9 +18,9 @@
 
   {% for post in site.posts limit:10 %}
   <entry>
-    <id>{{ site.url }}{{ site.baseurl }}/news/#{{ post.date | date: "%Y-%m-%d" }}</id>
+    <id>{{ site.url }}{{ site.baseurl }}/#news-{{ post.date | date: "%Y-%m-%d" }}</id>
     <title>{{ post.title | xml_escape }}</title>
-    <link href="{{ site.url }}{{ site.baseurl }}/news/#{{ post.date | date: "%Y-%m-%d" }}" />
+    <link href="{{ site.url }}{{ site.baseurl }}/#news-{{ post.date | date: "%Y-%m-%d" }}" />
     <updated>{{ post.date | date_to_xmlschema }}</updated>
     <author><name>{{ site.author }}</name></author>
     <content type="html">{{ post.content | xml_escape }}</content>

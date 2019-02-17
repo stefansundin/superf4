@@ -66,7 +66,7 @@
     <h2 id="news">News <a target="_blank" href="feed.xml"><img src="img/feed.png" alt="RSS feed"></a></h2>
 
     {% for post in site.posts %}
-    <p><strong>{{ post.date | date: "%Y-%m-%d" }} - {{ post.title }}</strong></p>
+    <p id="news-{{ post.date | date: "%Y-%m-%d" }}"><strong>{{ post.date | date: "%Y-%m-%d" }} - {{ post.title }}</strong></p>
     <div class="post-body">{{ post.content }}</div>
     {% endfor %}
 
