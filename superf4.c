@@ -20,7 +20,7 @@
 
 // App
 #define APP_NAME            L"SuperF4"
-#define APP_VERSION         "1.4"
+#define APP_VERSION         "1.4-custom"
 #define APP_URL             L"https://stefansundin.github.io/superf4/"
 
 // Messages
@@ -302,18 +302,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
       else if (vkey == VK_LMENU) {
         alt = 1;
       }
-      else if (ctrl && alt && vkey == VK_F4) {
-        // Double check that Ctrl and Alt are being pressed.
-        // This prevents a faulty kill if we didn't received the keyup for these keys.
-        if (!(GetAsyncKeyState(VK_LCONTROL)&0x8000)) {
-          ctrl = 0;
-          return CallNextHookEx(NULL, nCode, wParam, lParam);
-        }
-        else if (!(GetAsyncKeyState(VK_LMENU)&0x8000)) {
-          alt = 0;
-          return CallNextHookEx(NULL, nCode, wParam, lParam);
-        }
-
+      else if (vkey == 0x47) { // G - https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
         // Get hwnd of foreground window
         HWND hwnd = GetForegroundWindow();
         if (hwnd == NULL) {
