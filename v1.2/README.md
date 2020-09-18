@@ -9,8 +9,8 @@
 
 ## Downloads by filename
 
-Filename | Download Count
--------- | --------------
-SuperF4-1.2-x64.7z | 91
-SuperF4-1.2.7z | 43
-SuperF4-1.2.exe | 102
+Filename           | Download Count
+------------------ | --------------
+SuperF4-1.2-x64.7z |            147
+SuperF4-1.2.7z     |             77
+SuperF4-1.2.exe    |            214

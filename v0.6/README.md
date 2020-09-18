@@ -5,6 +5,6 @@
 
 ## Downloads by filename
 
-Filename | Download Count
--------- | --------------
-SuperF4-0.6.7z | 12
+Filename       | Download Count
+-------------- | --------------
+SuperF4-0.6.7z |             22
