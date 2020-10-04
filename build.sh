@@ -7,10 +7,10 @@ if [[ "$1" == "release" ]]; then
   cp SuperF4.ini bin/64/
 
   i686-w64-mingw32-windres -o superf4.o include/app.rc
-  i686-w64-mingw32-gcc -o bin/32/SuperF4.exe superf4.c superf4.o -mwindows -lshlwapi -lpsapi -O2 -s
+  i686-w64-mingw32-gcc -o bin/32/SuperF4.exe superf4.c superf4.o -mwindows -lshlwapi -lpsapi -O2 -s -fstack-protector-all -static -Wl,--dynamicbase,--nxcompat,--high-entropy-va -Wp,-D_FORTIFY_SOURCE=2
 
   x86_64-w64-mingw32-windres -o superf4.o include/app.rc
-  x86_64-w64-mingw32-gcc -o bin/64/SuperF4.exe superf4.c superf4.o -mwindows -lshlwapi -lpsapi -O2 -s
+  x86_64-w64-mingw32-gcc -o bin/64/SuperF4.exe superf4.c superf4.o -mwindows -lshlwapi -lpsapi -O2 -s -fstack-protector-all -static -Wl,--dynamicbase,--nxcompat,--high-entropy-va -Wp,-D_FORTIFY_SOURCE=2
 
   makensis -V2 -Dx64 installer.nsi
 else
