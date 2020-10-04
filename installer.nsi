@@ -267,8 +267,6 @@ Function PageUpgrade
   ${NSD_CreateRadioButton} 0 130 100% 10u "$(L10N_UPGRADE_UNINSTALL)"
   Pop $Uninstallbox
 
-  ${NSD_CreateLabel} 0 160 100% 30u "Note: version 1.3 and later defaults to install to the user directory. If you are upgrading from a previous version, then you are recommended to first uninstall and then install from scratch. Otherwise you have to right click the installer and use 'Run as administrator'."
-
   nsDialogs::Show
 FunctionEnd
 
