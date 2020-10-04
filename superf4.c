@@ -66,12 +66,12 @@ int killing = 0; // Variable to prevent overkill
 int vista = 0;
 int elevated = 0;
 
-struct blacklist {
+struct denylist {
   wchar_t *data;
   wchar_t **items;
   int length;
 };
-struct blacklist ProcessBlacklist = {NULL, NULL, 0};
+struct denylist ProcessDenylist = {NULL, NULL, 0};
 
 // Include stuff
 #include "localization/strings.h"
@@ -144,12 +144,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
       }
     }
 
-    // ProcessBlacklist
-    GetPrivateProfileString(L"General", L"ProcessBlacklist", L"", txt, ARRAY_SIZE(txt), inipath);
-    int blacklist_alloc = 0;
-    ProcessBlacklist.data = malloc((wcslen(txt)+1)*sizeof(wchar_t));
-    wcscpy(ProcessBlacklist.data, txt);
-    wchar_t *pos = ProcessBlacklist.data;
+    // ProcessDenylist
+    GetPrivateProfileString(L"General", L"ProcessDenylist", L"", txt, ARRAY_SIZE(txt), inipath);
+    int denylist_alloc = 0;
+    ProcessDenylist.data = malloc((wcslen(txt)+1)*sizeof(wchar_t));
+    wcscpy(ProcessDenylist.data, txt);
+    wchar_t *pos = ProcessDenylist.data;
     while (pos != NULL) {
       wchar_t *name = pos;
       // Move pos to next item (if any)
@@ -161,13 +161,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
       // Do not store item if it's empty
       if (name != NULL && name[0] != '\0') {
         // Make sure we have enough space
-        if (ProcessBlacklist.length == blacklist_alloc) {
-          blacklist_alloc += 15;
-          ProcessBlacklist.items = realloc(ProcessBlacklist.items, blacklist_alloc*sizeof(struct wchar**));
+        if (ProcessDenylist.length == denylist_alloc) {
+          denylist_alloc += 15;
+          ProcessDenylist.items = realloc(ProcessDenylist.items, denylist_alloc*sizeof(struct wchar**));
         }
         // Store item
-        ProcessBlacklist.items[ProcessBlacklist.length] = name;
-        ProcessBlacklist.length++;
+        ProcessDenylist.items[ProcessDenylist.length] = name;
+        ProcessDenylist.length++;
       }
     }
 
@@ -211,7 +211,7 @@ void Kill(HWND hwnd) {
   DWORD pid;
   GetWindowThreadProcessId(hwnd, &pid);
 
-  // Check if the process is blacklisted
+  // Check if the program is denylisted
   HANDLE process = OpenProcess(vista?PROCESS_QUERY_LIMITED_INFORMATION:PROCESS_QUERY_INFORMATION, FALSE, pid);
   wchar_t name[256];
   DWORD ret = GetProcessImageFileName(process, name, ARRAY_SIZE(name));
@@ -223,8 +223,8 @@ void Kill(HWND hwnd) {
   }
   else {
     PathStripPath(name);
-    for (int i=0; i < ProcessBlacklist.length; i++) {
-      if (!wcsicmp(name,ProcessBlacklist.items[i])) {
+    for (int i=0; i < ProcessDenylist.length; i++) {
+      if (!wcsicmp(name,ProcessDenylist.items[i])) {
         return;
       }
     }
