@@ -8,8 +8,7 @@
 */
 
 // No error reporting since we don't want the user to be interrupted
-void CheckAutostart(int *on, int *elevated) {
-  *on = *elevated = 0;
+int CheckAutostart() {
   // Read registry
   HKEY key;
   wchar_t value[MAX_PATH+20] = L"";
@@ -22,13 +21,13 @@ void CheckAutostart(int *on, int *elevated) {
   GetModuleFileName(NULL, path, ARRAY_SIZE(path));
   swprintf(compare, ARRAY_SIZE(compare), L"\"%s\"", path);
   if (wcsstr(value,compare) != value) {
-    return;
+    return 0;
   }
   // Autostart is on, check arguments
-  *on = 1;
   if (wcsstr(value,L" -elevate") != NULL) {
-    *elevated = 1;
+    return 2;
   }
+  return 1;
 }
 
 void SetAutostart(int on, int elevate) {
