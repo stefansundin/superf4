@@ -147,8 +147,10 @@ Section "" sec_app
 
   ; Install files
   !ifdef x64
-  ${If} ${RunningX64}
+  ${If} ${IsNativeAMD64}
     File "bin\64\${APP_NAME}.exe"
+  ${ElseIf} ${IsNativeARM64}
+    File "bin\arm64\${APP_NAME}.exe"
   ${Else}
     File "bin\32\${APP_NAME}.exe"
   ${EndIf}
