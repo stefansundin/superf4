@@ -2,7 +2,7 @@ Thumbs.db
 .DS_Store
 *.swp
 
-bin
+/bin/
 *.dll
 *.exe
 *.o
