@@ -5,11 +5,11 @@ if [[ "$1" == "release" ]]; then
   mkdir -p bin/32 bin/64
 
   i686-w64-mingw32-windres -o xkill.o include/app.rc
-  i686-w64-mingw32-gcc -o bin/32/xkill.exe xkill.c xkill.o -mwindows -O2 -s
+  i686-w64-mingw32-gcc -o bin/32/xkill.exe xkill.c xkill.o -mconsole -O2 -s
 
   x86_64-w64-mingw32-windres -o xkill.o include/app.rc
-  x86_64-w64-mingw32-gcc -o bin/64/xkill.exe xkill.c xkill.o -mwindows -O2 -s
+  x86_64-w64-mingw32-gcc -o bin/64/xkill.exe xkill.c xkill.o -mconsole -O2 -s
 else
   x86_64-w64-mingw32-windres -o xkill.o include/app.rc
-  x86_64-w64-mingw32-gcc -o xkill.exe xkill.c xkill.o -mwindows -O2 -g -DDEBUG
+  x86_64-w64-mingw32-gcc -o xkill.exe xkill.c xkill.o -mconsole -O2 -g -DDEBUG
 fi

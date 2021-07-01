@@ -15,12 +15,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <psapi.h>
 
 #define APP_NAME L"xkill"
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
 #include "include/error.c"
+
+int exitCode = 0;
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, int iCmdShow) {
   int left = GetSystemMetrics(SM_XVIRTUALSCREEN);
@@ -77,7 +80,7 @@ void Kill(HWND hwnd) {
   }
 
   // Open the process
-  HANDLE process = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
+  HANDLE process = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION|PROCESS_TERMINATE, FALSE, pid);
   if (process == NULL) {
     #ifdef DEBUG
     Error(L"OpenProcess()", L"Kill()", GetLastError());
@@ -85,8 +88,22 @@ void Kill(HWND hwnd) {
     return;
   }
 
+  // Get executable path and print it to stdout
+  wchar_t name[MAX_PATH];
+  DWORD dwSize = ARRAY_SIZE(name);
+  DWORD ret = QueryFullProcessImageName(process, 0, name, &dwSize);
+  if (ret == 0) {
+    #ifdef DEBUG
+    Error(L"QueryFullProcessImageName()", L"Kill()", GetLastError());
+    #endif
+  }
+  else {
+    _putws(name);
+  }
+
   // Terminate process
   if (TerminateProcess(process,1) == 0) {
+    exitCode = 1;
     #ifdef DEBUG
     Error(L"TerminateProcess()", L"Kill()", GetLastError());
     #endif
@@ -107,7 +124,7 @@ void Kill(HWND hwnd) {
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
   if (msg == WM_DESTROY) {
     showerror = 0;
-    PostQuitMessage(0);
+    PostQuitMessage(exitCode);
   }
   else if (msg == WM_LBUTTONDOWN) {
     // Hide the cursor window
@@ -133,6 +150,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     DestroyWindow(hwnd);
   }
   else if (msg == WM_LBUTTONUP || msg == WM_MBUTTONUP || msg == WM_RBUTTONUP) {
+    exitCode = 1;
     DestroyWindow(hwnd);
   }
   return DefWindowProc(hwnd, msg, wParam, lParam);
