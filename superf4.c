@@ -302,7 +302,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) {
       else if (vkey == VK_LMENU) {
         alt = 1;
       }
-      else if (vkey == 0x47) { // G - https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+      else if (vkey == 0x13) { // Proposing PAUSE/BREAK as it is almost unused nowadays - https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
         // Get hwnd of foreground window
         HWND hwnd = GetForegroundWindow();
         if (hwnd == NULL) {
